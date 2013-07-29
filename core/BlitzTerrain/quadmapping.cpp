@@ -288,14 +288,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			TempQuad[Quadn].Exclude=false;
 		}
 
-		/*
-	//Exclude if remove far X/Z is set
-		if(Vrow==Generator.Size-1 && Generator.RemoveFarX==true)
-			TempQuad[Quadn].Exclude=true;
-		if(Vcol==Generator.Size-1 && Generator.RemoveFarZ==true)
-			TempQuad[Quadn].Exclude=true;
-		*/
-
 	//Set Quadmap
 		if(Generator.Optimise==false){
 			QuadMap[Quadn]=&TempQuad[Quadn];
@@ -346,24 +338,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 		Quad=(BT_Quadmap_Quad*)calloc(IncQuads,sizeof(BT_Quadmap_Quad));
 		if(Quad==nullptr)
 			BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-	/*
-	//Exclude every single vertex
-		for(Vertexn=0;Vertexn<=Vertices;Vertexn++)
-			TempVertex[Vertexn].Exclude=true;
-
-	//Include vertices which are being used
-		for(Quadn=0;Quadn<Quads;Quadn++)
-		{
-			if(TempQuad[Quadn].Exclude==false)
-			{
-				TempQuad[Quadn].V1->Exclude=false;
-				TempQuad[Quadn].V2->Exclude=false;
-				TempQuad[Quadn].V3->Exclude=false;
-				TempQuad[Quadn].V4->Exclude=false;
-			}
-		}
-	*/
-#pragma message("FINNISH THIS!!")
 
 	//Copy vertices
 		CurrVertex=0;
@@ -952,66 +926,22 @@ void BT_QuadMap::ChangeMeshData(unsigned short VertexStart,unsigned short Vertex
 
 	//Recalculate highest point
 		bool Calculated=false;
-		/*
-		if(HighestVertex>=VertexStart && HighestVertex<=VertexEnd){
-			if(Vertices[HighestVertex].Pos_y<HighestPoint){
-				for(unsigned short Vertexn=0;Vertexn<Mesh_Vertices;Vertexn++){
-					if(Vertexn>VertexStart && Vertexn<VertexEnd){
-						if(Vertices[Vertexn].Pos_y>HighestPoint){
-							HighestPoint=Vertices[Vertexn].Pos_y;
-							HighestVertex=Vertexn;
-						}
-					}else{
-						if(Mesh_Vertex[Vertexn].Pos_y>HighestPoint){
-							HighestPoint=Mesh_Vertex[Vertexn].Pos_y;
-							HighestVertex=Vertexn;
-						}
-					}
-				}
-				Calculated=true;
-			}
-		}
-		*/
 		HighestPoint=LowestPoint=Vertices[0].Pos_y;
-		if(Calculated==false){
-			//for(unsigned short Vertexn=VertexStart;Vertexn<=VertexEnd;Vertexn++)
-			for(unsigned short Vertexn=1;Vertexn<=Mesh_Vertices;Vertexn++){
-				if(Vertices[Vertexn].Pos_y>HighestPoint){
-					HighestPoint=Vertices[Vertexn].Pos_y;
-					HighestVertex=Vertexn;
-				}
+		//for(unsigned short Vertexn=VertexStart;Vertexn<=VertexEnd;Vertexn++)
+		for(unsigned short Vertexn=1;Vertexn<=Mesh_Vertices;Vertexn++){
+			if(Vertices[Vertexn].Pos_y>HighestPoint){
+				HighestPoint=Vertices[Vertexn].Pos_y;
+				HighestVertex=Vertexn;
 			}
 		}
 
 	//Recalculate lowest point
 		Calculated=false;
-		/*
-		if(HighestVertex>=VertexStart && HighestVertex<=VertexEnd){
-			if(Vertices[HighestVertex].Pos_y<HighestPoint){
-				for(unsigned short Vertexn=0;Vertexn<Mesh_Vertices;Vertexn++){
-					if(Vertexn>VertexStart && Vertexn<VertexEnd){
-						if(Vertices[Vertexn].Pos_y<LowestPoint){
-							LowestPoint=Vertices[Vertexn].Pos_y;
-							LowestVertex=Vertexn;
-						}
-					}else{
-						if(Mesh_Vertex[Vertexn].Pos_y<LowestPoint){
-							LowestPoint=Mesh_Vertex[Vertexn].Pos_y;
-							LowestVertex=Vertexn;
-						}
-					}
-				}
-				Calculated=true;
-			}
-		}
-		*/
-		if(Calculated==false){
-			//for(unsigned short Vertexn=VertexStart;Vertexn<=VertexEnd;Vertexn++)
-			for(unsigned short Vertexn=1;Vertexn<=Mesh_Vertices;Vertexn++){
-				if(Vertices[Vertexn].Pos_y<LowestPoint){
-					LowestPoint=Vertices[Vertexn].Pos_y;
-					LowestVertex=Vertexn;
-				}
+		//for(unsigned short Vertexn=VertexStart;Vertexn<=VertexEnd;Vertexn++)
+		for(unsigned short Vertexn=1;Vertexn<=Mesh_Vertices;Vertexn++){
+			if(Vertices[Vertexn].Pos_y<LowestPoint){
+				LowestPoint=Vertices[Vertexn].Pos_y;
+				LowestVertex=Vertexn;
 			}
 		}
 

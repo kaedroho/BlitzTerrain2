@@ -99,24 +99,7 @@ EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr)
 	if(RTTMSStructInternals->DeleteMeshData==true)
 	{
 		RTTMSStructInternals->SectorPtr->QuadMap->DeleteMeshData();
-	}else{
-		/* OLD SYSTEM
-		if(RTTMSStructInternals->SectorPtr->TopSideLODLevel>=RTTMSStructInternals->SectorPtr->LODLevel->ID)
-			RTTMSStructInternals->SectorPtr->QuadMap->SetSegmentLOD(0,0,RTTMSStructInternals->SectorPtr->TopSideLODLevel-RTTMSStructInternals->SectorPtr->LODLevel->ID);
-		if(RTTMSStructInternals->SectorPtr->RightSideLODLevel>=RTTMSStructInternals->SectorPtr->LODLevel->ID)
-			RTTMSStructInternals->SectorPtr->QuadMap->SetSegmentLOD(1,0,RTTMSStructInternals->SectorPtr->RightSideLODLevel-RTTMSStructInternals->SectorPtr->LODLevel->ID);
-		if(RTTMSStructInternals->SectorPtr->BottomSideLODLevel>=RTTMSStructInternals->SectorPtr->LODLevel->ID)
-			RTTMSStructInternals->SectorPtr->QuadMap->SetSegmentLOD(2,0,RTTMSStructInternals->SectorPtr->BottomSideLODLevel-RTTMSStructInternals->SectorPtr->LODLevel->ID);
-		if(RTTMSStructInternals->SectorPtr->LeftSideLODLevel>=RTTMSStructInternals->SectorPtr->LODLevel->ID)
-			RTTMSStructInternals->SectorPtr->QuadMap->SetSegmentLOD(3,0,RTTMSStructInternals->SectorPtr->LeftSideLODLevel-RTTMSStructInternals->SectorPtr->LODLevel->ID);
-		*/
-
-		//for(unsigned char Side=0;Side<4;Side++)
-		//	for(unsigned char Segment=0;Segment<RTTMSStructInternals->SectorPtr->SegmentsPerSide;Segment++)
-		//		RTTMSStructInternals->SectorPtr->QuadMap->SetSegmentLOD(Side,Segment,RTTMSStructInternals->SectorPtr->SegmentLODLevel[Segment+Side*RTTMSStructInternals->SectorPtr->SegmentsPerSide]);
-
 	}
-}
 
 
 EXPORT unsigned short BT_RTTMS_FindVertex(void* StructPtr,unsigned short Vrow,unsigned short Vcol)
