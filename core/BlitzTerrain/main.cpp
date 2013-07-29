@@ -551,28 +551,7 @@ EXPORT void BT_SetTerrainDetailTile(unsigned long terrainid,float Tile)
 // =====================================
 EXPORT void BT_SetTerrainQuadReduction(unsigned long terrainid,float Threshold)
 {
-//Set Current function
-	BT_Main.CurrentFunction=C_BT_FUNCTION_SETTERRAINQUADREDUCTION;
-
-//Check that the terrain exists
-	if(BT_Intern_TerrainExist(terrainid))
-	{
-	//Set the Collision LODLevel
-#ifdef C_BT_FULLVERSION
-		bool Enabled=true;
-		if(Threshold==0.0f)
-			Enabled=false;
-
-		BT_Main.Terrains[terrainid].QuadReduction=Enabled;
-		BT_Main.Terrains[terrainid].ReductionThreshold=Threshold*10.0f;
-
-	//Update in terrain info
-		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->QuadReduction=Enabled;
-#endif
-	}else{
-		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
-		return;
-	}
+	// REMOVED
 }
 // === END FUNCTION ===
 
@@ -937,7 +916,6 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 	//Make sectors
 		Terrain->Sectors=0;
 		Generator.Size=Terrain->LODLevel[0].SectorDetail;
-		Generator.ReductionThreshold=Terrain->ReductionThreshold;
 		if(Excludememblock>0)
 		{
 			Generator.exclusion=(bool*)malloc((Generator.Size+1)*(Generator.Size+1)*sizeof(bool));
@@ -971,7 +949,6 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 			LODLevelPtr->ID=LODLevel;
 
 		//Initialise QuadMap Generator
-			Generator.QuadReduction=Terrain->QuadReduction;
 			Generator.QuadRotation=Terrain->QuadRotation;
 			LODLevelPtr->TileSpan=Terrain->LODLevel[0].Split/LODLevelPtr->Split;
 			Generator.TileSize=C_BT_INTERNALSCALE*LODLevelPtr->TileSpan;
@@ -2770,7 +2747,7 @@ static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
 					{
 						if(Terrain->LODMap[Row][Collumn-1].Changed || Terrain->LODMap[Row][Collumn].Changed)
 						{
-							if(Terrain->LODMap[Row][Collumn-1].Level>LODLevel || Terrain->QuadReduction)
+							if(Terrain->LODMap[Row][Collumn-1].Level>LODLevel)
 							{
 								if(SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide*3]!=Terrain->LODMap[Row][Collumn-1].Level)
 								{
@@ -2796,7 +2773,7 @@ static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
 					{
 						if(Terrain->LODMap[Row-1][Collumn].Changed || Terrain->LODMap[Row][Collumn].Changed)
 						{
-							if(Terrain->LODMap[Row-1][Collumn].Level>LODLevel || Terrain->QuadReduction)
+							if(Terrain->LODMap[Row-1][Collumn].Level>LODLevel)
 							{
 								if(SectorPtr->SegmentLODLevel[0]!=Terrain->LODMap[Row-1][Collumn].Level)
 								{
@@ -2822,7 +2799,7 @@ static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
 					{
 						if(Terrain->LODMap[Row][Collumn+Span].Changed || Terrain->LODMap[Row][Collumn].Changed)
 						{
-							if(Terrain->LODMap[Row][Collumn+Span].Level>LODLevel || Terrain->QuadReduction)
+							if(Terrain->LODMap[Row][Collumn+Span].Level>LODLevel)
 							{
 								if(SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide]!=Terrain->LODMap[Row][Collumn+Span].Level)
 								{
@@ -2848,7 +2825,7 @@ static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
 					{
 						if(Terrain->LODMap[Row+Span][Collumn].Changed || Terrain->LODMap[Row][Collumn].Changed)
 						{
-							if(Terrain->LODMap[Row+Span][Collumn].Level>LODLevel || Terrain->QuadReduction)
+							if(Terrain->LODMap[Row+Span][Collumn].Level>LODLevel)
 							{
 								if(SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide*2]!=Terrain->LODMap[Row+Span][Collumn].Level)
 								{

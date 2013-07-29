@@ -266,7 +266,6 @@ struct s_BT_terrain
 
 	//Settings
 	unsigned long Smoothing;
-	bool QuadReduction;
 	bool QuadRotation;
 	unsigned char LODLevels;
 	float Scale;
@@ -317,9 +316,6 @@ struct s_BT_terrain
 	//bool**** LeftSegPointReduced;
 	float**** LeftSegPointHeight;
 
-	//Reduction threshold
-	float ReductionThreshold;
-
 	//Info
 	void* Info;
 };
@@ -331,7 +327,6 @@ struct BT_TerrainInfo
 	unsigned long Texture;
 	unsigned long Detailmap;
 	bool Smoothing;
-	bool QuadReduction;
 	bool QuadRotation;
 	unsigned char LODLevels;
 	float Scale;
