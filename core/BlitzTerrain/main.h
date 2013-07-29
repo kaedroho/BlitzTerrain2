@@ -126,11 +126,6 @@ struct s_BT_Sector
 	s_BT_LODLevel* LODLevel;
 	s_BT_terrain* Terrain;
 
-	//LOD stuff
-	unsigned char SegmentsPerSide;
-	bool* SegmentNeedsUpdate;
-	unsigned char* SegmentLODLevel;
-
 	/* OLD SYSTEM
 	bool TopSideNeedsUpdate;
 	bool LeftSideNeedsUpdate;
@@ -147,7 +142,6 @@ struct s_BT_Sector
 
 	//Update mesh bool
 	bool UpdateMesh;
-	bool UpdateSegments;
 
 	//RTTMS
 	bool VertexDataLocked;
@@ -306,15 +300,6 @@ struct s_BT_terrain
 	//Multidetailmapping
 	bool MultiDetailmapping;
 	unsigned long DetailMapCount;
-
-	//bool**** TopSegPointReduced;		//Pointer to array = [LODLevel][SegmentRow][SegmentCollumn]
-	float**** TopSegPointHeight;
-	//bool**** RightSegPointReduced;
-	float**** RightSegPointHeight;
-	//bool**** BottomSegPointReduced;
-	float**** BottomSegPointHeight;
-	//bool**** LeftSegPointReduced;
-	float**** LeftSegPointHeight;
 
 	//Info
 	void* Info;
@@ -550,9 +535,6 @@ static void BT_Intern_UnlockSectorVertexData(s_BT_Sector* Sector);
 struct BT_RTTMS_VERTEX;
 
 void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,void* VerticesPtr);
-
-void BT_Intern_AllocateSegmentData(s_BT_terrain* Terrain);
-void BT_Intern_DeallocateSegmentData(s_BT_terrain* Terrain);
 
 static void BT_Intern_SmoothTerrain(s_BT_terrain* Terrain);
 

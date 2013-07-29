@@ -910,9 +910,6 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 		//Terrain->Object->pDelete->onDelete=&BT_Intern_DeleteCallback;
 		//Terrain->Object->pDelete->userData=terrainid;
 
-	//Allocate segment data
-		BT_Intern_AllocateSegmentData(Terrain);
-
 	//Make sectors
 		Terrain->Sectors=0;
 		Generator.Size=Terrain->LODLevel[0].SectorDetail;
@@ -1002,17 +999,6 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 				Generator.RemoveFarZ=false;
 				if(Column==LODLevelPtr->Split-1)
 					Generator.RemoveFarZ=true;
-
-			//Allocate segment info
-				SectorPtr->SegmentsPerSide=unsigned char((float)pow(2.0f,(float)LODLevelPtr->ID));
-				SectorPtr->SegmentLODLevel=(unsigned char*)malloc(4*SectorPtr->SegmentsPerSide*sizeof(unsigned char));
-				if(SectorPtr->SegmentLODLevel==nullptr)
-					BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-				memset(SectorPtr->SegmentLODLevel,0,4*SectorPtr->SegmentsPerSide*sizeof(unsigned char));
-				SectorPtr->SegmentNeedsUpdate=(bool*)malloc(4*SectorPtr->SegmentsPerSide*sizeof(bool));
-				if(SectorPtr->SegmentNeedsUpdate==nullptr)
-					BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-				memset(SectorPtr->SegmentNeedsUpdate,0,4*SectorPtr->SegmentsPerSide*sizeof(bool));
 
 			//Get heights for this sector
 				BT_Intern_GetSectorHeights(Terrain,LODLevel,Row,Column,Generator.heights);
@@ -2726,134 +2712,7 @@ static void BT_Intern_CalculateLODLevelsRec(s_BT_terrain* Terrain,s_BT_QuadTree*
 // ===============================
 static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
 {
-//Find seams to be fixed
-	for(unsigned char LODLevel=0;LODLevel<Terrain->LODLevels;LODLevel++)
-	{
-		unsigned long Span=0x1<<LODLevel;
-		for(unsigned long Sector=0;Sector<Terrain->LODLevel[LODLevel].Sectors;Sector++)
-		{
-			s_BT_Sector* SectorPtr=&Terrain->LODLevel[LODLevel].Sector[Sector];
-			if(SectorPtr->QuadTree!=NULL)
-			{
-				if(SectorPtr->QuadTree->Culled==false && SectorPtr->QuadTree->DrawThis==true)
-				{
-				//Find row and collumn
-					s_BT_QuadTree* CurrentQuadTree=SectorPtr->QuadTree;
-					unsigned long Row=SectorPtr->Row*Span;
-					unsigned long Collumn=SectorPtr->Column*Span;
-
-				//Left
-					if(Collumn>0)
-					{
-						if(Terrain->LODMap[Row][Collumn-1].Changed || Terrain->LODMap[Row][Collumn].Changed)
-						{
-							if(Terrain->LODMap[Row][Collumn-1].Level>LODLevel)
-							{
-								if(SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide*3]!=Terrain->LODMap[Row][Collumn-1].Level)
-								{
-									for(unsigned char i=0;i<SectorPtr->SegmentsPerSide;i++){
-										SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide*3+i]=Terrain->LODMap[Row][Collumn-1].Level;
-										SectorPtr->SegmentNeedsUpdate[SectorPtr->SegmentsPerSide*3+i]=true;
-									}
-								}
-							}else{
-								if(SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide*3]>LODLevel)
-								{
-									for(unsigned char i=0;i<SectorPtr->SegmentsPerSide;i++){
-										SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide*3+i]=LODLevel;
-										SectorPtr->SegmentNeedsUpdate[SectorPtr->SegmentsPerSide*3+i]=true;
-									}
-								}
-							}
-						}
-					}
-
-				//Top
-					if(Row>0)
-					{
-						if(Terrain->LODMap[Row-1][Collumn].Changed || Terrain->LODMap[Row][Collumn].Changed)
-						{
-							if(Terrain->LODMap[Row-1][Collumn].Level>LODLevel)
-							{
-								if(SectorPtr->SegmentLODLevel[0]!=Terrain->LODMap[Row-1][Collumn].Level)
-								{
-									for(unsigned char i=0;i<SectorPtr->SegmentsPerSide;i++){
-										SectorPtr->SegmentLODLevel[i]=Terrain->LODMap[Row-1][Collumn].Level;
-										SectorPtr->SegmentNeedsUpdate[i]=true;
-									}
-								}
-							}else{
-								if(SectorPtr->SegmentLODLevel[0]>LODLevel)
-								{
-									for(unsigned char i=0;i<SectorPtr->SegmentsPerSide;i++){
-										SectorPtr->SegmentLODLevel[i]=LODLevel;
-										SectorPtr->SegmentNeedsUpdate[i]=true;
-									}
-								}
-							}
-						}
-					}
-
-				//Right
-					if(Collumn+Span<Terrain->LODLevel[0].Split)
-					{
-						if(Terrain->LODMap[Row][Collumn+Span].Changed || Terrain->LODMap[Row][Collumn].Changed)
-						{
-							if(Terrain->LODMap[Row][Collumn+Span].Level>LODLevel)
-							{
-								if(SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide]!=Terrain->LODMap[Row][Collumn+Span].Level)
-								{
-									for(unsigned char i=0;i<SectorPtr->SegmentsPerSide;i++){
-										SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide+i]=Terrain->LODMap[Row][Collumn+Span].Level;
-										SectorPtr->SegmentNeedsUpdate[SectorPtr->SegmentsPerSide+i]=true;
-									}
-								}
-							}else{
-								if(SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide]>LODLevel)
-								{
-									for(unsigned char i=0;i<SectorPtr->SegmentsPerSide;i++){
-										SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide+i]=LODLevel;
-										SectorPtr->SegmentNeedsUpdate[SectorPtr->SegmentsPerSide+i]=true;
-									}
-								}
-							}
-						}
-					}
-
-				//Bottom
-					if(Row+Span<Terrain->LODLevel[0].Split)
-					{
-						if(Terrain->LODMap[Row+Span][Collumn].Changed || Terrain->LODMap[Row][Collumn].Changed)
-						{
-							if(Terrain->LODMap[Row+Span][Collumn].Level>LODLevel)
-							{
-								if(SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide*2]!=Terrain->LODMap[Row+Span][Collumn].Level)
-								{
-									for(unsigned char i=0;i<SectorPtr->SegmentsPerSide;i++){
-										SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide*2+i]=Terrain->LODMap[Row+Span][Collumn].Level;
-										SectorPtr->SegmentNeedsUpdate[SectorPtr->SegmentsPerSide*2+i]=true;
-									}
-								}
-							}else{
-								if(SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide*2]>LODLevel)
-								{
-									for(unsigned char i=0;i<SectorPtr->SegmentsPerSide;i++){
-										SectorPtr->SegmentLODLevel[SectorPtr->SegmentsPerSide*2+i]=LODLevel;
-										SectorPtr->SegmentNeedsUpdate[SectorPtr->SegmentsPerSide*2+i]=true;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-//Clean LODMap
-	for(unsigned short x=0;x<Terrain->LODLevel->Split;x++)
-		for(unsigned short y=0;y<Terrain->LODLevel->Split;y++)
-			Terrain->LODMap[x][y].Changed=true;
+	// TODO
 }
 // === END FUNCTION ===
 
@@ -2872,18 +2731,10 @@ static void BT_Intern_FixSectorLODSeams(s_BT_Sector* SectorPtr)
 		//Make sure that the sector is unlocked
 			BT_Intern_UnlockSectorVertexData(SectorPtr);
 
-		//Update segments
+		//Update sides
 			for(unsigned char Side=0;Side<4;Side++)
 			{
-				for(unsigned char Segment=0;Segment<SectorPtr->SegmentsPerSide;Segment++)
-				{
-					if(SectorPtr->SegmentNeedsUpdate[Segment+Side*SectorPtr->SegmentsPerSide]==true || SectorPtr->UpdateSegments==true)
-					{
-						SectorPtr->QuadMap->SetSegmentLOD(Side,Segment,SectorPtr->SegmentLODLevel[Segment+Side*SectorPtr->SegmentsPerSide]);
-						SectorPtr->SegmentNeedsUpdate[Segment+Side*SectorPtr->SegmentsPerSide]=false;
-						SectorPtr->UpdateMesh=true;
-					}
-				}
+				// TODO
 			}
 		}
 	}
@@ -3745,9 +3596,6 @@ static void BT_Intern_DeleteTerrain(unsigned long TerrainID,bool DeleteObject)
 			free(Terrain->LODMap[i]);
 		free(Terrain->LODMap);
 
-	//Delete segment data
-		BT_Intern_DeallocateSegmentData(Terrain);
-
 	//Delete LODLevels
 		for(unsigned long LODLevel=0;LODLevel<Terrain->LODLevels;LODLevel++)
 		{
@@ -3770,10 +3618,6 @@ static void BT_Intern_DeleteTerrain(unsigned long TerrainID,bool DeleteObject)
 
 				//Delete RTTMS
 					free(Terrain->LODLevel[LODLevel].Sector[Sector].VertexDataRTTMS);
-
-				//Delete segments
-					free(Terrain->LODLevel[LODLevel].Sector[Sector].SegmentLODLevel);
-					free(Terrain->LODLevel[LODLevel].Sector[Sector].SegmentNeedsUpdate);
 
 				//Delete Info
 					free(Terrain->LODLevel[LODLevel].Sector[Sector].Info);
@@ -4378,7 +4222,6 @@ void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID,unsigned long LODLevel
 	//Update meshdata
 		Sector->QuadMap->ChangeMeshData(StartVertex,EndVertex,Vertices);
 		Sector->UpdateMesh=true;
-		Sector->UpdateSegments=true;
 
 	//Update collision
 		if(Sector->DBPObject!=0){
@@ -4398,133 +4241,6 @@ void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID,unsigned long LODLevel
 		}while(QuadTree!=NULL);
 	}
 #endif
-}
-// === END FUNCTION ===
-
-
-
-// =======================================
-// === BT INTERN ALLOCATE SEGMENT DATA ===
-// =======================================
-void BT_Intern_AllocateSegmentData(s_BT_terrain* Terrain)
-{
-//Variables
-	unsigned char LODLevels=Terrain->LODLevels;
-	unsigned short SegmentsAccross=Terrain->LODLevel[0].Split;
-	unsigned char PointsPerSegment=Terrain->Heightmapsize/SegmentsAccross;
-
-//Top
-	Terrain->TopSegPointHeight=(float****)malloc(LODLevels*sizeof(float***));
-	if(Terrain->TopSegPointHeight==nullptr)
-		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-	for(unsigned char LODLevel=0;LODLevel<LODLevels;LODLevel++){
-		Terrain->TopSegPointHeight[LODLevel]=(float***)malloc(SegmentsAccross*sizeof(float**));
-		if(Terrain->TopSegPointHeight[LODLevel]==nullptr)
-			BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-		for(unsigned short Segment=0;Segment<SegmentsAccross;Segment++){
-			Terrain->TopSegPointHeight[LODLevel][Segment]=(float**)malloc(SegmentsAccross*sizeof(float*));
-			if(Terrain->TopSegPointHeight[LODLevel][Segment]==nullptr)
-				BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-			memset(Terrain->TopSegPointHeight[LODLevel][Segment],0,SegmentsAccross*sizeof(float*));
-		}
-	}
-
-//Right
-	Terrain->RightSegPointHeight=(float****)malloc(LODLevels*sizeof(float***));
-	if(Terrain->RightSegPointHeight==nullptr)
-		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-	for(unsigned char LODLevel=0;LODLevel<LODLevels;LODLevel++){
-		Terrain->RightSegPointHeight[LODLevel]=(float***)malloc(SegmentsAccross*sizeof(float**));
-		if(Terrain->RightSegPointHeight[LODLevel]==nullptr)
-			BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-		for(unsigned short Segment=0;Segment<SegmentsAccross;Segment++){
-			Terrain->RightSegPointHeight[LODLevel][Segment]=(float**)malloc(SegmentsAccross*sizeof(float*));
-			if(Terrain->RightSegPointHeight[LODLevel][Segment]==nullptr)
-				BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-			memset(Terrain->RightSegPointHeight[LODLevel][Segment],0,SegmentsAccross*sizeof(float*));
-		}
-	}
-
-//Bottom
-	Terrain->BottomSegPointHeight=(float****)malloc(LODLevels*sizeof(float***));
-	if(Terrain->BottomSegPointHeight==nullptr)
-		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-	for(unsigned char LODLevel=0;LODLevel<LODLevels;LODLevel++){
-		Terrain->BottomSegPointHeight[LODLevel]=(float***)malloc(SegmentsAccross*sizeof(float**));
-		if(Terrain->BottomSegPointHeight[LODLevel]==nullptr)
-			BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-		for(unsigned short Segment=0;Segment<SegmentsAccross;Segment++){
-			Terrain->BottomSegPointHeight[LODLevel][Segment]=(float**)malloc(SegmentsAccross*sizeof(float*));
-			if(Terrain->BottomSegPointHeight[LODLevel][Segment]==nullptr)
-				BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-			memset(Terrain->BottomSegPointHeight[LODLevel][Segment],0,SegmentsAccross*sizeof(float*));
-		}
-	}
-
-//Left
-	Terrain->LeftSegPointHeight=(float****)malloc(LODLevels*sizeof(float***));
-	if(Terrain->LeftSegPointHeight==nullptr)
-		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-	for(unsigned char LODLevel=0;LODLevel<LODLevels;LODLevel++){
-		Terrain->LeftSegPointHeight[LODLevel]=(float***)malloc(SegmentsAccross*sizeof(float**));
-		if(Terrain->LeftSegPointHeight[LODLevel]==nullptr)
-			BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-		for(unsigned short Segment=0;Segment<SegmentsAccross;Segment++){
-			Terrain->LeftSegPointHeight[LODLevel][Segment]=(float**)malloc(SegmentsAccross*sizeof(float*));
-			if(Terrain->LeftSegPointHeight[LODLevel][Segment]==nullptr)
-				BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-			memset(Terrain->LeftSegPointHeight[LODLevel][Segment],0,SegmentsAccross*sizeof(float*));
-		}
-	}
-}
-// === END FUNCTION ===
-
-
-// =========================================
-// === BT INTERN DEALLOCATE SEGMENT DATA ===
-// =========================================
-void BT_Intern_DeallocateSegmentData(s_BT_terrain* Terrain)
-{
-//Variables
-	unsigned char LODLevels=Terrain->LODLevels;
-	unsigned short SegmentsAccross=Terrain->LODLevel[0].Split;
-	unsigned char PointsPerSegment=Terrain->Heightmapsize/SegmentsAccross;
-
-//Top
-	for(unsigned char LODLevel=0;LODLevel<LODLevels;LODLevel++){
-		for(unsigned short Segment=0;Segment<SegmentsAccross;Segment++){
-			free((void*)Terrain->TopSegPointHeight[LODLevel][Segment]);
-		}
-		free((void*)Terrain->TopSegPointHeight[LODLevel]);
-	}
-	free((void*)Terrain->TopSegPointHeight);
-
-//Right
-	for(unsigned char LODLevel=0;LODLevel<LODLevels;LODLevel++){
-		for(unsigned short Segment=0;Segment<SegmentsAccross;Segment++){
-			free((void*)Terrain->RightSegPointHeight[LODLevel][Segment]);
-		}
-		free((void*)Terrain->RightSegPointHeight[LODLevel]);
-	}
-	free((void*)Terrain->RightSegPointHeight);
-
-//Bottom
-	for(unsigned char LODLevel=0;LODLevel<LODLevels;LODLevel++){
-		for(unsigned short Segment=0;Segment<SegmentsAccross;Segment++){
-			free((void*)Terrain->BottomSegPointHeight[LODLevel][Segment]);
-		}
-		free((void*)Terrain->BottomSegPointHeight[LODLevel]);
-	}
-	free((void*)Terrain->BottomSegPointHeight);
-
-//Left
-	for(unsigned char LODLevel=0;LODLevel<LODLevels;LODLevel++){
-		for(unsigned short Segment=0;Segment<SegmentsAccross;Segment++){
-			free((void*)Terrain->LeftSegPointHeight[LODLevel][Segment]);
-		}
-		free((void*)Terrain->LeftSegPointHeight[LODLevel]);
-	}
-	free((void*)Terrain->LeftSegPointHeight);
 }
 // === END FUNCTION ===
 

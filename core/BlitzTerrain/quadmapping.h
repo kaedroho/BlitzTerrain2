@@ -101,8 +101,6 @@ public:
 	float GetPointHeight(float x,float y,bool Round);
 	float GetHighestPoint() {return HighestPoint;}
 	float GetLowestPoint() {return LowestPoint;}
-	void FillSegmentPointsRec(unsigned char Segment,unsigned char CurrentSpan,unsigned short CurrentLeftPoint);
-	void SetSegmentLOD(unsigned char Side,unsigned char Segment,unsigned long LODLevel);
 	void FillMeshData(BT_RTTMS_STRUCT* Meshdata);
 	void DeleteInternalData();
 	void ChangeMeshData(unsigned short VertexStart,unsigned short VertexEnd,BT_RTTMS_VERTEX* Vertices);
@@ -163,14 +161,6 @@ private:
 
 	//Optimisation
 	bool Optimised;
-
-	//Edge
-	unsigned short* SegmentVertexStart;
-	float** SegmentPointHeight;
-	bool** SegmentPointReduced;
-	unsigned char SegmentsPerSide;
-	unsigned char PointsPerSegment;
-	unsigned char ActualPointsPerSegment;
 
 	//Sector ID
 	s_BT_Sector* Sector;

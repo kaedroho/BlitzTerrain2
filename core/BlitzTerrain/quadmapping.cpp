@@ -85,54 +85,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 	if(QuadMap==nullptr)
 		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
 
-//Calculate segments per side
-	unsigned char LODLevel=Sector->LODLevel->ID;
-	TileSpan=unsigned char(pow(2.0f,float(LODLevel)));
-	SegmentsPerSide=TileSpan;
-
-//Calculate points per segment
-	PointsPerSegment=unsigned char(Generator.Size);
-	ActualPointsPerSegment=unsigned char(Generator.Size/SegmentsPerSide);
-
-//Allocate Edgeheights
-	SegmentVertexStart=(unsigned short*)malloc(SegmentsPerSide*4*sizeof(unsigned short));
-	if(SegmentVertexStart==nullptr)
-		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-	SegmentPointHeight=(float**)malloc(SegmentsPerSide*4*sizeof(float*));
-	if(SegmentPointHeight==nullptr)
-		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-	SegmentPointReduced=(bool**)malloc(SegmentsPerSide*4*sizeof(bool*));
-	if(SegmentPointReduced==nullptr)
-		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-	for(unsigned short i=0;i<SegmentsPerSide*4;i++){
-		SegmentPointHeight[i]=(float*)malloc((PointsPerSegment+1)*sizeof(float));
-		if(SegmentPointHeight[i]==nullptr)
-			BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-		SegmentPointReduced[i]=(bool*)malloc((PointsPerSegment+1)*sizeof(bool));
-		if(SegmentPointReduced[i]==nullptr)
-			BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-		memset(SegmentPointHeight[i],0,(PointsPerSegment+1)*sizeof(float));
-		memset(SegmentPointReduced[i],0,(PointsPerSegment+1)*sizeof(bool));
-	}
-
-//Insert segments into segment arrays
-	unsigned char SectorSpan=Sector->Terrain->LODLevel[0].Split/Sector->LODLevel->Split;
-	unsigned short SectorRow=Sector->Row*SectorSpan;
-	unsigned short SectorCollumn=Sector->Column*SectorSpan;
-	for(unsigned char Segment=0;Segment<SegmentsPerSide;Segment++){
-		if(SectorRow>SectorSpan-1)
-			Sector->Terrain->BottomSegPointHeight[LODLevel][SectorRow][SectorCollumn+Segment]=SegmentPointHeight[Segment]; //TOP
-
-		if(SectorCollumn>SectorSpan-1)
-			Sector->Terrain->RightSegPointHeight[LODLevel][SectorRow+Segment][SectorCollumn]=SegmentPointHeight[SegmentsPerSide*3+SegmentsPerSide-Segment-1]; //LEFT  [SegmentsPerSide*3+SegmentsPerSide-Segment-1]
-
-		if(SectorRow<Sector->Terrain->LODLevel[0].Split-SectorSpan)
-			Sector->Terrain->TopSegPointHeight[LODLevel][SectorRow+SectorSpan][SectorCollumn+Segment]=SegmentPointHeight[SegmentsPerSide*2+SegmentsPerSide-Segment-1]; //BOTTOM  [SegmentsPerSide*2+SegmentsPerSide-Segment-1]
-
-		if(SectorCollumn<Sector->Terrain->LODLevel[0].Split-SectorSpan)
-			Sector->Terrain->LeftSegPointHeight[LODLevel][SectorRow+Segment][SectorCollumn+SectorSpan]=SegmentPointHeight[SegmentsPerSide+Segment]; //RIGHT
-	}
-
 //Loop through vertices
 	Vertexn=0;
 
@@ -153,14 +105,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			TempVertex[Vertexn].Vrow=unsigned char(Vrow);
 			TempVertex[Vertexn].Vcol=unsigned char(Vcol);
 			TempVertex[Vertexn].Pos_y=Generator.heights[Vcol+Vrow*(Generator.Size+1)];
-
-			unsigned short SegmentPoint=Vertexn*TileSpan;
-			unsigned short Segment=0;
-			while(!(SegmentPoint<PointsPerSegment)){
-				SegmentPoint-=PointsPerSegment;
-				Segment++;
-			}
-			SegmentPointHeight[Segment][SegmentPoint]=TempVertex[Vertexn].Pos_y;
 
 			if(TempVertex[Vertexn].Pos_y>HighestPoint){
 				HighestPoint=TempVertex[Vertexn].Pos_y;
@@ -195,14 +139,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			TempVertex[Vertexn].Vrow=unsigned char(Vrow);
 			TempVertex[Vertexn].Vcol=unsigned char(Vcol);
 			TempVertex[Vertexn].Pos_y=Generator.heights[Vcol+Vrow*(Generator.Size+1)];
-
-			unsigned short SegmentPoint=Vertexn*TileSpan;
-			unsigned short Segment=0;
-			while(!(SegmentPoint<PointsPerSegment)){
-				SegmentPoint-=PointsPerSegment;
-				Segment++;
-			}
-			SegmentPointHeight[Segment][SegmentPoint]=TempVertex[Vertexn].Pos_y;
 
 			if(TempVertex[Vertexn].Pos_y>HighestPoint){
 				HighestPoint=TempVertex[Vertexn].Pos_y;
@@ -239,14 +175,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			TempVertex[Vertexn].Vcol=unsigned char(Vcol);
 			TempVertex[Vertexn].Pos_y=Generator.heights[Vcol+Vrow*(Generator.Size+1)];
 
-			unsigned short SegmentPoint=Vertexn*TileSpan;
-			unsigned short Segment=0;
-			while(!(SegmentPoint<PointsPerSegment)){
-				SegmentPoint-=PointsPerSegment;
-				Segment++;
-			}
-			SegmentPointHeight[Segment][SegmentPoint]=TempVertex[Vertexn].Pos_y;
-
 			if(TempVertex[Vertexn].Pos_y>HighestPoint){
 				HighestPoint=TempVertex[Vertexn].Pos_y;
 				HighestVertex=Vertexn;
@@ -281,14 +209,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			TempVertex[Vertexn].Vcol=unsigned char(Vcol);
 			TempVertex[Vertexn].Pos_y=Generator.heights[Vcol+Vrow*(Generator.Size+1)];
 
-			unsigned short SegmentPoint=Vertexn*TileSpan;
-			unsigned short Segment=0;
-			while(!(SegmentPoint<PointsPerSegment)){
-				SegmentPoint-=PointsPerSegment;
-				Segment++;
-			}
-			SegmentPointHeight[Segment][SegmentPoint]=TempVertex[Vertexn].Pos_y;
-
 			if(TempVertex[Vertexn].Pos_y>HighestPoint){
 				HighestPoint=TempVertex[Vertexn].Pos_y;
 				HighestVertex=Vertexn;
@@ -304,24 +224,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 
 		Vertexn++;
 	}
-
-//Loop through segments
-	for(unsigned short Segment=0;Segment<SegmentsPerSide*4;Segment++){
-	//Calculate reduced points
-		for(unsigned short SegmentPoint=0;SegmentPoint<PointsPerSegment;SegmentPoint++)
-			if(SegmentPoint%TileSpan!=0)
-				SegmentPointReduced[Segment][SegmentPoint]=true;
-
-	//Calculate segment vertex starts
-		SegmentVertexStart[Segment]=ActualPointsPerSegment*Segment;
-
-	//Join segment corners
-		if(Segment!=SegmentsPerSide*4-1)
-			SegmentPointHeight[Segment][PointsPerSegment]=SegmentPointHeight[Segment+1][0];
-	}
-
-//Join last corner with first corner
-	SegmentPointHeight[SegmentsPerSide*4-1][PointsPerSegment]=SegmentPointHeight[0][0];
 
 //Inside
 	for(unsigned char i=0;i<unsigned(Generator.Size-1);i++){
@@ -406,10 +308,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 //Initialise include variables
 	IncVertices=Vertices;
 	IncQuads=Quads;
-
-//Fill the rest of the segment points
-	for(unsigned char Segment=0;Segment<SegmentsPerSide*4;Segment++)
-		FillSegmentPointsRec(Segment,PointsPerSegment,0);
 
 //Extra variables for quad rotation
 	float V1h;
@@ -496,16 +394,9 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			//Increase current vertex
 				CurrVertex++;
 			}else{
-				if(Vertexn<QuadsAccross*4)
-					SegmentPointReduced[unsigned char(floor(float(Vertexn)/float(QuadsAccross)))][Vertexn-unsigned char(floor(float(Vertexn)/float(QuadsAccross)))*QuadsAccross]=true;
-
 				IncVertices--;
 			}
 		}
-
-	//Calculate new segment vertex starts
-		for(unsigned short Segment=0;Segment<SegmentsPerSide*4;Segment++)
-			SegmentVertexStart[Segment]=TempVertex[SegmentVertexStart[Segment]].NewPtr->Index;
 
 	//Extra variables for copy quads function
 		unsigned long QuadSize;
@@ -1016,77 +907,6 @@ float BT_QuadMap::GetPointHeight(float x,float z,bool Round)
 	return 0.0;
 }
 
-void BT_QuadMap::FillSegmentPointsRec(unsigned char Segment,unsigned char CurrentSpan,unsigned short CurrentLeftPoint)
-{
-	if(SegmentPointReduced[Segment][CurrentLeftPoint+CurrentSpan/2]==true)
-		SegmentPointHeight[Segment][CurrentLeftPoint+CurrentSpan/2]=(SegmentPointHeight[Segment][CurrentLeftPoint]+SegmentPointHeight[Segment][CurrentLeftPoint+CurrentSpan])/2.0f;
-		
-	if(CurrentSpan>2){
-		FillSegmentPointsRec(Segment,CurrentSpan/2,CurrentLeftPoint);
-		FillSegmentPointsRec(Segment,CurrentSpan/2,CurrentLeftPoint+CurrentSpan/2);
-	}
-}
-
-void BT_QuadMap::SetSegmentLOD(unsigned char Side,unsigned char Segment,unsigned long LODLevel)
-{
-//Check that the quadmap is generated
-	if(Generated==true){
-	//Get segment position
-		unsigned char SectorSpan=Sector->Terrain->LODLevel[0].Split/Sector->LODLevel->Split;
-		unsigned short SectorRow=Sector->Row*SectorSpan;
-		unsigned short SectorCollumn=Sector->Column*SectorSpan;
-
-	//Check that this edge is on the terrain
-		if((Side==2 && !(SectorRow+SectorSpan<Sector->Terrain->LODLevel->Split))||(Side==1 && !(SectorCollumn+SectorSpan<Sector->Terrain->LODLevel->Split)))
-			return;
-
-	//Find segment
-		bool Flip=0;
-		float* SegPointHeight=0;
-		if(Side==0 || Side==2){
-			if(Side==0){ // 0 Top
-				SegPointHeight=Sector->Terrain->TopSegPointHeight[LODLevel][SectorRow][SectorCollumn+Segment];
-			}else	{	// 2 Bottom
-				SegPointHeight=Sector->Terrain->BottomSegPointHeight[LODLevel][SectorRow+SectorSpan][SectorCollumn+Segment];
-				Flip=1;
-			}
-		}else{
-			if(Side==1){ // 1 Right
-				SegPointHeight=Sector->Terrain->RightSegPointHeight[LODLevel][SectorRow+Segment][SectorCollumn+SectorSpan];
-			}else{		// 3 Left
-				SegPointHeight=Sector->Terrain->LeftSegPointHeight[LODLevel][SectorRow+Segment][SectorCollumn];
-				Flip=1;
-			}
-		}
-
-	//Copy segment data into edges
-		unsigned short Vertexn=0;
-		if(SegPointHeight!=0){
-			if(Flip)
-				Vertexn=SegmentVertexStart[(Side+1)*SegmentsPerSide-Segment-1];
-			else
-				Vertexn=SegmentVertexStart[Side*SegmentsPerSide+Segment];
-			for(unsigned char Point=0;Point<PointsPerSegment;Point+=TileSpan){
-				if(Vertexn!=0 && Vertexn!=QuadsAccross && Vertexn!=QuadsAccross*2 && Vertexn!=QuadsAccross*3)
-					Mesh_Vertex[Vertexn].Pos_y=SegPointHeight[PointsPerSegment-Point];
-				Vertexn++;
-			}
-
-		//Update vertex buffer
-			if(UpdateVertexBuffer==true){
-				if(UpdateFirstVertex>SegmentVertexStart[Segment])
-					UpdateFirstVertex=SegmentVertexStart[Segment];
-				if(UpdateLastVertex<Vertexn)
-					UpdateLastVertex=Vertexn;
-			}else{
-				UpdateFirstVertex=SegmentVertexStart[Segment];
-				UpdateLastVertex=Vertexn;
-				UpdateVertexBuffer=true;
-			}
-		}
-	}
-}
-
 void BT_QuadMap::FillMeshData(BT_RTTMS_STRUCT* Meshdata)
 {
 //Check that the quadmap is generated
@@ -1103,10 +923,6 @@ void BT_QuadMap::FillMeshData(BT_RTTMS_STRUCT* Meshdata)
 		Meshdata->IndexCount=Mesh_Indices;
 		Meshdata->VertexCount=Mesh_Vertices;
 		Meshdata->Vertices=(BT_RTTMS_VERTEX*)Mesh_Vertex;
-		for(unsigned char Segment=0;Segment<SegmentsPerSide;Segment++){
-			SetSegmentLOD(0,Segment,Sector->LODLevel->ID);SetSegmentLOD(1,Segment,Sector->LODLevel->ID);
-			SetSegmentLOD(2,Segment,Sector->LODLevel->ID);SetSegmentLOD(3,Segment,Sector->LODLevel->ID);
-		}
 		Meshdata->Indices=Mesh_Index;
 		Meshdata->ChangedAVertex=false;
 		Meshdata->FirstUpdatedVertex=0;
@@ -1133,17 +949,6 @@ void BT_QuadMap::ChangeMeshData(unsigned short VertexStart,unsigned short Vertex
 	//Copy data back into the quadmap structures
 		for(unsigned short Vertexn=VertexStart;Vertexn<VertexEnd+1;Vertexn++)
 			Vertex[Vertexn].Pos_y=Vertices[Vertexn].Pos_y;
-
-	//Copy edgedata back into segments
-		unsigned short Vertexn=0;
-		for(unsigned char Segment=0;Segment<4*SegmentsPerSide;Segment++){
-			for(unsigned char Point=0;Point<=PointsPerSegment;Point+=TileSpan){
-				SegmentPointHeight[Segment][Point]=Vertices[Vertexn].Pos_y;
-				Vertexn++;
-			}
-			Vertexn--;
-			FillSegmentPointsRec(Segment,PointsPerSegment,0);
-		}
 
 	//Recalculate highest point
 		bool Calculated=false;
@@ -1229,13 +1034,6 @@ void BT_QuadMap::DeleteInternalData()
 			free(Mesh_Vertex);
 		if(Mesh_Index!=NULL)
 			free(Mesh_Index);
-		for(int i=0;i<SegmentsPerSide*4;i++){
-			free(SegmentPointHeight[i]);
-			free(SegmentPointReduced[i]);
-		}
-		free(SegmentPointHeight);
-		free(SegmentPointReduced);
-		free(SegmentVertexStart);
 	}
 }
 
