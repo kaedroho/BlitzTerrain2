@@ -349,9 +349,6 @@
     <ClCompile Include="code-from-dbp.cpp" />
     <ClCompile Include="CreateObject.cpp" />
     <ClCompile Include="EnvironmentMapping.cpp" />
-    <ClCompile Include="FileIO.cpp" />
-    <ClCompile Include="FileIO100.cpp" />
-    <ClCompile Include="FileIO101.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="quadmapping.cpp" />
     <ClCompile Include="rttms.cpp" />
@@ -361,7 +358,6 @@
     <ClInclude Include="code-from-dbp.h" />
     <ClInclude Include="CreateObject.h" />
     <ClInclude Include="EnvironmentMapping.h" />
-    <ClInclude Include="FileIO.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="quadmapping.h" />
     <ClInclude Include="resource.h" />

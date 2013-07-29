@@ -22,27 +22,6 @@ struct BT_Quadmap_Generator
 	bool RemoveFarZ;
 };
 
-struct BT_Quadmap_FileHeader100
-{
-	unsigned long VertexCount;
-	unsigned long QuadCount;
-	unsigned long IndexCount;
-	unsigned char Optimised;
-	float Size;
-	float TileSize;
-	unsigned char QuadsAccross;
-	float HighestPoint;
-	float LowestPoint;
-};
-
-struct BT_Quadmap_FileHeader101
-{
-	unsigned short VertexCount;
-	unsigned short QuadCount;
-	float HighestPoint;
-	float LowestPoint;
-};
-
 struct BT_Quadmap_Vertex
 {
 	//Exclude
@@ -59,33 +38,6 @@ struct BT_Quadmap_Vertex
 	unsigned short Index;
 	BT_Quadmap_Vertex* NewPtr;
 
-};
-
-struct BT_Quadmap_LiteVertex100
-{
-	//Exclude
-	bool Exclude;
-
-	//Position
-	float Pos_y;
-	unsigned char Vrow,Vcol;
-
-	//Normals
-	signed char Nrm_x, Nrm_y, Nrm_z;
-
-	//Index
-	unsigned short Index;
-
-};
-
-struct BT_Quadmap_LiteVertex101
-{
-	//Position
-	float Pos_y;
-	unsigned char Vrow,Vcol;
-
-	//Normals
-	signed char Nrm_x, Nrm_y, Nrm_z;
 };
 
 struct BT_Quadmap_Edge
@@ -114,36 +66,6 @@ struct BT_Quadmap_Quad
 	bool Rotation;
 };
 
-struct BT_Quadmap_LiteQuad100
-{
-	//Exclude
-	bool Exclude;
-
-	//Vertices
-	unsigned short V1;
-	unsigned short V2;
-	unsigned short V3;
-	unsigned short V4;
-
-	//Size
-	unsigned char Span;
-
-	//Rotation
-	bool Rotation;
-};
-
-struct BT_Quadmap_LiteQuad101
-{
-	//Vertices
-	unsigned short V1;
-	unsigned short V2;
-	unsigned short V3;
-	unsigned short V4;
-
-	//Size
-	unsigned char Span;
-};
-
 struct BT_Meshdata_Vertex
 {
 	//Position
@@ -166,9 +88,6 @@ struct BT_RTTMS_VERTEX;
 class BT_QuadMap
 {
 public:
-	void GenerateFromBuffer100(char* Buffer,unsigned long BufferSize,s_BT_Sector* SectorPtr);
-	void GenerateFromBuffer101(char* Buffer,unsigned long BufferSize,s_BT_Sector* SectorPtr);
-	void MakeBuffer(char** Buffer,unsigned long* BufferSize);
 	void Generate(BT_Quadmap_Generator Generator);
 	void CalculateNormals();
 	void GenerateMeshData();
