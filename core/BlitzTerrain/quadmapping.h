@@ -170,7 +170,7 @@ public:
 	void GenerateFromBuffer101(char* Buffer,unsigned long BufferSize,s_BT_Sector* SectorPtr);
 	void MakeBuffer(char** Buffer,unsigned long* BufferSize);
 	void Generate(BT_Quadmap_Generator Generator);
-	void PostProcess();
+	void CalculateNormals();
 	void GenerateMeshData();
 	void DeleteMeshData();
 	void SetToMesh(s_BT_DrawBuffer* DrawBuffer);
@@ -221,6 +221,7 @@ private:
 	bool UpdateVertices;
 	bool UpdateIndices;
 	bool UpdateEdgeData;
+	bool RefreshNormals;
 
 	//Buffer updates
 	bool UpdateVertexBuffer;

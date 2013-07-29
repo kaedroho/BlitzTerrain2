@@ -530,7 +530,7 @@ static void BT_Intern_GetSectorHeights(s_BT_terrain* Terrain,unsigned long LODLe
 static bool BT_Intern_GetSectorExclusion(s_BT_terrain* Terrain,unsigned long LODLevel,unsigned long excludememblock,unsigned long row,unsigned long column,bool* buffer);
 static void BT_Intern_BuildSector(s_BT_Sector* Sector);
 static void BT_Intern_DeleteTerrain(unsigned long TerrainID,bool DeleteObject);
-static float BT_Intern_GetPointHeight(s_BT_terrain* Terrain,float Px,float Pz,char LODLevel,bool Round);
+float BT_Intern_GetPointHeight(s_BT_terrain* Terrain,float Px,float Pz,char LODLevel,bool Round);
 Vector3 BT_Intern_GetPointNormal(s_BT_terrain* Terrain,float Px,float Pz);
 static bool BT_Intern_GetPointExcluded(s_BT_terrain* Terrain,float Px,float Pz);
 s_BT_QuadTree* BT_Intern_AllocateQuadTree(s_BT_terrain* Terrain);

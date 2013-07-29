@@ -757,33 +757,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 		}
 	}
 
-//Calculate normals
-	for(unsigned char i=0;i<unsigned(Generator.Size-1);i++){
-		for(unsigned char ii=0;ii<unsigned(Generator.Size-1);ii++){
-		//Set row and collumn
-			Vrow=i+1;
-			Vcol=ii+1;
-
-		//Find vertices
-			BT_Quadmap_Vertex* ThisVertex=VertexMap[Vrow][Vcol];
-			BT_Quadmap_Vertex* LeftVertex=VertexMap[Vrow][Vcol-1];
-			BT_Quadmap_Vertex* RightVertex=VertexMap[Vrow][Vcol+1];
-			BT_Quadmap_Vertex* TopVertex=VertexMap[Vrow-1][Vcol];
-			BT_Quadmap_Vertex* BottomVertex=VertexMap[Vrow+1][Vcol];
-
-		//Work out normal
-			float Dx=(BottomVertex->Pos_y-TopVertex->Pos_y)/TileSize;
-			float Dz=(RightVertex->Pos_y-LeftVertex->Pos_y)/TileSize;
-			Dx=Dx/Sector->Terrain->Scale*C_BT_INTERNALSCALE;
-			Dz=Dz/Sector->Terrain->Scale*C_BT_INTERNALSCALE;
-			float Dy=float(1.0/sqrt(1.0+Dx*Dx+Dz*Dz));
-			ThisVertex->Nrm_x=signed char((-Dz*Dy)*127.0);
-			ThisVertex->Nrm_y=signed char((Dy)*127.0);
-			ThisVertex->Nrm_z=signed char((-Dx*Dy)*127.0);
-		}
-	}
-
-
 
 //Initialise include variables
 	IncVertices=Vertices;
@@ -1043,15 +1016,29 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 
 }
 
-void BT_QuadMap::PostProcess()
+void BT_QuadMap::CalculateNormals()
 {
-	for(unsigned short i=0;i<QuadsAccross*4;i++){
-		float Px=Sector->Pos_x+float(Vertex[i].Vcol*TileSize-Size/2.0);
-		float Pz=Sector->Pos_z+float(Vertex[i].Vrow*TileSize-Size/2.0);
-		Vector3 Normal=BT_Intern_GetPointNormal(Sector->Terrain,Px,Pz);
-		Vertex[i].Nrm_x=unsigned char(Normal.x*127.0);
-		Vertex[i].Nrm_y=unsigned char(Normal.y*127.0);
-		Vertex[i].Nrm_z=unsigned char(Normal.z*127.0);
+// Middle
+	for(unsigned short i=0;i<(QuadsAccross + 1)*(QuadsAccross + 1);i++) {
+	// Get x and y
+		float x=Sector->Pos_x+float(Vertex[i].Vcol*TileSize-Size/2.0);
+		float y=Sector->Pos_z+float(Vertex[i].Vrow*TileSize-Size/2.0);
+		
+	// Get heights
+		float topY = BT_Intern_GetPointHeight(Sector->Terrain,x,y-1,Sector->LODLevel->ID,true);
+		float belowY = BT_Intern_GetPointHeight(Sector->Terrain,x,y+1,Sector->LODLevel->ID,true);
+		float leftY = BT_Intern_GetPointHeight(Sector->Terrain,x-1,y,Sector->LODLevel->ID,true);
+		float rightY = BT_Intern_GetPointHeight(Sector->Terrain,x+1,y,Sector->LODLevel->ID,true);
+
+	//Work out normal
+		float Dx=(belowY-topY)/TileSize;
+		float Dz=(rightY-leftY)/TileSize;
+		Dx=Dx/Sector->Terrain->Scale*C_BT_INTERNALSCALE;
+		Dz=Dz/Sector->Terrain->Scale*C_BT_INTERNALSCALE;
+		float Dy=float(1.0/sqrt(1.0+Dx*Dx+Dz*Dz));
+		Vertex[i].Nrm_x=signed char((-Dz*Dy)*127.0);
+		Vertex[i].Nrm_y=signed char((Dy)*127.0);
+		Vertex[i].Nrm_z=signed char((-Dx*Dy)*127.0);
 	}
 }
 
@@ -1221,6 +1208,20 @@ void BT_QuadMap::UpdateMesh(s_BT_DrawBuffer* DrawBuffer,bool ClearUpdateInfo)
 {
 //Check that the quadmap is generated
 	if(Generated==true){
+	// Update normals - Bit of a hack... This really should be in ChangeMesh but that can cause seams
+		if(RefreshNormals) {
+			// Recalculate normals
+			CalculateNormals();
+			RefreshNormals = false;
+
+			// Copy new normals data into mesh
+			for(unsigned int CurrentVertex=0;CurrentVertex<=this->Vertices;CurrentVertex++) {
+				Mesh_Vertex[CurrentVertex].Nrm_x=float(Vertex[CurrentVertex].Nrm_x/127.0);
+				Mesh_Vertex[CurrentVertex].Nrm_y=float(Vertex[CurrentVertex].Nrm_y/127.0);
+				Mesh_Vertex[CurrentVertex].Nrm_z=float(Vertex[CurrentVertex].Nrm_z/127.0);
+			}
+		}
+
 	//Update vertices
 		if(UpdateVertexBuffer==true){
 			//BT_Intern_RefreshVB(DrawBuffer,UpdateFirstVertex,UpdateLastVertex,Mesh_Vertex);
@@ -1655,6 +1656,8 @@ void BT_QuadMap::ChangeMeshData(unsigned short VertexStart,unsigned short Vertex
 				}
 			}
 		}
+
+		RefreshNormals = true;
 	}
 }
 

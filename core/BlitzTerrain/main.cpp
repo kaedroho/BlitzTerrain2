@@ -1118,7 +1118,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 							SectorPtr->QuadMap->Below=OtherSectorPtr->QuadMap;
 					}
 					
-					SectorPtr->QuadMap->PostProcess();
+					SectorPtr->QuadMap->CalculateNormals();
 				}
 			}
 		}
@@ -3828,7 +3828,7 @@ static void BT_Intern_DeleteTerrain(unsigned long TerrainID,bool DeleteObject)
 // ==================================
 // === BT INTERN GET POINT HEIGHT ===
 // ==================================
-static float BT_Intern_GetPointHeight(s_BT_terrain* Terrain,float Px,float Pz,char LODLevel,bool Round)
+float BT_Intern_GetPointHeight(s_BT_terrain* Terrain,float Px,float Pz,char LODLevel,bool Round)
 {
 //Variables
 	float Height;
