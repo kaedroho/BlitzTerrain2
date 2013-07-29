@@ -1,0 +1,15 @@
+core/Debug/
+core/Release/
+core/BlitzTerrain/Debug/
+core/BlitzTerrain/Release/
+core/BlitzTerrain_GDK/Debug/
+core/BlitzTerrain_GDK/Release/
+rttms/Debug/
+rttms/Release/
+rttms/BlitzTerrain_RTTMSPlugin/Debug/
+rttms/BlitzTerrain_RTTMSPlugin/Release/
+rttms/BlitzTerrain_RTTMSPluginGDK/Debug/
+rttms/BlitzTerrain_RTTMSPluginGDK/Release/
+*.sdf
+*.opensdf
+*.suo
