@@ -2,8 +2,8 @@ core/Debug/
 core/Release/
 core/BlitzTerrain/Debug/
 core/BlitzTerrain/Release/
-core/BlitzTerrain_GDK/Debug/
-core/BlitzTerrain_GDK/Release/
+core/BlitzTerrain/Debug_GDK/
+core/BlitzTerrain/Release_GDK/
 rttms/Debug/
 rttms/Release/
 rttms/BlitzTerrain_RTTMSPlugin/Debug/
