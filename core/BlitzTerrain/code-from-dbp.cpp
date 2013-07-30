@@ -12,6 +12,7 @@
 	extern t_dbGetDirect3DDevice dbGetDirect3DDevice;
 #endif
 
+extern t_dbGetCameraInternalData dbGetCameraInternalData;
 
 extern GlobStruct* g_Glob;
 
@@ -267,8 +268,7 @@ bool DBPRO_SetMeshRenderStates( sMesh* pMesh )
 	return true;
 }
 
-
-void DBPRO_ApplyEffect ( sMesh* pMesh )
+void DBPRO_ApplyEffect ( sMesh* pMesh, tagCameraData* m_Camera_Ptr )
 {
 //Get D3D Device
 	IDirect3DDevice9* D3DDevice=dbGetDirect3DDevice();
@@ -482,13 +482,72 @@ void DBPRO_ApplyEffect ( sMesh* pMesh )
 			Effect->m_pEffect->SetFloat( Effect->m_SinTimeEffectHandle, fSinTime );
 		}
 
-		// mesh specific values into shader
-		if ( Effect->m_fMeshRadius != NULL )
+		// leelee - 290713 - need to adjust clipping plane if shader used (clip space not world space plane)
+		D3DXPLANE planeUse = m_Camera_Ptr->planeClip;
+		// called before camera (m_Camera_Ptr) renders
+		if ( m_Camera_Ptr->iClipPlaneOn!=0 )
 		{
-			Effect->m_pEffect->SetFloat( Effect->m_fMeshRadius, pMesh->Collision.fLargestRadius );
+			// they should be in clip space, not world space
+			bool bClipSpaceRequired = false;
+			int iActualClipPlaneOn = m_Camera_Ptr->iClipPlaneOn;
+			if ( m_Camera_Ptr->iClipPlaneOn==3 ) { bClipSpaceRequired=true; iActualClipPlaneOn=1; }
+			if ( m_Camera_Ptr->iClipPlaneOn==4 ) { bClipSpaceRequired=true; iActualClipPlaneOn=2; }
+
+			// transform world to clip space
+			if ( bClipSpaceRequired )
+			{
+				// temp planes for conversion
+				D3DXPLANE tempPlane = planeUse;
+				D3DXPLANE viewSpacePlane;
+
+				// normalize the plane which is required for the transforms
+				D3DXPlaneNormalize(&tempPlane, &tempPlane);
+
+				// transform the plane into view space
+				D3DXMATRIX tempMatrix = m_Camera_Ptr->matView;
+				D3DXMatrixInverse(&tempMatrix, NULL, &tempMatrix);
+				D3DXMatrixTranspose(&tempMatrix, &tempMatrix);
+				D3DXPlaneTransform(&viewSpacePlane, &tempPlane, &tempMatrix);
+
+				// transform the plane into clip space, or post projection space
+				tempMatrix = m_Camera_Ptr->matProjection;
+				D3DXMatrixInverse(&tempMatrix, NULL, &tempMatrix);
+				D3DXMatrixTranspose(&tempMatrix, &tempMatrix);
+
+				// place resulting clip space plane ready for setclipplane
+				D3DXPlaneTransform(&planeUse, &viewSpacePlane, &tempMatrix);
+			}
+
+			// clipping plane enabled
+			D3DDevice->SetClipPlane ( 0, (float*)planeUse );
+			D3DDevice->SetRenderState ( D3DRS_CLIPPLANEENABLE, D3DCLIPPLANE0 );
+		}
+		else
+		{
+			D3DDevice->SetRenderState ( D3DRS_CLIPPLANEENABLE, 0x00 );
 		}
 
+		// leelee - 290713 - pass clipping data to shader (automatic)
+		if ( Effect->m_VecClipPlaneEffectHandle )
+		{
+			if ( m_Camera_Ptr->iClipPlaneOn>0 )
+			{
+				// special mode which creates plane but does not use RenderState to set clip
+				// as you cannot mix FF clip and HLSL clip in same scene (artefacts)
+				D3DXVECTOR4 vec = (D3DXVECTOR4)m_Camera_Ptr->planeClip;
+				Effect->m_pEffect->SetVector( Effect->m_VecClipPlaneEffectHandle, &vec );
+			}
+			else
+			{
+				// ensure shader stops using clip plane when not being clipped!
+				D3DXVECTOR4 vec = D3DXVECTOR4( 0.0f, 1.0f, 0.0f, 99999.0f );
+				Effect->m_pEffect->SetVector( Effect->m_VecClipPlaneEffectHandle, &vec );
+			}
+		}
+
+
 	//Commit changes
+		D3DDevice->SetRenderState ( D3DRS_CLIPPLANEENABLE, 0x00 );
 		Effect->m_pEffect->CommitChanges();
 
     }
