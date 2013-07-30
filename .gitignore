@@ -4,12 +4,14 @@ core/BlitzTerrain/Debug/
 core/BlitzTerrain/Release/
 core/BlitzTerrain/Debug_GDK/
 core/BlitzTerrain/Release_GDK/
+core/ipch/
 rttms/Debug/
 rttms/Release/
 rttms/BlitzTerrain_RTTMSPlugin/Debug/
 rttms/BlitzTerrain_RTTMSPlugin/Release/
 rttms/BlitzTerrain_RTTMSPluginGDK/Debug/
 rttms/BlitzTerrain_RTTMSPluginGDK/Release/
+rttms/ipch/
 *.sdf
 *.opensdf
 *.suo
