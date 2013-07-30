@@ -1,5 +1,6 @@
 core/Debug/
 core/Release/
+core/BlitzTerrain/resource.aps
 core/BlitzTerrain/Debug/
 core/BlitzTerrain/Release/
 core/BlitzTerrain/Debug_GDK/
@@ -7,6 +8,7 @@ core/BlitzTerrain/Release_GDK/
 core/ipch/
 rttms/Debug/
 rttms/Release/
+rttms/BlitzTerrain_RTTMSPlugin/resource.aps
 rttms/BlitzTerrain_RTTMSPlugin/Debug/
 rttms/BlitzTerrain_RTTMSPlugin/Release/
 rttms/BlitzTerrain_RTTMSPluginGDK/Debug/
