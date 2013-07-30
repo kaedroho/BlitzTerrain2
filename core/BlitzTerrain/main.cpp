@@ -2712,7 +2712,118 @@ static void BT_Intern_CalculateLODLevelsRec(s_BT_terrain* Terrain,s_BT_QuadTree*
 // ===============================
 static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
 {
-	// TODO
+//Find seams to be fixed
+	for(unsigned char LODLevel=0;LODLevel<Terrain->LODLevels;LODLevel++)
+	{
+		unsigned long Span=0x1<<LODLevel;
+		for(unsigned long Sector=0;Sector<Terrain->LODLevel[LODLevel].Sectors;Sector++)
+		{
+			s_BT_Sector* SectorPtr=&Terrain->LODLevel[LODLevel].Sector[Sector];
+			if(SectorPtr->QuadTree!=NULL)
+			{
+				if(SectorPtr->QuadTree->Culled==false && SectorPtr->QuadTree->DrawThis==true)
+				{
+				//Find row and collumn
+					s_BT_QuadTree* CurrentQuadTree=SectorPtr->QuadTree;
+					unsigned long Row=SectorPtr->Row*Span;
+					unsigned long Collumn=SectorPtr->Column*Span;
+
+				//Left
+					if(Collumn>0)
+					{
+						if(Terrain->LODMap[Row][Collumn-1].Changed || Terrain->LODMap[Row][Collumn].Changed)
+						{
+							if(Terrain->LODMap[Row][Collumn-1].Level>LODLevel)
+							{
+								if(SectorPtr->LeftSideLODLevel!=Terrain->LODMap[Row][Collumn-1].Level)
+								{
+									SectorPtr->LeftSideLODLevel=Terrain->LODMap[Row][Collumn-1].Level;
+									SectorPtr->LeftSideNeedsUpdate=true;
+								}
+							}else{
+								if(SectorPtr->LeftSideLODLevel>LODLevel)
+								{
+									SectorPtr->LeftSideLODLevel=LODLevel;
+									SectorPtr->LeftSideNeedsUpdate=true;
+								}
+							}
+						}
+					}
+
+				//Top
+					if(Row>0)
+					{
+						if(Terrain->LODMap[Row-1][Collumn].Changed || Terrain->LODMap[Row][Collumn].Changed)
+						{
+							if(Terrain->LODMap[Row-1][Collumn].Level>LODLevel)
+							{
+								if(SectorPtr->TopSideLODLevel!=Terrain->LODMap[Row-1][Collumn].Level)
+								{
+									SectorPtr->TopSideLODLevel=Terrain->LODMap[Row-1][Collumn].Level;
+									SectorPtr->TopSideNeedsUpdate=true;
+								}
+							}else{
+								if(SectorPtr->TopSideLODLevel>LODLevel)
+								{
+									SectorPtr->TopSideLODLevel=LODLevel;
+									SectorPtr->TopSideNeedsUpdate=true;
+								}
+							}
+						}
+					}
+
+				//Right
+					if(Collumn+Span<Terrain->LODLevel[0].Split)
+					{
+						if(Terrain->LODMap[Row][Collumn+Span].Changed || Terrain->LODMap[Row][Collumn].Changed)
+						{
+							if(SectorPtr->RightSideLODLevel>LODLevel)
+							{
+								if(SectorPtr->RightSideLODLevel!=Terrain->LODMap[Row][Collumn+Span].Level)
+								{
+									SectorPtr->RightSideLODLevel=Terrain->LODMap[Row][Collumn+Span].Level;
+									SectorPtr->RightSideNeedsUpdate=true;
+								}
+							}else{
+								if(SectorPtr->RightSideLODLevel>LODLevel)
+								{
+									SectorPtr->RightSideLODLevel=LODLevel;
+									SectorPtr->RightSideNeedsUpdate=true;
+								}
+							}
+						}
+					}
+
+				//Bottom
+					if(Row+Span<Terrain->LODLevel[0].Split)
+					{
+						if(Terrain->LODMap[Row+Span][Collumn].Changed || Terrain->LODMap[Row][Collumn].Changed)
+						{
+							if(Terrain->LODMap[Row+Span][Collumn].Level>LODLevel)
+							{
+								if(SectorPtr->BottomSideLODLevel!=Terrain->LODMap[Row+Span][Collumn].Level)
+								{
+									SectorPtr->BottomSideLODLevel=Terrain->LODMap[Row+Span][Collumn].Level;
+									SectorPtr->BottomSideNeedsUpdate=true;
+								}
+							}else{
+								if(SectorPtr->BottomSideLODLevel>LODLevel)
+								{
+									SectorPtr->BottomSideLODLevel=LODLevel;
+									SectorPtr->BottomSideNeedsUpdate=true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+//Clean LODMap
+	for(unsigned short x=0;x<Terrain->LODLevel->Split;x++)
+		for(unsigned short y=0;y<Terrain->LODLevel->Split;y++)
+			Terrain->LODMap[x][y].Changed=true;
 }
 // === END FUNCTION ===
 
@@ -2732,9 +2843,32 @@ static void BT_Intern_FixSectorLODSeams(s_BT_Sector* SectorPtr)
 			BT_Intern_UnlockSectorVertexData(SectorPtr);
 
 		//Update sides
-			for(unsigned char Side=0;Side<4;Side++)
-			{
-				// TODO
+			// Top
+			if(SectorPtr->TopSideNeedsUpdate) {
+				SectorPtr->QuadMap->SetSideLOD(0, SectorPtr->TopSideLODLevel);
+				SectorPtr->TopSideNeedsUpdate=false;
+				SectorPtr->UpdateMesh=true;
+			}
+
+			// Right
+			if(SectorPtr->RightSideNeedsUpdate) {
+				SectorPtr->QuadMap->SetSideLOD(1, SectorPtr->RightSideLODLevel);
+				SectorPtr->RightSideNeedsUpdate=false;
+				SectorPtr->UpdateMesh=true;
+			}
+
+			// Bottom
+			if(SectorPtr->BottomSideNeedsUpdate) {
+				SectorPtr->QuadMap->SetSideLOD(2, SectorPtr->BottomSideLODLevel);
+				SectorPtr->BottomSideNeedsUpdate=false;
+				SectorPtr->UpdateMesh=true;
+			}
+
+			// Left
+			if(SectorPtr->LeftSideNeedsUpdate) {
+				SectorPtr->QuadMap->SetSideLOD(3, SectorPtr->LeftSideLODLevel);
+				SectorPtr->LeftSideNeedsUpdate=false;
+				SectorPtr->UpdateMesh=true;
 			}
 		}
 	}

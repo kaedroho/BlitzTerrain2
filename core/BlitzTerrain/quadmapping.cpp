@@ -881,6 +881,53 @@ float BT_QuadMap::GetPointHeight(float x,float z,bool Round)
 	return 0.0;
 }
 
+void BT_QuadMap::SetSideLOD(unsigned char Side,unsigned long LODLevel)
+{
+//Check that the quadmap is generated
+	if(Generated==true){
+	//Find first vertex
+		unsigned short SideFirstVertex=Side*(QuadsAccross+1);
+		float InterpMin=0.0f;
+		float InterpMax=0.0f;
+		char LODDifference = LODLevel-Sector->LODLevel->ID;
+		if(LODDifference<0)
+			LODDifference=0;
+		unsigned char LODTileSpan=1;
+		for(int i=0;i<LODDifference;i++) {
+			LODTileSpan*=2;
+		}
+
+	//Copy segment data into edges
+		unsigned short Vertexn=0;
+		Vertexn=SideFirstVertex;
+		for(unsigned char Point=0;Point<QuadsAccross;Point++){
+		// Adjust interpolation values every time we cross a known height vertex
+			if(Point%LODTileSpan==0) {
+				InterpMin=Vertex[Vertexn].Pos_y;
+				InterpMax=Vertex[Vertexn+LODTileSpan].Pos_y;
+			}
+
+		//Calculate new height
+			float p = float(Point%LODTileSpan)/LODTileSpan;
+			Mesh_Vertex[Vertexn].Pos_y=InterpMin+(InterpMax-InterpMin)*p;
+
+			Vertexn++;
+		}
+
+	//Update vertex buffer
+		if(UpdateVertexBuffer==true){
+			if(UpdateFirstVertex>SideFirstVertex)
+				UpdateFirstVertex=SideFirstVertex;
+			if(UpdateLastVertex<Vertexn)
+				UpdateLastVertex=Vertexn;
+		}else{
+			UpdateFirstVertex=SideFirstVertex;
+			UpdateLastVertex=Vertexn;
+			UpdateVertexBuffer=true;
+		}
+	}
+}
+
 void BT_QuadMap::FillMeshData(BT_RTTMS_STRUCT* Meshdata)
 {
 //Check that the quadmap is generated

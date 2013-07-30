@@ -99,6 +99,7 @@ public:
 	void UpdateDBPMesh(sMesh* Mesh);
 	bool GetPointExcluded(float x,float z);
 	float GetPointHeight(float x,float y,bool Round);
+	void SetSideLOD(unsigned char Side,unsigned long LODLevel);
 	float GetHighestPoint() {return HighestPoint;}
 	float GetLowestPoint() {return LowestPoint;}
 	void FillMeshData(BT_RTTMS_STRUCT* Meshdata);

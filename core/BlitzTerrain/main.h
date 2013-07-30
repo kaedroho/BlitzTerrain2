@@ -126,6 +126,16 @@ struct s_BT_Sector
 	s_BT_LODLevel* LODLevel;
 	s_BT_terrain* Terrain;
 
+	// Edge LOD
+	bool TopSideNeedsUpdate;
+	bool LeftSideNeedsUpdate;
+	bool RightSideNeedsUpdate;
+	bool BottomSideNeedsUpdate;
+	unsigned char TopSideLODLevel;
+	unsigned char LeftSideLODLevel;
+	unsigned char RightSideLODLevel;
+	unsigned char BottomSideLODLevel;
+
 	//Quadtree
 	s_BT_QuadTree* QuadTree;
 
