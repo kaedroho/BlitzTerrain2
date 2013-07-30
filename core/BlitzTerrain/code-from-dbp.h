@@ -4,5 +4,5 @@
 #include <DBOData.h>
 
 bool DBPRO_SetMeshRenderStates( sMesh* pMesh );
-void DBPRO_ApplyEffect ( sMesh* pMesh );
+void DBPRO_ApplyEffect ( sMesh* pMesh, tagCameraData* m_Camera_Ptr );
 #endif

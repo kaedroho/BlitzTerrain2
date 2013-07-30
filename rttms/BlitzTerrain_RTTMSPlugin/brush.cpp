@@ -147,9 +147,9 @@ EXPORT void BT_SetGroundHeight(unsigned long TerrainID,float X,float Z,float Hei
 
 //CIRCLE BRUSHES
 
-typedef float(*CircleBrush_t)(float XDist,float ZDist,float MidHeight,float Radius,float Amount,float CurrentHeight);
+typedef float(*CircleBrush_t)(float XDist,float ZDist,float MidHeight,float Radius,float Amount,float CurrentHeight,float CapHeight);
 
-static void BT_CircleBrush(unsigned long TerrainID,float X,float Z,float Radius,float Amount,CircleBrush_t BrushFunc,bool GetMidHeight)
+static void BT_CircleBrush(unsigned long TerrainID,float X,float Z,float Radius,float Amount,CircleBrush_t BrushFunc,bool GetMidHeight,float CapHeight)
 {
 //Check that the terrain exists
 	if(BT_TerrainExist(TerrainID))
@@ -245,7 +245,7 @@ static void BT_CircleBrush(unsigned long TerrainID,float X,float Z,float Radius,
 
 								float XDist=(MidVrow-(SectorX*LODLevelInfo->SectorDetail+Vrow)*TwoPowerLODLevel)*TerrainInfo->Scale;
 								float ZDist=(MidVcol-(SectorY*LODLevelInfo->SectorDetail+Vcol)*TwoPowerLODLevel)*TerrainInfo->Scale;
-								BT_SetVertexHeight(Vrow,Vcol,BrushFunc(XDist,ZDist,MidHeight,Radius,Amount,CurrentHeight));
+								BT_SetVertexHeight(Vrow,Vcol,BrushFunc(XDist,ZDist,MidHeight,Radius,Amount,CurrentHeight,CapHeight));
 							}
 						}
 						BT_UnlockVertexData();
@@ -264,18 +264,28 @@ static void BT_CircleBrush(unsigned long TerrainID,float X,float Z,float Radius,
 
 //Currently, distance checks are done here. This will be changed in the future when I add an inner and outer box system.
 
-static float BT_CircleBrush_Raise(float XDist,float ZDist,float MidHeight,float Radius,float Amount,float CurrentHeight)
+static float BT_CircleBrush_Raise(float XDist,float ZDist,float MidHeight,float Radius,float Amount,float CurrentHeight,float CapHeight)
 {
 	float Dist=sqrt(XDist*XDist+ZDist*ZDist);
 	if(Dist<Radius)
 	{
-		return CurrentHeight+((cos(float((Dist*1.57079633)/(Radius/2.0f)))+1.0f)/2.0f)*Amount;
+		// leelee - 190713 - cap height for finer editing control
+		float fDegree = ((cos(float((Dist*1.57079633)/(Radius/2.0f)))+1.0f)/2.0f);
+		float fNewHeight = CurrentHeight+fDegree*Amount;
+		if ( CapHeight!=-1.0f && fNewHeight>CurrentHeight )
+		{
+			//if ( fNewHeight > CapHeight )
+			//{
+				fNewHeight = (CapHeight*fDegree) + (CurrentHeight*(1.0f-fDegree));
+			//}
+		}
+		return fNewHeight;
 	}else{
 		return CurrentHeight;
 	}
 }
 
-static float BT_CircleBrush_Flatten(float XDist,float ZDist,float MidHeight,float Radius,float Amount,float CurrentHeight)
+static float BT_CircleBrush_Flatten(float XDist,float ZDist,float MidHeight,float Radius,float Amount,float CurrentHeight,float CapHeight)
 {
 	float Dist=XDist*XDist+ZDist*ZDist;
 	if(Dist<Radius*Radius)
@@ -292,11 +302,17 @@ static float BT_CircleBrush_Flatten(float XDist,float ZDist,float MidHeight,floa
 EXPORT void BT_RaiseTerrain(unsigned long TerrainID,float X,float Z,float Radius,float Amount)
 {
 //Raise the terrain
-	BT_CircleBrush(TerrainID,X,Z,Radius,Amount,BT_CircleBrush_Raise,false);
+	BT_CircleBrush(TerrainID,X,Z,Radius,Amount,BT_CircleBrush_Raise,false,-1.0f);
+}
+
+EXPORT void BT_RaiseTerrain(unsigned long TerrainID,float X,float Z,float Radius,float Amount,float capheight)
+{
+//Raise the terrain
+	BT_CircleBrush(TerrainID,X,Z,Radius,Amount,BT_CircleBrush_Raise,false,capheight);
 }
 
 EXPORT void BT_FlattenTerrain(unsigned long TerrainID,float X,float Z,float Radius)
 {
 //Flatten the terrain
-	BT_CircleBrush(TerrainID,X,Z,Radius,0.0f,BT_CircleBrush_Flatten,true);
+	BT_CircleBrush(TerrainID,X,Z,Radius,0.0f,BT_CircleBrush_Flatten,true,-1.0f);
 }
