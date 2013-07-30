@@ -100,7 +100,7 @@ EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr)
 	{
 		RTTMSStructInternals->SectorPtr->QuadMap->DeleteMeshData();
 	}
-
+}
 
 EXPORT unsigned short BT_RTTMS_FindVertex(void* StructPtr,unsigned short Vrow,unsigned short Vcol)
 {
