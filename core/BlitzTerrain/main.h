@@ -301,6 +301,7 @@ struct BT_TerrainInfo
 	unsigned long Texture;
 	unsigned long Detailmap;
 	bool Smoothing;
+	bool QuadReductionNOTUSED;
 	bool QuadRotation;
 	unsigned char LODLevels;
 	float Scale;
