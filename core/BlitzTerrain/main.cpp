@@ -3221,7 +3221,7 @@ static void BT_Intern_RenderSector(s_BT_Sector* Sector)
 		//DBPRO RENDERING ENGINE
 		sMesh* Mesh=Sector->Terrain->Object->pFrame->pMesh;
 		if(Mesh->pVertexShaderEffect!=NULL)
-			DBPRO_ApplyEffect(Mesh);
+            DBPRO_ApplyEffect(Mesh,BT_Main.CurrentUpdateCamera);
 
 		//Index and vertex buffers
 		D3DDevice->SetStreamSource(0,Sector->DrawBuffer->VertexBuffer,0,Sector->DrawBuffer->FVF_Size);

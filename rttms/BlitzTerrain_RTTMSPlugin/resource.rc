@@ -118,6 +118,7 @@ BEGIN
     IDS_STRING122           "BT PAINTTERRAIN%DFFFDD%?BT_PaintTerrain@@YAXKMMMKK@Z%int TerrainID, float X, float Z, float Radius, dword MinColour, dword MaxColour"
     IDS_STRING123           "BT SETPOINTCOLOUR%DFFD%?BT_SetPointColour@@YAXKMMK@Z%int TerrainID, float X, float Z, dword Colour"
     IDS_STRING124           "BT UPDATETERRAINTEXTURE%D%?BT_UpdateTerrainTexture@@YAXK@Z%int TerrainID"
+    IDS_STRING125           "BT RAISETERRAIN%DFFFFF%?BT_RaiseTerrain@@YAXKMMMMM@Z%int TerrainID, float X, float Z, float Radius, float Amount, Cap Height"
 END
 
 #endif    // English (United Kingdom) resources
