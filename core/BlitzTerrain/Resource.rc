@@ -126,9 +126,7 @@ STRINGTABLE
 BEGIN
     IDS_STRING128           "BT SETTERRAINEXCLUSIONTHRESHOLD%DD%?BT_SetTerrainExclusionThreshold@@YAXKK@Z%int TerrainID, int Threshold"
     IDS_STRING129           "BT SETTERRAINSCALE%DF%?BT_SetTerrainScale@@YAXKM@Z%int TerrainID, float Scale"
-    IDS_STRING130           "BT SAVETERRAIN%DS%?BT_SaveTerrain@@YAXKPAD@Z%int TerrainID, string FileName"
     IDS_STRING131           "BT SETTERRAINYSCALE%DF%?BT_SetTerrainYScale@@YAXKM@Z%int TerrainID, float YScale"
-    IDS_STRING132           "BT LOADTERRAIN[%DSD%?BT_LoadTerrain@@YAKPADK@Z%string FileName, int ObjectID"
     IDS_STRING133           "BT SETTERRAINLODDISTANCE%DDF%?BT_SetTerrainLODDistance@@YAXKEM@Z%int TerrainID, int LODLevel, float Value"
     IDS_STRING134           "BT GETSECTOREXCLUDED[%DDDD%?BT_GetSectorExcluded@@YAKKKK@Z%int TerrainID, int LODLevelID, int SectorID"
     IDS_STRING135           "BT BUILDTERRAIN%DD%?BT_BuildTerrain@@YAXKK@Z%int TerrainID, int ObjectID"
@@ -137,7 +135,6 @@ BEGIN
     IDS_STRING138           "BT SETTERRAINDETAILBLENDMODE%DD%?BT_SetTerrainDetailBlendMode@@YAXKE@Z%int TerrainID, int Mode"
     IDS_STRING139           "BT SETTERRAINENVIRONMENT%DD%?BT_SetTerrainEnvironment@@YAXKK@Z%int TerrainID, int ImageID"
     IDS_STRING140           "BT BUILDTERRAIN%DDD%?BT_BuildTerrain@@YAXKK_N@Z%int TerrainID, int ObjectID, bool Build Fully"
-    IDS_STRING141           "BT LOADTERRAIN[%DSDD%?BT_LoadTerrain@@YAKPADK_N@Z%string FileName, int ObjectID, bool Build Fully"
     IDS_STRING142           "BT ADDTERRAINENVIRONMENT[%DDD%?BT_AddTerrainEnvironment@@YAKKK@Z%int TerrainID, dword Colour"
     IDS_STRING143           "BT TERRAINEXIST[%DD%?BT_TerrainExist@@YAKK@Z%int TerrainID"
 END
