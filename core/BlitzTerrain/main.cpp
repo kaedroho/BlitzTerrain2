@@ -33,6 +33,7 @@ GlobStruct* g_Glob;
 	t_dbGetMemblockPtr dbGetMemblockPtr;
 
 	t_dbGetCameraInternalData dbGetCameraInternalData;
+	t_dbSetAutoCam dbSetAutoCam;
 
 	t_dbGetDirect3DDevice dbGetDirect3DDevice;
 
@@ -77,6 +78,7 @@ GlobStruct* g_Glob;
 		dbDeleteObject=(t_dbDeleteObject)GetProcAddress(mod,"?DeleteEx@@YAXH@Z");
 		dbSetBlendMappingOn=(t_dbSetBlendMappingOn)GetProcAddress(mod,"?SetBlendMap@@YAXHHHHH@Z");
 
+
 		mod=GetModuleHandle("DBProImageDebug.dll");
 		dbGetImageWidth=(t_dbGetImageWidth)GetProcAddress(mod,"?GetWidth@@YAHH@Z");
 		dbGetImageHeight=(t_dbGetImageHeight)GetProcAddress(mod,"?GetHeight@@YAHH@Z");
@@ -91,6 +93,7 @@ GlobStruct* g_Glob;
 		
 		mod=GetModuleHandle("DBProCameraDebug.dll");
 		dbGetCameraInternalData=(t_dbGetCameraInternalData)GetProcAddress(mod,"?GetInternalData@@YAPAXH@Z");
+		dbSetAutoCam=(t_dbSetAutoCam)GetProcAddress(mod,"?SetAutoCam@@YAXMMMM@Z");
 
 		CO_ReceiveCoreDataPtr(CorePtr);
 
@@ -1175,6 +1178,9 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 		}
 		BT_Intern_FixLODSeams(Terrain);
 
+	//Set autocam
+		// TODO: Stick some proper values here
+		dbSetAutoCam(0.0,0.0,0.0,0.0);
 	}else{
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;

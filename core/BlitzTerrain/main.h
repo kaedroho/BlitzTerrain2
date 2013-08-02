@@ -43,6 +43,7 @@
 	typedef unsigned long(*t_dbGetMemblockPtr)(long);
 
 	typedef void*(*t_dbGetCameraInternalData)(long);
+	typedef void*(*t_dbSetAutoCam)(float,float,float,float);
 
 	typedef IDirect3DDevice9* (*t_dbGetDirect3DDevice) ();
 
