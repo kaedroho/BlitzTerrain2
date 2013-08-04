@@ -130,7 +130,6 @@ private:
 	//Mesh updates
 	bool UpdateVertices;
 	bool UpdateIndices;
-	bool UpdateEdgeData;
 	bool RefreshNormals;
 
 	//Buffer updates
@@ -152,8 +151,6 @@ private:
 	//Highest and lowest points
 	float HighestPoint;
 	float LowestPoint;
-	unsigned short HighestVertex;
-	unsigned short LowestVertex;
 
 	//Optimisation
 	bool Optimised;

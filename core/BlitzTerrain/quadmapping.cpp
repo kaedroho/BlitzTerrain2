@@ -108,12 +108,10 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 
 			if(TempVertex[Vertexn].Pos_y>HighestPoint){
 				HighestPoint=TempVertex[Vertexn].Pos_y;
-				HighestVertex=Vertexn;
 			}
 
 			if(TempVertex[Vertexn].Pos_y<LowestPoint){
 				LowestPoint=TempVertex[Vertexn].Pos_y;
-				LowestVertex=Vertexn;
 			}
 
 		//Index
@@ -142,12 +140,10 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 
 			if(TempVertex[Vertexn].Pos_y>HighestPoint){
 				HighestPoint=TempVertex[Vertexn].Pos_y;
-				HighestVertex=Vertexn;
 			}
 
 			if(TempVertex[Vertexn].Pos_y<LowestPoint){
 				LowestPoint=TempVertex[Vertexn].Pos_y;
-				LowestVertex=Vertexn;
 			}
 
 		//Index
@@ -177,12 +173,10 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 
 			if(TempVertex[Vertexn].Pos_y>HighestPoint){
 				HighestPoint=TempVertex[Vertexn].Pos_y;
-				HighestVertex=Vertexn;
 			}
 
 			if(TempVertex[Vertexn].Pos_y<LowestPoint){
 				LowestPoint=TempVertex[Vertexn].Pos_y;
-				LowestVertex=Vertexn;
 			}
 
 		//Index
@@ -211,12 +205,10 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 
 			if(TempVertex[Vertexn].Pos_y>HighestPoint){
 				HighestPoint=TempVertex[Vertexn].Pos_y;
-				HighestVertex=Vertexn;
 			}
 
 			if(TempVertex[Vertexn].Pos_y<LowestPoint){
 				LowestPoint=TempVertex[Vertexn].Pos_y;
-				LowestVertex=Vertexn;
 			}
 
 		//Index
@@ -246,12 +238,10 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 
 				if(TempVertex[Vertexn].Pos_y>HighestPoint){
 					HighestPoint=TempVertex[Vertexn].Pos_y;
-					HighestVertex=Vertexn;
 				}
 
 				if(TempVertex[Vertexn].Pos_y<LowestPoint){
 					LowestPoint=TempVertex[Vertexn].Pos_y;
-					LowestVertex=Vertexn;
 				}
 
 			//Index
@@ -354,12 +344,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 
 			//Set newptr in old array so Quads can find this vertex again
 				TempVertex[Vertexn].NewPtr=&Vertex[CurrVertex];
-
-			//Check if this is the highest or lowest vertex
-				if(Vertexn==HighestVertex)
-					HighestVertex=CurrVertex;
-				if(Vertexn==LowestVertex)
-					LowestVertex=CurrVertex;
 
 			//Increase current vertex
 				CurrVertex++;
@@ -949,7 +933,6 @@ void BT_QuadMap::ChangeMeshData(unsigned short VertexStart,unsigned short Vertex
 		for(unsigned short Vertexn=1;Vertexn<=Mesh_Vertices;Vertexn++){
 			if(Vertices[Vertexn].Pos_y>HighestPoint){
 				HighestPoint=Vertices[Vertexn].Pos_y;
-				HighestVertex=Vertexn;
 			}
 		}
 
@@ -959,7 +942,6 @@ void BT_QuadMap::ChangeMeshData(unsigned short VertexStart,unsigned short Vertex
 		for(unsigned short Vertexn=1;Vertexn<=Mesh_Vertices;Vertexn++){
 			if(Vertices[Vertexn].Pos_y<LowestPoint){
 				LowestPoint=Vertices[Vertexn].Pos_y;
-				LowestVertex=Vertexn;
 			}
 		}
 
