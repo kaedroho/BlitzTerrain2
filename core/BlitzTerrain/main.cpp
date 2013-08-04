@@ -3506,10 +3506,6 @@ static void BT_Intern_BuildSector(s_BT_Sector* Sector)
 
 //Make world matrix
 	D3DXMatrixTranslation(&Sector->WorldMatrix,Sector->Pos_x*Sector->Terrain->Scale/C_BT_INTERNALSCALE,Sector->Pos_y,Sector->Pos_z*Sector->Terrain->Scale/C_BT_INTERNALSCALE);
-
-//Delete meshdata if optimisation is enabled
-	//if(Sector->Terrain->MeshOptimisation)
-		//Sector->QuadMap->DeleteMeshData();
 }
 // === END FUNCTION ===
 
@@ -3958,18 +3954,6 @@ static void BT_Intern_DeAllocateQuadTreeRec(s_BT_QuadTree* Quadtree)
 
 	if(Quadtree->CullBox!=NULL)
 		free(Quadtree->CullBox);
-}
-// === END FUNCTION ===
-
-
-
-// =================================
-// === BT INTERN DELETE CALLBACK ===
-// =================================
-static void BT_Intern_DeleteCallback(int Id,int UserData)
-{
-	BT_Intern_DeleteTerrain(UserData,false);
-	//BT_Intern_Error(UserData);
 }
 // === END FUNCTION ===
 

@@ -518,8 +518,6 @@ static s_BT_QuadTree* BT_Intern_AllocateQuadTreeRec(s_BT_terrain* Terrain,unsign
 static void BT_Intern_DeAllocateQuadTree(s_BT_QuadTree* Quadtree);
 static void BT_Intern_DeAllocateQuadTreeRec(s_BT_QuadTree* Quadtree);
 
-static void BT_Intern_DeleteCallback(int Id,int UserData);
-
 static float BT_Intern_GetHeightFromColor(unsigned long Colour);
 
 void BT_Intern_RefreshVB(s_BT_DrawBuffer* DrawBuffer,unsigned long FirstVertex,unsigned long LastVertex,BT_Meshdata_Vertex* Vertex);
