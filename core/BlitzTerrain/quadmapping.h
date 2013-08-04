@@ -15,7 +15,6 @@ struct BT_Quadmap_Generator
 	bool Optimise;
 	s_BT_Sector* Sector;
 	unsigned long LODLevel;
-	unsigned char LODLevels;
 	bool RemoveFarX;
 	bool RemoveFarZ;
 };

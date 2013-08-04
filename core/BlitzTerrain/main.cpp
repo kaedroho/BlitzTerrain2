@@ -916,7 +916,6 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 		Generator.heights=(float*)malloc((Generator.Size+1)*(Generator.Size+1)*sizeof(float));
 		if(Generator.heights==nullptr)
 			BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-		Generator.LODLevels=Terrain->LODLevels;
 		BT_Intern_StartQuadMapGeneration(Generator);
 
 		for(LODLevel=0;LODLevel<Terrain->LODLevels;LODLevel++)
