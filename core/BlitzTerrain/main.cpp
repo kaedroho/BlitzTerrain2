@@ -3,14 +3,8 @@
 #include "rttms.h"
 #include "code-from-dbp.h"
 
-/* TODO
-GET TERRAIN HEIGHT
-EASY RENDERING
-*/
 
 s_BT_main BT_Main;
-
-char* g_ID;
 
 GlobStruct* g_Glob;
 
