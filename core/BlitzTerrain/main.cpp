@@ -933,7 +933,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 			LODLevelPtr->Sector=(s_BT_Sector*)malloc(Sectors*sizeof(s_BT_Sector));
 			if(LODLevelPtr->Sector==nullptr)
 				BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
-			memset ( LODLevelPtr->Sector, 0, Sectors*sizeof(s_BT_Sector) );
+			memset(LODLevelPtr->Sector, 0, Sectors*sizeof(s_BT_Sector));
 			LODLevelPtr->Terrain=Terrain;
 			LODLevelPtr->ID=LODLevel;
 
