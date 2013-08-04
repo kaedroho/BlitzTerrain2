@@ -274,10 +274,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 		TempQuad[Quadn].V3=VertexMap[Vrow+1][Vcol];
 		TempQuad[Quadn].V4=VertexMap[Vrow+1][Vcol+1];
 
-	//Sizes
-		TempQuad[Quadn].Width=Generator.TileSize;
-		TempQuad[Quadn].Height=Generator.TileSize;
-
 	//Exclusion mapping
 		if(Generator.exclusion!=NULL){
 			TempQuad[Quadn].Exclude=Generator.exclusion[Vcol+Vrow*(Generator.Size+1)] &&
@@ -372,12 +368,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			}
 		}
 
-	//Extra variables for copy quads function
-		unsigned long QuadSize;
-		unsigned long Qx;
-		unsigned long Qy;
-		unsigned long Quadnum;
-
 	//Copy quads
 		CurrQuad=0;
 		for(Quadn=0;Quadn<Quads;Quadn++){
@@ -388,24 +378,12 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 				Quad[CurrQuad].V3=TempQuad[Quadn].V3->NewPtr;
 				Quad[CurrQuad].V4=TempQuad[Quadn].V4->NewPtr;
 
-			//Copy size
-				Quad[CurrQuad].Width=TempQuad[Quadn].Width;
-				Quad[CurrQuad].Height=TempQuad[Quadn].Height;
-
 			//Copy rotation
 				Quad[CurrQuad].Rotation=TempQuad[Quadn].Rotation;
 
 			//Set Quadmap
-				//Get quadsize
-				QuadSize=unsigned long(Quad[CurrQuad].Width/Generator.TileSize);
+				QuadMap[Quadn]=&Quad[CurrQuad];
 
-				//Set all the quads to this one
-				for(Qy=0;Qy<QuadSize;Qy++){
-					for(Qx=0;Qx<QuadSize;Qx++){
-						Quadnum=Quadn+Qy+Qx*Generator.Size;
-						QuadMap[Quadnum]=&Quad[CurrQuad];
-					}
-				}
 				CurrQuad++;
 			}else{
 			//Decrease quadcount
@@ -838,13 +816,9 @@ float BT_QuadMap::GetPointHeight(float x,float z,bool Round)
 		if(cQuad==NULL)
 			return 0.0;
 
-	//Scales
-		float xScale=cQuad->Width/TileSize;
-		float zScale=cQuad->Height/TileSize;
-
 	//Find the position on the quad
-		Px=((U*QuadsAccross)-cQuad->V1->Vcol)/xScale;
-		Pz=((V*QuadsAccross)-cQuad->V1->Vrow)/zScale;
+		Px=((U*QuadsAccross)-cQuad->V1->Vcol);
+		Pz=((V*QuadsAccross)-cQuad->V1->Vrow);
 
 	//Work out height
 		if(Round){

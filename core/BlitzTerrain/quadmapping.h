@@ -55,10 +55,6 @@ struct BT_Quadmap_Quad
 	BT_Quadmap_Vertex* V3;
 	BT_Quadmap_Vertex* V4;
 
-	//Size
-	float Width;
-	float Height;
-
 	//Rotation
 	bool Rotation;
 };
