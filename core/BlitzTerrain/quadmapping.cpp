@@ -106,14 +106,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			TempVertex[Vertexn].Vcol=unsigned char(Vcol);
 			TempVertex[Vertexn].Pos_y=Generator.heights[Vcol+Vrow*(Generator.Size+1)];
 
-			if(TempVertex[Vertexn].Pos_y>HighestPoint){
-				HighestPoint=TempVertex[Vertexn].Pos_y;
-			}
-
-			if(TempVertex[Vertexn].Pos_y<LowestPoint){
-				LowestPoint=TempVertex[Vertexn].Pos_y;
-			}
-
 		//Index
 			TempVertex[Vertexn].Index=(unsigned short)Vertexn;
 
@@ -137,14 +129,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			TempVertex[Vertexn].Vrow=unsigned char(Vrow);
 			TempVertex[Vertexn].Vcol=unsigned char(Vcol);
 			TempVertex[Vertexn].Pos_y=Generator.heights[Vcol+Vrow*(Generator.Size+1)];
-
-			if(TempVertex[Vertexn].Pos_y>HighestPoint){
-				HighestPoint=TempVertex[Vertexn].Pos_y;
-			}
-
-			if(TempVertex[Vertexn].Pos_y<LowestPoint){
-				LowestPoint=TempVertex[Vertexn].Pos_y;
-			}
 
 		//Index
 			TempVertex[Vertexn].Index=(unsigned short)Vertexn;
@@ -171,14 +155,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			TempVertex[Vertexn].Vcol=unsigned char(Vcol);
 			TempVertex[Vertexn].Pos_y=Generator.heights[Vcol+Vrow*(Generator.Size+1)];
 
-			if(TempVertex[Vertexn].Pos_y>HighestPoint){
-				HighestPoint=TempVertex[Vertexn].Pos_y;
-			}
-
-			if(TempVertex[Vertexn].Pos_y<LowestPoint){
-				LowestPoint=TempVertex[Vertexn].Pos_y;
-			}
-
 		//Index
 			TempVertex[Vertexn].Index=(unsigned short)Vertexn;
 
@@ -202,14 +178,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 			TempVertex[Vertexn].Vrow=unsigned char(Vrow);
 			TempVertex[Vertexn].Vcol=unsigned char(Vcol);
 			TempVertex[Vertexn].Pos_y=Generator.heights[Vcol+Vrow*(Generator.Size+1)];
-
-			if(TempVertex[Vertexn].Pos_y>HighestPoint){
-				HighestPoint=TempVertex[Vertexn].Pos_y;
-			}
-
-			if(TempVertex[Vertexn].Pos_y<LowestPoint){
-				LowestPoint=TempVertex[Vertexn].Pos_y;
-			}
 
 		//Index
 			TempVertex[Vertexn].Index=(unsigned short)Vertexn;
@@ -235,14 +203,6 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 				TempVertex[Vertexn].Vrow=unsigned char(Vrow);
 				TempVertex[Vertexn].Vcol=unsigned char(Vcol);
 				TempVertex[Vertexn].Pos_y=Generator.heights[Vcol+Vrow*(Generator.Size+1)];
-
-				if(TempVertex[Vertexn].Pos_y>HighestPoint){
-					HighestPoint=TempVertex[Vertexn].Pos_y;
-				}
-
-				if(TempVertex[Vertexn].Pos_y<LowestPoint){
-					LowestPoint=TempVertex[Vertexn].Pos_y;
-				}
 
 			//Index
 				TempVertex[Vertexn].Index=(unsigned short)Vertexn;
@@ -391,9 +351,11 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 		memcpy(Quad,TempQuad,Quads*sizeof(BT_Quadmap_Quad));
 	}
 
+//Calculate bounds
+	CalculateBounds();
+
 //Say that the quadmap is generated
 	Generated=true;
-
 }
 
 void BT_QuadMap::CalculateNormals()
@@ -422,6 +384,24 @@ void BT_QuadMap::CalculateNormals()
 	}
 }
 
+void BT_QuadMap::CalculateBounds()
+{
+//Reset highest and lowest point
+	HighestPoint=LowestPoint=Vertex[0].Pos_y;
+
+//Loop through vertices
+	for(unsigned short Vertexn=1;Vertexn<=Vertices;Vertexn++){
+		//Highest point
+		if(Vertex[Vertexn].Pos_y>HighestPoint){
+			HighestPoint=Vertex[Vertexn].Pos_y;
+		}
+
+		//Lowest point
+		if(Vertex[Vertexn].Pos_y<LowestPoint){
+			LowestPoint=Vertex[Vertexn].Pos_y;
+		}
+	}
+}
 
 s_BT_DrawBuffer* BT_QuadMap::GeneratePlain()
 {
@@ -926,26 +906,11 @@ void BT_QuadMap::ChangeMeshData(unsigned short VertexStart,unsigned short Vertex
 		for(unsigned short Vertexn=VertexStart;Vertexn<VertexEnd+1;Vertexn++)
 			Vertex[Vertexn].Pos_y=Vertices[Vertexn].Pos_y;
 
-	//Recalculate highest point
-		bool Calculated=false;
-		HighestPoint=LowestPoint=Vertices[0].Pos_y;
-		//for(unsigned short Vertexn=VertexStart;Vertexn<=VertexEnd;Vertexn++)
-		for(unsigned short Vertexn=1;Vertexn<=Mesh_Vertices;Vertexn++){
-			if(Vertices[Vertexn].Pos_y>HighestPoint){
-				HighestPoint=Vertices[Vertexn].Pos_y;
-			}
-		}
+	//Recalculate bounds
+		CalculateBounds();
 
-	//Recalculate lowest point
-		Calculated=false;
-		//for(unsigned short Vertexn=VertexStart;Vertexn<=VertexEnd;Vertexn++)
-		for(unsigned short Vertexn=1;Vertexn<=Mesh_Vertices;Vertexn++){
-			if(Vertices[Vertexn].Pos_y<LowestPoint){
-				LowestPoint=Vertices[Vertexn].Pos_y;
-			}
-		}
-
-		RefreshNormals = true;
+	//Refresh normals
+		RefreshNormals=true;
 	}
 }
 

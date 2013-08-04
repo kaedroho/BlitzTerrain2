@@ -83,6 +83,7 @@ class BT_QuadMap
 public:
 	void Generate(BT_Quadmap_Generator Generator);
 	void CalculateNormals();
+	void CalculateBounds();
 	void GenerateMeshData();
 	void DeleteMeshData();
 	void SetToMesh(s_BT_DrawBuffer* DrawBuffer);
