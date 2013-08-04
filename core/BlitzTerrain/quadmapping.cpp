@@ -890,7 +890,7 @@ void BT_QuadMap::SetSideLOD(unsigned char Side,unsigned long LODLevel)
 		float InterpMin=0.0f;
 		float InterpMax=0.0f;
 		unsigned char LODTileSpan=1;
-		for(int i=0;i<LODLevel;i++) {
+		for(unsigned long i=0;i<LODLevel;i++) {
 			LODTileSpan*=2;
 		}
 
