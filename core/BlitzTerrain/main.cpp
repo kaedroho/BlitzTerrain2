@@ -2720,76 +2720,40 @@ static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
 				//Left
 					if(Collumn>0)
 					{
-						if(Terrain->LODMap[Row][Collumn-1].Level>LODLevel)
+						if(SectorPtr->LeftSideLODLevel!=Terrain->LODMap[Row][Collumn-1].Level)
 						{
-							if(SectorPtr->LeftSideLODLevel!=Terrain->LODMap[Row][Collumn-1].Level)
-							{
-								SectorPtr->LeftSideLODLevel=Terrain->LODMap[Row][Collumn-1].Level;
-								SectorPtr->LeftSideNeedsUpdate=true;
-							}
-						}else{
-							if(SectorPtr->LeftSideLODLevel>LODLevel)
-							{
-								SectorPtr->LeftSideLODLevel=LODLevel;
-								SectorPtr->LeftSideNeedsUpdate=true;
-							}
+							SectorPtr->LeftSideLODLevel=Terrain->LODMap[Row][Collumn-1].Level;
+							SectorPtr->LeftSideNeedsUpdate=true;
 						}
 					}
 
 				//Top
 					if(Row>0)
 					{
-						if(Terrain->LODMap[Row-1][Collumn].Level>LODLevel)
+						if(SectorPtr->TopSideLODLevel!=Terrain->LODMap[Row-1][Collumn].Level)
 						{
-							if(SectorPtr->TopSideLODLevel!=Terrain->LODMap[Row-1][Collumn].Level)
-							{
-								SectorPtr->TopSideLODLevel=Terrain->LODMap[Row-1][Collumn].Level;
-								SectorPtr->TopSideNeedsUpdate=true;
-							}
-						}else{
-							if(SectorPtr->TopSideLODLevel>LODLevel)
-							{
-								SectorPtr->TopSideLODLevel=LODLevel;
-								SectorPtr->TopSideNeedsUpdate=true;
-							}
+							SectorPtr->TopSideLODLevel=Terrain->LODMap[Row-1][Collumn].Level;
+							SectorPtr->TopSideNeedsUpdate=true;
 						}
 					}
 
 				//Right
 					if(Collumn+Span<Terrain->LODLevel[0].Split)
 					{
-						if(Terrain->LODMap[Row][Collumn+Span].Level>LODLevel)
+						if(SectorPtr->RightSideLODLevel!=Terrain->LODMap[Row][Collumn+Span].Level)
 						{
-							if(SectorPtr->RightSideLODLevel!=Terrain->LODMap[Row][Collumn+Span].Level)
-							{
-								SectorPtr->RightSideLODLevel=Terrain->LODMap[Row][Collumn+Span].Level;
-								SectorPtr->RightSideNeedsUpdate=true;
-							}
-						}else{
-							if(SectorPtr->RightSideLODLevel>LODLevel)
-							{
-								SectorPtr->RightSideLODLevel=LODLevel;
-								SectorPtr->RightSideNeedsUpdate=true;
-							}
+							SectorPtr->RightSideLODLevel=Terrain->LODMap[Row][Collumn+Span].Level;
+							SectorPtr->RightSideNeedsUpdate=true;
 						}
 					}
 
 				//Bottom
 					if(Row+Span<Terrain->LODLevel[0].Split)
 					{
-						if(Terrain->LODMap[Row+Span][Collumn].Level>LODLevel)
+						if(SectorPtr->BottomSideLODLevel!=Terrain->LODMap[Row+Span][Collumn].Level)
 						{
-							if(SectorPtr->BottomSideLODLevel!=Terrain->LODMap[Row+Span][Collumn].Level)
-							{
-								SectorPtr->BottomSideLODLevel=Terrain->LODMap[Row+Span][Collumn].Level;
-								SectorPtr->BottomSideNeedsUpdate=true;
-							}
-						}else{
-							if(SectorPtr->BottomSideLODLevel>LODLevel)
-							{
-								SectorPtr->BottomSideLODLevel=LODLevel;
-								SectorPtr->BottomSideNeedsUpdate=true;
-							}
+							SectorPtr->BottomSideLODLevel=Terrain->LODMap[Row+Span][Collumn].Level;
+							SectorPtr->BottomSideNeedsUpdate=true;
 						}
 					}
 				}
