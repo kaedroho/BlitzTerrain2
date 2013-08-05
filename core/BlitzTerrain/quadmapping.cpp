@@ -827,10 +827,7 @@ void BT_QuadMap::SetSideLOD(unsigned char Side,unsigned long LODLevel)
 		unsigned short SideFirstVertex=Side*QuadsAccross;
 		float InterpMin=0.0f;
 		float InterpMax=0.0f;
-		unsigned char LODTileSpan=1;
-		for(unsigned long i=0;i<LODLevel;i++) {
-			LODTileSpan*=2;
-		}
+		unsigned char LODTileSpan=1<<LODLevel;
 
 	//Copy segment data into edges
 		unsigned short Vertexn=0;

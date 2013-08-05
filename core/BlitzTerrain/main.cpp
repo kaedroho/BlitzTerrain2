@@ -2591,7 +2591,10 @@ static void BT_Intern_CalculateLODLevelsRec(s_BT_terrain* Terrain,s_BT_QuadTree*
 //Check if we have to draw this LOD level
 	if(Quadtree->Sector!=NULL && LODLevelToDraw==0)
 	{
-		if(BT_Intern_DistanceToLODCamera(Terrain,Quadtree->CullBox)>Terrain->LODLevel[Level].Distance*Terrain->LODLevel[Level].Distance)
+		//Calculate LOD distance
+		float LODDistance=Terrain->LODDetail*(1<<Level)*C_BT_INTERNALSCALE;
+
+		if(BT_Intern_DistanceToLODCamera(Terrain,Quadtree->CullBox)>LODDistance*LODDistance)
 		{
 			Quadtree->DrawThis=true;
 			LODLevelToDraw=unsigned char(Level);
