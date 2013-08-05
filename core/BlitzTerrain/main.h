@@ -229,7 +229,6 @@ struct s_BT_QuadTree
 struct s_BT_LODMap
 {
 	unsigned char Level;
-	bool Changed;
 };
 
 struct s_BT_terrain

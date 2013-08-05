@@ -886,7 +886,7 @@ void BT_QuadMap::SetSideLOD(unsigned char Side,unsigned long LODLevel)
 //Check that the quadmap is generated
 	if(Generated==true){
 	//Find first vertex
-		unsigned short SideFirstVertex=Side*(QuadsAccross+1);
+		unsigned short SideFirstVertex=Side*QuadsAccross;
 		float InterpMin=0.0f;
 		float InterpMax=0.0f;
 		char LODDifference = LODLevel-Sector->LODLevel->ID;
@@ -900,7 +900,7 @@ void BT_QuadMap::SetSideLOD(unsigned char Side,unsigned long LODLevel)
 	//Copy segment data into edges
 		unsigned short Vertexn=0;
 		Vertexn=SideFirstVertex;
-		for(unsigned char Point=0;Point<QuadsAccross;Point++){
+		for(unsigned char Point=0;Point<(QuadsAccross+1);Point++){
 		// Adjust interpolation values every time we cross a known height vertex
 			if(Point%LODTileSpan==0) {
 				InterpMin=Vertex[Vertexn].Pos_y;
