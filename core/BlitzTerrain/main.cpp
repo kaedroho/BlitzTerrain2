@@ -189,6 +189,7 @@ EXPORT unsigned long BT_MakeTerrain()
 		BT_Main.Terrains[TerrainNum].LODLevel=(s_BT_LODLevel*)malloc(sizeof(s_BT_LODLevel)*C_BT_MAXLODLEVELS);
 		if(BT_Main.Terrains[TerrainNum].LODLevel==nullptr)
 			BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
+		memset ( BT_Main.Terrains[TerrainNum].LODLevel, 0, sizeof(s_BT_LODLevel)*C_BT_MAXLODLEVELS );
 		BT_Main.Terrains[TerrainNum].Built=0;
 		BT_Main.Terrains[TerrainNum].Generated=0;
 		BT_Main.Terrains[TerrainNum].MeshOptimisation=true;
@@ -965,6 +966,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 			LODLevelPtr->Sector=(s_BT_Sector*)malloc(Sectors*sizeof(s_BT_Sector));
 			if(LODLevelPtr->Sector==nullptr)
 				BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
+			memset ( LODLevelPtr->Sector, 0, Sectors*sizeof(s_BT_Sector) );
 			LODLevelPtr->Terrain=Terrain;
 			LODLevelPtr->ID=LODLevel;
 
@@ -981,6 +983,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 			BT_LODLevelInfo* LODLevelInfo=(BT_LODLevelInfo*)malloc(sizeof(BT_LODLevelInfo));
 			if(LODLevelInfo==nullptr)
 				BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
+			memset ( LODLevelInfo, 0, sizeof(BT_LODLevelInfo) );
 			LODLevelInfo->Distance=Terrain->LODLevel[LODLevel].Distance;
 			LODLevelInfo->SectorDetail=Terrain->LODLevel[LODLevel].SectorDetail;
 			LODLevelInfo->Sectors=Terrain->LODLevel[LODLevel].Sectors;
@@ -989,6 +992,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 			LODLevelInfo->TileSpan=Terrain->LODLevel[LODLevel].TileSpan;
 			LODLevelInfo->InternalData=(void*)LODLevelPtr;
 			LODLevelPtr->Info=(void*)LODLevelInfo;
+			LODLevelPtr->DBPObject = 0;
 
 			Row=0;
 			Column=0;
@@ -1014,6 +1018,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 				Generator.Sector=SectorPtr;
 				SectorPtr->LODLevel=&Terrain->LODLevel[LODLevel];
 				SectorPtr->Terrain=Terrain;
+				SectorPtr->DBPObject = 0;
 				Generator.RemoveFarX=false;
 				if(Row==LODLevelPtr->Split-1)
 					Generator.RemoveFarX=true;
@@ -1048,6 +1053,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 					Terrain->LODLevel[LODLevel].Sector[Sector].VertexDataRTTMS=(BT_RTTMS_STRUCT*)malloc(sizeof(BT_RTTMS_STRUCT));
 					if(Terrain->LODLevel[LODLevel].Sector[Sector].VertexDataRTTMS==nullptr)
 						BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
+					memset ( Terrain->LODLevel[LODLevel].Sector[Sector].VertexDataRTTMS, 0, sizeof(BT_RTTMS_STRUCT) );
 					BT_RTTMS_STRUCTINTERNALS* RTTMSStructInternals=(BT_RTTMS_STRUCTINTERNALS*)malloc(sizeof(BT_RTTMS_STRUCTINTERNALS));
 					if(RTTMSStructInternals==nullptr)
 						BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
@@ -1068,6 +1074,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 				BT_SectorInfo* SectorInfo=(BT_SectorInfo*)malloc(sizeof(BT_SectorInfo));
 				if(SectorInfo==nullptr)
 					BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
+				memset ( SectorInfo, 0, sizeof(BT_SectorInfo) );
 				SectorInfo->Column=Column;
 				SectorInfo->Row=Row;
 				SectorInfo->Excluded=SectorPtr->Excluded;
@@ -1149,6 +1156,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 		Terrain->LODMap=(s_BT_LODMap**)malloc(Terrain->LODLevel[0].Split*sizeof(s_BT_LODMap*));
 		if(Terrain->LODMap==nullptr)
 			BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
+		memset ( Terrain->LODMap, 0, Terrain->LODLevel[0].Split*sizeof(s_BT_LODMap*) );
 		for(unsigned long i=0;i<Terrain->LODLevel[0].Split;i++)
 		{
 			Terrain->LODMap[i]=(s_BT_LODMap*)malloc(Terrain->LODLevel[0].Split*sizeof(s_BT_LODMap));
@@ -2649,6 +2657,10 @@ static void BT_Intern_RenderTerrain(s_BT_terrain* Terrain)
 		LPD3DXEFFECT Effect=Mesh->pVertexShaderEffect->m_pEffect;
 		UINT Passes;
 
+		// see if this helps restore shader attributes on first
+		//DBPRO_ApplyEffect ( Mesh, Camera );
+
+
 	//Begin effect
 		BT_Main.CurrentEffect=Mesh->pVertexShaderEffect;
 		Effect->Begin(&Passes,NULL);
@@ -3221,7 +3233,7 @@ static void BT_Intern_RenderSector(s_BT_Sector* Sector)
 		//DBPRO RENDERING ENGINE
 		sMesh* Mesh=Sector->Terrain->Object->pFrame->pMesh;
 		if(Mesh->pVertexShaderEffect!=NULL)
-            DBPRO_ApplyEffect(Mesh,BT_Main.CurrentUpdateCamera);
+			DBPRO_ApplyEffect(Mesh,BT_Main.CurrentUpdateCamera);
 
 		//Index and vertex buffers
 		D3DDevice->SetStreamSource(0,Sector->DrawBuffer->VertexBuffer,0,Sector->DrawBuffer->FVF_Size);
@@ -4050,6 +4062,7 @@ static s_BT_QuadTree* BT_Intern_AllocateQuadTreeRec(s_BT_terrain* Terrain,unsign
 	Quadtree=(s_BT_QuadTree*)malloc(sizeof(s_BT_QuadTree));
 	if(Quadtree==nullptr)
 		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
+	memset ( Quadtree, 0, sizeof(s_BT_QuadTree) );
 
 //Set values
 	Quadtree->Level=Levels;
@@ -4396,7 +4409,8 @@ void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID,unsigned long LODLevel
 		}
 		if(Sector->LODLevel->DBPObject!=0){
 		//Find the sector
-			Sector->QuadMap->UpdateDBPMesh(Sector->LODLevelObjectFrame->pMesh);
+			if ( Sector->LODLevelObjectFrame )
+				Sector->QuadMap->UpdateDBPMesh(Sector->LODLevelObjectFrame->pMesh);
 		}
 
 	//Say that the cull box has changed
@@ -4546,7 +4560,8 @@ static float BT_Intern_GetHeightFromColor(unsigned long Colour)
 {
 	D3DXCOLOR D3DColour=D3DXCOLOR(Colour);
 #ifdef C_BT_FULLVERSION
-	return D3DColour.r*255.0f+D3DColour.g;
+	//return D3DColour.r*255.0f+D3DColour.g; // lee - 131113 - increase fidelity of heightmap loader
+	return ( D3DColour.r*65535.0f + D3DColour.g*256.0f + D3DColour.b ) / 100.0f;
 #else
 	return D3DColour.r*255.0f;
 #endif
