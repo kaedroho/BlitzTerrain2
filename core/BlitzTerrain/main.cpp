@@ -4558,12 +4558,11 @@ void BT_Intern_DeallocateSegmentData(s_BT_terrain* Terrain)
 // ========================================
 static float BT_Intern_GetHeightFromColor(unsigned long Colour)
 {
-	D3DXCOLOR D3DColour=D3DXCOLOR(Colour);
+	D3DXCOLOR D3DColour = D3DXCOLOR(Colour);
 #ifdef C_BT_FULLVERSION
-	//return D3DColour.r*255.0f+D3DColour.g; // lee - 131113 - increase fidelity of heightmap loader
-	return ( D3DColour.r*65535.0f + D3DColour.g*256.0f + D3DColour.b ) / 100.0f;
+	return D3DColour.r * 256.0f + D3DColour.g + D3DColour.b / 256.0f;
 #else
-	return D3DColour.r*255.0f;
+	return D3DColour.r * 256.0f;
 #endif
 }
 // === END FUNCTION ===
