@@ -494,7 +494,6 @@ static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain);
 static void BT_Intern_FixSectorLODSeams(s_BT_Sector* SectorPtr);
 static void BT_Intern_CalculateCullingRec(s_BT_terrain* Terrain,s_BT_QuadTree* Quadtree,unsigned long Level,bool IntersectingFrustum);
 static void BT_Intern_UpdateCullBoxesRec(s_BT_terrain* Terrain,s_BT_QuadTree* Quadtree,unsigned long Level);
-static void BT_Intern_UpdateTerrainRec(s_BT_terrain* Terrain,s_BT_QuadTree* Quadtree,unsigned long Level,bool IntersectingFrustum,unsigned char LODLevelToDraw);
 static void BT_Intern_RenderTerrainRec(s_BT_terrain* Terrain,s_BT_QuadTree* Quadtree,unsigned long Level);
 static void BT_Intern_UnlockSectorsRec(s_BT_terrain* Terrain,s_BT_QuadTree* Quadtree,unsigned long Level);
 static void BT_Intern_RenderSector(s_BT_Sector* Sector);
@@ -626,7 +625,6 @@ static void BT_Intern_SmoothTerrain(s_BT_terrain* Terrain);
 #define C_BT_FUNCTION_ENABLEAUTORENDER 64
 
 #define C_BT_INSTRUCTION_SETCURRENTCAMERA 1
-#define C_BT_INSTRUCTION_UPDATETERRAIN 2
 #define C_BT_INSTRUCTION_UPDATETERRAINCULL 3
 #define C_BT_INSTRUCTION_UPDATETERRAINLOD 4
 #define C_BT_INSTRUCTION_RENDERTERRAIN 5

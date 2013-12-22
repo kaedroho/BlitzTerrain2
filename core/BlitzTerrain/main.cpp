@@ -2248,37 +2248,6 @@ EXPORT void BT_UpdateTerrainCull(unsigned long TerrainID)
 
 
 // =========================
-// === BT UPDATE TERRAIN ===
-// =========================
-EXPORT void BT_UpdateTerrain(unsigned long TerrainID)
-{
-//Set current function
-	BT_Main.CurrentFunction=C_BT_FUNCTION_UPDATETERRAIN;
-
-//Check that the terrain exists
-	if(BT_Intern_TerrainExist(TerrainID))
-	{
-
-	//Check that the terrain is generated
-		if(BT_Main.Terrains[TerrainID].Generated==true)
-		{
-		//Add to queue
-			BT_Intern_AddToInstructionQueue(C_BT_INSTRUCTION_UPDATETERRAIN,(char)TerrainID);
-		}else{
-			BT_Intern_Error(C_BT_ERROR_TERRAINNOTGENERATED);
-			return;
-		}
-
-	}else{
-		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
-		return;
-	}
-}
-// === END FUNCTION ===
-
-
-
-// =========================
 // === BT RENDER TERRAIN ===
 // =========================
 EXPORT void BT_RenderTerrain(unsigned long TerrainID)
@@ -2393,36 +2362,6 @@ EXPORT void BT_Intern_Render()
 		//Set current camera
 			BT_Main.CurrentUpdateCamera=(tagCameraData*)dbGetCameraInternalData(CameraID);
 			BT_Main.FrustumExtracted=false;
-
-		//Increase position
-			CurrentPos+=2;
-
-		}else if(BT_Main.InstructionQueue[CurrentPos]==C_BT_INSTRUCTION_UPDATETERRAIN)
-		{
-		//Variables
-			unsigned long TerrainID=BT_Main.InstructionQueue[CurrentPos+1];
-
-		//Cull Offset
-			BT_Main.CullOffset=-BT_Main.Terrains[TerrainID].Object->position.vecPosition;
-			BT_Main.CullScale=BT_Main.Terrains[TerrainID].Object->position.vecScale;
-
-		//Extract frustum
-			if(BT_Main.FrustumExtracted==false)
-			{
-				BT_Intern_ExtractFrustum();
-				BT_Main.FrustumExtracted=true;
-			}
-
-		//Set main camera
-			BT_Main.LODCamPosition=BT_Main.CurrentUpdateCamera->vecPosition;
-
-		//Update
-			BT_RTTMS_UnlockTerrain(&BT_Main.Terrains[TerrainID]);
-			BT_Intern_UpdateCullBoxesRec(&BT_Main.Terrains[TerrainID],BT_Main.Terrains[TerrainID].QuadTree,BT_Main.Terrains[TerrainID].QuadTreeLevels);
-			BT_Intern_UpdateTerrainRec(&BT_Main.Terrains[TerrainID],BT_Main.Terrains[TerrainID].QuadTree,BT_Main.Terrains[TerrainID].QuadTreeLevels,true,0);
-
-		//Fix LOD seams
-			BT_Intern_FixLODSeams(&BT_Main.Terrains[TerrainID]);
 
 		//Increase position
 			CurrentPos+=2;

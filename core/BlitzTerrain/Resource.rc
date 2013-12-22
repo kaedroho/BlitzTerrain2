@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "windows.h"
+#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -118,7 +118,6 @@ BEGIN
     IDS_STRING122           "BT UPDATETERRAINLOD%D%?BT_UpdateTerrainLOD@@YAXK@Z%int TerrainID"
     IDS_STRING124           "BT SETCURRENTCAMERA%D%?BT_SetCurrentCamera@@YAXK@Z%int CameraID"
     IDS_STRING125           "BT SETTERRAINQUADROTATION%DD%?BT_SetTerrainQuadRotation@@YAXK_N@Z%int TerrainID, bool Enabled"
-    IDS_STRING126           "BT UPDATETERRAIN%D%?BT_UpdateTerrain@@YAXK@Z%int TerrainID"
     IDS_STRING127           "BT SETTERRAINSMOOTHING%DD%?BT_SetTerrainSmoothing@@YAXKK@Z%int TerrainID, bool Enabled"
 END
 
