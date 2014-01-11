@@ -104,7 +104,7 @@ public:
 	float GetLowestPoint() {return LowestPoint;}
 	void FillMeshData(BT_RTTMS_STRUCT* Meshdata);
 	void DeleteInternalData();
-	bool ReduceQuad(unsigned short QuadTL,unsigned short QuadTR,unsigned short QuadBL,unsigned short QuadBR,BT_Quadmap_Quad* Quads);
+	void ReduceQuad(unsigned short QuadTL,unsigned short QuadTR,unsigned short QuadBL,unsigned short QuadBR,BT_Quadmap_Quad* Quads, bool CheckHeights);
 	void ChangeMeshData(unsigned short VertexStart,unsigned short VertexEnd,BT_RTTMS_VERTEX* Vertices);
 	unsigned short FindVertex(unsigned short Vrow,unsigned short Vcol);
 
