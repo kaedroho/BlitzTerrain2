@@ -7,6 +7,7 @@ struct s_BT_Sector;
 struct BT_Quadmap_Generator
 {
 	bool QuadRotation;
+	bool QuadReduction;
 	float TileSize;
 	unsigned char Size;
 	float* heights;
@@ -55,6 +56,9 @@ struct BT_Quadmap_Quad
 	BT_Quadmap_Vertex* V3;
 	BT_Quadmap_Vertex* V4;
 
+	//Size
+	float Size;
+
 	//Rotation
 	bool Rotation;
 };
@@ -100,6 +104,7 @@ public:
 	float GetLowestPoint() {return LowestPoint;}
 	void FillMeshData(BT_RTTMS_STRUCT* Meshdata);
 	void DeleteInternalData();
+	bool ReduceQuad(unsigned short QuadTL,unsigned short QuadTR,unsigned short QuadBL,unsigned short QuadBR,BT_Quadmap_Quad* Quads);
 	void ChangeMeshData(unsigned short VertexStart,unsigned short VertexEnd,BT_RTTMS_VERTEX* Vertices);
 	unsigned short FindVertex(unsigned short Vrow,unsigned short Vcol);
 

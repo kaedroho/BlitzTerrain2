@@ -116,7 +116,7 @@ BEGIN
     IDS_STRING120           "BT GETSECTORPOSITIONZ[%FDDD%?BT_GetSectorPositionZ@@YAKKKK@Z%int TerrainID, int LODLevel, int SectorID"
     IDS_STRING121           "BT UPDATETERRAINCULL%D%?BT_UpdateTerrainCull@@YAXK@Z%int TerrainID"
     IDS_STRING122           "BT UPDATETERRAINLOD%D%?BT_UpdateTerrainLOD@@YAXK@Z%int TerrainID"
-    IDS_STRING123           "BT SETTERRAINQUADREDUCTION%DF%?BT_SetTerrainQuadReduction@@YAXKM@Z%int TerrainID, bool Enabled"
+    IDS_STRING123           "BT SETTERRAINQUADREDUCTION%DD%?BT_SetTerrainQuadReduction@@YAXK_N@Z%int TerrainID, bool Enabled"
     IDS_STRING124           "BT SETCURRENTCAMERA%D%?BT_SetCurrentCamera@@YAXK@Z%int CameraID"
     IDS_STRING125           "BT SETTERRAINQUADROTATION%DD%?BT_SetTerrainQuadRotation@@YAXK_N@Z%int TerrainID, bool Enabled"
     IDS_STRING127           "BT SETTERRAINSMOOTHING%DD%?BT_SetTerrainSmoothing@@YAXKK@Z%int TerrainID, bool Enabled"

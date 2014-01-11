@@ -546,9 +546,23 @@ EXPORT void BT_SetTerrainDetailTile(unsigned long terrainid,float Tile)
 // =====================================
 // === BT SET TERRAIN QUAD REDUCTION ===
 // =====================================
-EXPORT void BT_SetTerrainQuadReduction(unsigned long terrainid,float Threshold)
+EXPORT void BT_SetTerrainQuadReduction(unsigned long terrainID, bool enabled)
 {
-	// REMOVED
+	// Set Current function
+	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINQUADREDUCTION;
+
+	// Check that the terrain exists
+	if (!BT_Intern_TerrainExist(terrainID))
+		return;
+
+	// Check that this is the full version
+	#ifndef C_BT_FULLVERSION 
+		return;
+	#endif
+
+	// Set quad reduction
+	BT_Main.Terrains[terrainID].QuadReduction=enabled;
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainID].Info)->QuadReduction=enabled;
 }
 // === END FUNCTION ===
 
@@ -943,6 +957,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool 
 
 		//Initialise QuadMap Generator
 			Generator.QuadRotation=Terrain->QuadRotation;
+			Generator.QuadReduction=Terrain->QuadReduction;
 			LODLevelPtr->TileSpan=Terrain->LODLevel[0].Split/LODLevelPtr->Split;
 			Generator.TileSize=C_BT_INTERNALSCALE*LODLevelPtr->TileSpan;
 			Generator.Optimise=Terrain->MeshOptimisation;
