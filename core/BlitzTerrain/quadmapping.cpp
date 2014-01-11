@@ -251,78 +251,37 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 	IncQuads=Quads;
 
 //Quad reduction
-        if(Generator.QuadReduction==true){
-                unsigned char Level=1;
-                unsigned short QuadsLeft;
-                do{
-                        QuadsLeft=0;
-                        unsigned short TwoPowerLevel=1<<Level; //2^Level
-                        unsigned short TwoPowerLevelSquared=TwoPowerLevel*TwoPowerLevel; //(2^Level)^2
-                        for(Quadn=0;Quadn<Quads/TwoPowerLevelSquared;Quadn++){
-                        //Calculate row and collumn
-                                unsigned char RealQuadCol=(Quadn%(QuadsAccross/TwoPowerLevel))*TwoPowerLevel;
-                                unsigned char RealQuadRow=((Quadn*TwoPowerLevel-RealQuadCol)/(QuadsAccross/TwoPowerLevel));
+    if(Generator.QuadReduction==true){
+		unsigned char Level=1;
+		while (true) {
+            unsigned short TwoPowerLevel=1<<Level; //2^Level
+            unsigned short TwoPowerLevelSquared=TwoPowerLevel*TwoPowerLevel; //(2^Level)^2
+            for(Quadn=0;Quadn<Quads/TwoPowerLevelSquared;Quadn++){
+            //Calculate row and collumn
+                unsigned char RealQuadCol=(Quadn%(QuadsAccross/TwoPowerLevel))*TwoPowerLevel;
+                unsigned char RealQuadRow=((Quadn*TwoPowerLevel-RealQuadCol)/(QuadsAccross/TwoPowerLevel));
 
-                        //Calculate quad ids
-                                unsigned short TL=RealQuadRow*QuadsAccross+RealQuadCol;
-                                unsigned short TR=TL+TwoPowerLevel/2;
-                                unsigned short BL=(RealQuadRow+TwoPowerLevel/2)*QuadsAccross+RealQuadCol;
-                                unsigned short BR=BL+TwoPowerLevel/2;
+            //Calculate quad ids
+                unsigned short TL=RealQuadRow*QuadsAccross+RealQuadCol;
+                unsigned short TR=TL+TwoPowerLevel/2;
+                unsigned short BL=(RealQuadRow+TwoPowerLevel/2)*QuadsAccross+RealQuadCol;
+                unsigned short BR=BL+TwoPowerLevel/2;
 
-                        //Calculate
-                                if(TempQuad[TL].Size==TileSize*TwoPowerLevel/2){
-                                        if(RealQuadCol==0){
-                                        //Exclude other quads
-                                                TempQuad[TR].Exclude=true;
-                                                TempQuad[BL].Exclude=true;
-                                                TempQuad[BR].Exclude=true;
+            //Reduce
+                if(TempQuad[TL].Size==TileSize*TwoPowerLevel/2){
+					TempQuad[TL].Size = TempQuad[TL].Size;
+					ReduceQuad(TL,TR,BL,BR,TempQuad,Level==1);
+					TempQuad[TL].Size = TempQuad[TL].Size;
+                }
+            }
 
-                                        //Level out vertices
-                                                for(Vertexn=0;Vertexn<=TwoPowerLevel/2+1;Vertexn++){
-                                                //Position
-                                                        float Position=float(Vertexn)/float(TwoPowerLevel);
+			// Break at top level
+			if (TwoPowerLevelSquared == Quads)
+				break;
 
-                                                //Vertices
-                                                        BT_Quadmap_Vertex* TopVertex=VertexMap[TempQuad[TL].V1->Vrow][TempQuad[TL].V1->Vcol+Vertexn];
-                                                        BT_Quadmap_Vertex* RightVertex=VertexMap[TempQuad[TR].V2->Vrow+Vertexn][TempQuad[TR].V2->Vcol];
-                                                        BT_Quadmap_Vertex* BottomVertex=VertexMap[TempQuad[BL].V3->Vrow][TempQuad[BL].V3->Vcol+Vertexn];
-                                                        BT_Quadmap_Vertex* LeftVertex=VertexMap[TempQuad[TL].V1->Vrow+Vertexn][TempQuad[TL].V1->Vcol];
-
-                                                //Level out vertex positions
-                                                        TopVertex->Pos_y=TempQuad[TL].V1->Pos_y+(TempQuad[TR].V2->Pos_y-TempQuad[TL].V1->Pos_y)*Position;
-                                                        RightVertex->Pos_y=TempQuad[TR].V2->Pos_y+(TempQuad[BR].V4->Pos_y-TempQuad[TR].V2->Pos_y)*Position;
-                                                        BottomVertex->Pos_y=TempQuad[BL].V3->Pos_y+(TempQuad[BR].V4->Pos_y-TempQuad[BL].V3->Pos_y)*Position;
-                                                        LeftVertex->Pos_y=TempQuad[TL].V1->Pos_y+(TempQuad[BL].V3->Pos_y-TempQuad[TL].V1->Pos_y)*Position;
-
-                                                //Level out normals
-                                                        TopVertex->Nrm_x=signed char(TempQuad[TL].V1->Nrm_x+(TempQuad[TR].V2->Nrm_x-TempQuad[TL].V1->Nrm_x)*Position);
-                                                        TopVertex->Nrm_y=signed char(TempQuad[TL].V1->Nrm_y+(TempQuad[TR].V2->Nrm_y-TempQuad[TL].V1->Nrm_y)*Position);
-                                                        TopVertex->Nrm_z=signed char(TempQuad[TL].V1->Nrm_z+(TempQuad[TR].V2->Nrm_z-TempQuad[TL].V1->Nrm_z)*Position);
-                                                        RightVertex->Nrm_x=signed char(TempQuad[TR].V2->Nrm_x+(TempQuad[BR].V4->Nrm_x-TempQuad[TR].V2->Nrm_x)*Position);
-                                                        RightVertex->Nrm_y=signed char(TempQuad[TR].V2->Nrm_y+(TempQuad[BR].V4->Nrm_y-TempQuad[TR].V2->Nrm_y)*Position);
-                                                        RightVertex->Nrm_z=signed char(TempQuad[TR].V2->Nrm_z+(TempQuad[BR].V4->Nrm_z-TempQuad[TR].V2->Nrm_z)*Position);
-                                                        BottomVertex->Nrm_x=signed char(TempQuad[BL].V3->Nrm_x+(TempQuad[BR].V4->Nrm_x-TempQuad[BL].V3->Nrm_x)*Position);
-                                                        BottomVertex->Nrm_y=signed char(TempQuad[BL].V3->Nrm_y+(TempQuad[BR].V4->Nrm_y-TempQuad[BL].V3->Nrm_y)*Position);
-                                                        BottomVertex->Nrm_z=signed char(TempQuad[BL].V3->Nrm_z+(TempQuad[BR].V4->Nrm_z-TempQuad[BL].V3->Nrm_z)*Position);
-                                                        LeftVertex->Nrm_x=signed char(TempQuad[TL].V1->Nrm_x+(TempQuad[BL].V3->Nrm_x-TempQuad[TL].V1->Nrm_x)*Position);
-                                                        LeftVertex->Nrm_y=signed char(TempQuad[TL].V1->Nrm_y+(TempQuad[BL].V3->Nrm_y-TempQuad[TL].V1->Nrm_y)*Position);
-                                                        LeftVertex->Nrm_z=signed char(TempQuad[TL].V1->Nrm_z+(TempQuad[BL].V3->Nrm_z-TempQuad[TL].V1->Nrm_z)*Position);
-                                                }
-
-                                        //Merge quads
-                                                TempQuad[TL].V2=TempQuad[TR].V2;
-                                                TempQuad[TL].V3=TempQuad[BL].V3;
-                                                TempQuad[TL].V4=TempQuad[BR].V4;
-                                                TempQuad[TL].Size*=2;
-
-                                        //Increase Quadsleft
-                                                QuadsLeft++;
-                                        }
-                                }
-                        }
-                        Level++;
-                }while(QuadsLeft>3);
-        }
+			Level++;
+		}
+	}
 
 //Extra variables for quad rotation
 	float V1h;
@@ -1021,49 +980,78 @@ void BT_QuadMap::DeleteInternalData()
 	}
 }
 
-bool BT_QuadMap::ReduceQuad(unsigned short QuadTL,unsigned short QuadTR,unsigned short QuadBL,unsigned short QuadBR,BT_Quadmap_Quad* Quads)
+void BT_QuadMap::ReduceQuad(unsigned short QuadTL,unsigned short QuadTR,unsigned short QuadBL,unsigned short QuadBR,BT_Quadmap_Quad* Quads, bool CheckHeights)
 {
 //Check that none of them are excluded
 	if(Quads[QuadTL].Exclude==true || Quads[QuadTR].Exclude==true || Quads[QuadBL].Exclude==true || Quads[QuadBR].Exclude==true)
-		return false;
+		return;
 
 //Check that they are all the same size
-	if(!(Quads[QuadTL].Size==Quads[QuadTR].Size) && (Quads[QuadBL].Size==Quads[QuadBR].Size) && (Quads[QuadTL].Size==Quads[QuadBL].Size)){
-		return false;
+	if(!((Quads[QuadTL].Size==Quads[QuadTR].Size) && (Quads[QuadBL].Size==Quads[QuadBR].Size) && (Quads[QuadTL].Size==Quads[QuadBL].Size))){
+		return;
 	}
 
-//Get heights of each point
-	float p11,p12,p13,p21,p22,p23,p31,p32,p33;
-	p11=Quads[QuadTL].V1->Pos_y;
-	p12=Quads[QuadTL].V2->Pos_y;
-	p13=Quads[QuadTR].V2->Pos_y;
-	p21=Quads[QuadTL].V3->Pos_y;
-	p22=Quads[QuadTL].V4->Pos_y;
-	p23=Quads[QuadTR].V3->Pos_y;
-	p31=Quads[QuadBL].V3->Pos_y;
-	p32=Quads[QuadBL].V4->Pos_y;
-	p33=Quads[QuadBR].V4->Pos_y;
+// Check that this quad is flat
+	if (CheckHeights) {
+	//Get heights of each point
+		float p11,p12,p13,p21,p22,p23,p31,p32,p33;
+		p11=Quads[QuadTL].V1->Pos_y;
+		p12=Quads[QuadTL].V2->Pos_y;
+		p13=Quads[QuadTR].V2->Pos_y;
+		p21=Quads[QuadTL].V3->Pos_y;
+		p22=Quads[QuadTL].V4->Pos_y;
+		p23=Quads[QuadTR].V3->Pos_y;
+		p31=Quads[QuadBL].V3->Pos_y;
+		p32=Quads[QuadBL].V4->Pos_y;
+		p33=Quads[QuadBR].V4->Pos_y;
 
-//Check that they are all the same height
-	if (p11 != p12)
-		return false;
-	if (p11 != p13)
-		return false;
-	if (p11 != p21)
-		return false;
-	if (p11 != p22)
-		return false;
-	if (p11 != p23)
-		return false;
-	if (p11 != p31)
-		return false;
-	if (p11 != p32)
-		return false;
-	if (p11 != p33)
-		return false;
+	//Check that they are all the same height
+		if (p11 != p12)
+			return;
+		if (p11 != p13)
+			return;
+		if (p11 != p21)
+			return;
+		if (p11 != p22)
+			return;
+		if (p11 != p23)
+			return;
+		if (p11 != p31)
+			return;
+		if (p11 != p32)
+			return;
+		if (p11 != p33)
+			return;
+	}
 
-//They are all the same height!
-	return true;
+// Reduce the quad
+    // Exclude all but top left
+    Quads[QuadTR].Exclude=true;
+    Quads[QuadBL].Exclude=true;
+    Quads[QuadBR].Exclude=true;
+
+	// Stretch top left to cover the full size of the new quad
+    Quads[QuadTL].V2=Quads[QuadTR].V2;
+    Quads[QuadTL].V3=Quads[QuadBL].V3;
+    Quads[QuadTL].V4=Quads[QuadBR].V4;
+    Quads[QuadTL].Size*=2;
+
+	// Sanity check
+	if (Quads[QuadTL].V1->Vrow != Quads[QuadTL].V2->Vrow) {
+		Quads[QuadTL].Size=Quads[QuadTL].Size;
+	}
+
+	if (Quads[QuadTL].V1->Vcol != Quads[QuadTL].V3->Vcol) {
+		Quads[QuadTL].Size=Quads[QuadTL].Size;
+	}
+
+	if (Quads[QuadTL].V3->Vrow != Quads[QuadTL].V4->Vrow) {
+		Quads[QuadTL].Size=Quads[QuadTL].Size;
+	}
+
+	if (Quads[QuadTL].V2->Vcol != Quads[QuadTL].V4->Vcol) {
+		Quads[QuadTL].Size=Quads[QuadTL].Size;
+	}
 }
 
 unsigned short BT_QuadMap::FindVertex(unsigned short Vcol,unsigned short Vrow)
