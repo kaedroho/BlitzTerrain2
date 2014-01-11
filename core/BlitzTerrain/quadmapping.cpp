@@ -269,9 +269,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 
             //Reduce
                 if(TempQuad[TL].Size==TileSize*TwoPowerLevel/2){
-					TempQuad[TL].Size = TempQuad[TL].Size;
 					ReduceQuad(TL,TR,BL,BR,TempQuad,Level==1);
-					TempQuad[TL].Size = TempQuad[TL].Size;
                 }
             }
 
@@ -1035,23 +1033,6 @@ void BT_QuadMap::ReduceQuad(unsigned short QuadTL,unsigned short QuadTR,unsigned
     Quads[QuadTL].V3=Quads[QuadBL].V3;
     Quads[QuadTL].V4=Quads[QuadBR].V4;
     Quads[QuadTL].Size*=2;
-
-	// Sanity check
-	if (Quads[QuadTL].V1->Vrow != Quads[QuadTL].V2->Vrow) {
-		Quads[QuadTL].Size=Quads[QuadTL].Size;
-	}
-
-	if (Quads[QuadTL].V1->Vcol != Quads[QuadTL].V3->Vcol) {
-		Quads[QuadTL].Size=Quads[QuadTL].Size;
-	}
-
-	if (Quads[QuadTL].V3->Vrow != Quads[QuadTL].V4->Vrow) {
-		Quads[QuadTL].Size=Quads[QuadTL].Size;
-	}
-
-	if (Quads[QuadTL].V2->Vcol != Quads[QuadTL].V4->Vcol) {
-		Quads[QuadTL].Size=Quads[QuadTL].Size;
-	}
 }
 
 unsigned short BT_QuadMap::FindVertex(unsigned short Vcol,unsigned short Vrow)
