@@ -543,6 +543,17 @@ EXPORT void BT_SetTerrainDetailTile(unsigned long terrainid,float Tile)
 
 
 
+// =====================================
+// === BT SET TERRAIN QUAD REDUCTION ===
+// =====================================
+EXPORT void BT_SetTerrainQuadReduction(unsigned long terrainid,float Threshold)
+{
+	// REMOVED
+}
+// === END FUNCTION ===
+
+
+
 // ====================================
 // === BT SET TERRAIN QUAD ROTATION ===
 // ====================================
