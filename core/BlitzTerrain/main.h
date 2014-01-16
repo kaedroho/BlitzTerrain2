@@ -532,7 +532,7 @@ static void BT_Intern_UnlockSectorVertexData(s_BT_Sector* Sector);
 
 struct BT_RTTMS_VERTEX;
 
-void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,void* VerticesPtr);
+void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,float* VerticesPtr);
 
 static void BT_Intern_SmoothTerrain(s_BT_terrain* Terrain);
 

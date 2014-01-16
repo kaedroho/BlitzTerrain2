@@ -30,12 +30,12 @@ EXPORT void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID,BT_RTTMS_UpdateHan
 #endif
 }
 
-static void BT_RTTMS_CallUpdateHandlers(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,BT_RTTMS_VERTEX* Vertices)
+static void BT_RTTMS_CallUpdateHandlers(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,float* Vertices)
 {
 #ifdef C_BT_FULLVERSION
 //Loop through update handlers and call each one
 	for(unsigned long i=1;i<=BT_RTTMS_UpdateHandlerCount[TerrainID];i++)
-		BT_RTTMS_UpdateHandlers[TerrainID][i-1](TerrainID,LODLevelID,SectorID,StartVertex,EndVertex,(void*)Vertices);
+		BT_RTTMS_UpdateHandlers[TerrainID][i-1](TerrainID,LODLevelID,SectorID,StartVertex,EndVertex,Vertices);
 #endif
 }
 
@@ -94,6 +94,9 @@ EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr)
 	if(RTTMSStruct->ChangedAVertex==true)
 		BT_RTTMS_CallUpdateHandlers(RTTMSStructInternals->TerrainID,RTTMSStructInternals->LODLevelID,RTTMSStructInternals->SectorID,RTTMSStruct->FirstUpdatedVertex,RTTMSStruct->LastUpdatedVertex,RTTMSStruct->Vertices);
 #endif
+
+//Delete Vertices
+	free(RTTMSStruct->Vertices);
 
 //Delete mesh data if it has to be deleted
 	if(RTTMSStructInternals->DeleteMeshData==true)

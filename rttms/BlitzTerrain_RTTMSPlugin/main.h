@@ -6,18 +6,10 @@
 
 
 //RTTMS STRUCTURES
-struct BT_RTTMS_VERTEX
-{
-	float Pos_x,Pos_y,Pos_z;
-	float Nrm_x,Nrm_y,Nrm_z;
-	float U0,V0,U1,V1;
-};
 struct BT_RTTMS_STRUCT
 {
 	unsigned short VertexCount;
-	unsigned long IndexCount;
-	BT_RTTMS_VERTEX* Vertices;
-	unsigned short* Indices;
+	float* Vertices;
 	bool ChangedAVertex;
 	unsigned short FirstUpdatedVertex;
 	unsigned short LastUpdatedVertex;
@@ -78,7 +70,7 @@ struct BT_SectorInfo
 
 
 //UPDATE HANDLER TYPE
-typedef void(*BT_RTTMS_UpdateHandler_t)(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,BT_RTTMS_VERTEX* Vertices);
+typedef void(*BT_RTTMS_UpdateHandler_t)(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,float* Vertices);
 
 
 //FUNCTIONS

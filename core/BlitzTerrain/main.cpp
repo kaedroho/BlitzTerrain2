@@ -4153,11 +4153,11 @@ static void BT_Intern_UnlockSectorVertexData(s_BT_Sector* Sector)
 // ======================================
 // === BT INTERN RTTMS UPDATE HANDLER ===
 // ======================================
-void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,void* VerticesPtr)
+void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,float* VerticesPtr)
 {
 #ifdef C_BT_FULLVERSION
 //Cast vertices
-	BT_RTTMS_VERTEX* Vertices=(BT_RTTMS_VERTEX*)VerticesPtr;
+	float* Vertices=(float*)VerticesPtr;
 
 //Get sector
 	s_BT_Sector* Sector=&BT_Main.Terrains[TerrainID].LODLevel[LODLevelID].Sector[SectorID];

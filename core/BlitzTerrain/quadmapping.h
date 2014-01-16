@@ -105,7 +105,7 @@ public:
 	void FillMeshData(BT_RTTMS_STRUCT* Meshdata);
 	void DeleteInternalData();
 	void ReduceQuad(unsigned short QuadTL,unsigned short QuadTR,unsigned short QuadBL,unsigned short QuadBR,BT_Quadmap_Quad* Quads, bool CheckHeights);
-	void ChangeMeshData(unsigned short VertexStart,unsigned short VertexEnd,BT_RTTMS_VERTEX* Vertices);
+	void ChangeMeshData(unsigned short VertexStart,unsigned short VertexEnd,float* Vertices);
 	unsigned short FindVertex(unsigned short Vrow,unsigned short Vcol);
 
 	BT_QuadMap* Above;
@@ -140,11 +140,7 @@ private:
 
 	//Buffer updates
 	bool UpdateVertexBuffer;
-	unsigned short UpdateFirstVertex;
-	unsigned short UpdateLastVertex;
 	bool UpdateIndexBuffer;
-	unsigned long UpdateFirstIndex;
-	unsigned long UpdateLastIndex;
 
 	//Sizes
 	unsigned short Vertices;

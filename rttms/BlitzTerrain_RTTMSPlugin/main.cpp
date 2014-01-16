@@ -167,57 +167,7 @@ EXPORT unsigned short BT_GetVertexCount()
 }
 
 
-EXPORT unsigned long BT_GetIndexCount()
-{
-	if(gBT_LockedASector==true)
-	{
-		return gBT_SectorRTTMS->IndexCount;
-	}else{
-		return 0;
-	}
-}
-
-
-EXPORT unsigned short BT_GetIndex(unsigned long IndexID)
-{
-	if(gBT_LockedASector==true)
-	{
-		if(gBT_SectorRTTMS->IndexCount>IndexID)
-			return gBT_SectorRTTMS->Indices[IndexID];
-	}else{
-		return 0;
-	}
-	return 0;
-}
-
-
 #ifdef COMPILE_GDK
-
-
-	float BT_GetVertexPositionX(unsigned short VertexID)
-	{
-		if(gBT_LockedASector==true)
-		{
-			if(gBT_SectorRTTMS->VertexCount>VertexID)
-				return gBT_SectorRTTMS->Vertices[VertexID].Pos_x;
-		}else{
-			return 0.0f;
-		}
-		return 0.0f;
-	}
-
-	float BT_GetVertexPositionX(unsigned short Vrow,unsigned short Vcol)
-	{
-		if(gBT_LockedASector==true)
-		{
-			unsigned short VertexID=BT_RTTMS_FindVertex((void*)gBT_SectorRTTMS,Vrow,Vcol);
-			if(VertexID!=NULL)
-				return BT_GetVertexPositionX(VertexID-1);
-		}else{
-			return 0.0f;
-		}
-		return 0.0f;
-	}
 
 
 	float BT_GetVertexPositionY(unsigned short VertexID)
@@ -225,7 +175,7 @@ EXPORT unsigned short BT_GetIndex(unsigned long IndexID)
 		if(gBT_LockedASector==true)
 		{
 			if(gBT_SectorRTTMS->VertexCount>VertexID)
-				return gBT_SectorRTTMS->Vertices[VertexID].Pos_y;
+				return gBT_SectorRTTMS->Vertices[VertexID];
 		}else{
 			return 0.0f;
 		}
@@ -246,59 +196,7 @@ EXPORT unsigned short BT_GetIndex(unsigned long IndexID)
 	}
 
 
-	float BT_GetVertexPositionZ(unsigned short VertexID)
-	{
-		if(gBT_LockedASector==true)
-		{
-			if(gBT_SectorRTTMS->VertexCount>VertexID)
-				return gBT_SectorRTTMS->Vertices[VertexID].Pos_z;
-		}else{
-			return 0.0f;
-		}
-		return 0.0f;
-	}
-
-	float BT_GetVertexPositionZ(unsigned short Vrow,unsigned short Vcol)
-	{
-		if(gBT_LockedASector==true)
-		{
-			unsigned short VertexID=BT_RTTMS_FindVertex((void*)gBT_SectorRTTMS,Vrow,Vcol);
-			if(VertexID!=NULL)
-				return BT_GetVertexPositionZ(VertexID-1);
-		}else{
-			return 0.0f;
-		}
-		return 0.0f;
-	}
-
-
 #else
-
-
-	EXPORT unsigned long BT_GetVertexPositionX(unsigned short VertexID)
-	{
-		if(gBT_LockedASector==true)
-		{
-			if(gBT_SectorRTTMS->VertexCount>VertexID)
-				return *(unsigned long*)&gBT_SectorRTTMS->Vertices[VertexID].Pos_x;
-		}else{
-			return 0;
-		}
-		return 0;
-	}
-
-	EXPORT unsigned long BT_GetVertexPositionX(unsigned short Vrow,unsigned short Vcol)
-	{
-		if(gBT_LockedASector==true)
-		{
-			unsigned short VertexID=BT_RTTMS_FindVertex((void*)gBT_SectorRTTMS,Vrow,Vcol);
-			if(VertexID!=NULL)
-				return BT_GetVertexPositionX(VertexID-1);
-		}else{
-			return 0;
-		}
-		return 0;
-	}
 
 
 	EXPORT unsigned long BT_GetVertexPositionY(unsigned short VertexID)
@@ -306,7 +204,7 @@ EXPORT unsigned short BT_GetIndex(unsigned long IndexID)
 		if(gBT_LockedASector==true)
 		{
 			if(gBT_SectorRTTMS->VertexCount>VertexID)
-				return *(unsigned long*)&gBT_SectorRTTMS->Vertices[VertexID].Pos_y;
+				return *(unsigned long*)&gBT_SectorRTTMS->Vertices[VertexID];
 		}else{
 			return 0;
 		}
@@ -327,32 +225,6 @@ EXPORT unsigned short BT_GetIndex(unsigned long IndexID)
 	}
 
 
-	EXPORT unsigned long BT_GetVertexPositionZ(unsigned short VertexID)
-	{
-		if(gBT_LockedASector==true)
-		{
-			if(gBT_SectorRTTMS->VertexCount>VertexID)
-				return *(unsigned long*)&gBT_SectorRTTMS->Vertices[VertexID].Pos_z;
-		}else{
-			return 0;
-		}
-		return 0;
-	}
-
-	EXPORT unsigned long BT_GetVertexPositionZ(unsigned short Vrow,unsigned short Vcol)
-	{
-		if(gBT_LockedASector==true)
-		{
-			unsigned short VertexID=BT_RTTMS_FindVertex((void*)gBT_SectorRTTMS,Vrow,Vcol);
-			if(VertexID!=NULL)
-				return BT_GetVertexPositionZ(VertexID-1);
-		}else{
-			return 0;
-		}
-		return 0;
-	}
-
-
 #endif
 
 
@@ -363,7 +235,7 @@ EXPORT void BT_SetVertexHeight(unsigned short VertexID,float Height)
 		if(gBT_SectorRTTMS->VertexCount+1>VertexID)
 		{
 		//Set position
-			gBT_SectorRTTMS->Vertices[VertexID].Pos_y=Height;
+			gBT_SectorRTTMS->Vertices[VertexID]=Height;
 
 		//Set updated vertices
 			if(gBT_SectorRTTMS->ChangedAVertex==false)

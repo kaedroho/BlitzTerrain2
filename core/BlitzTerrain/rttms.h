@@ -3,27 +3,13 @@
 
 #include "main.h"
 
-struct BT_RTTMS_VERTEX
-{
-//Position
-	float Pos_x,Pos_y,Pos_z;
-
-//Normals
-	float Nrm_x,Nrm_y,Nrm_z;
-
-//UVs
-	float U0,V0,U1,V1;
-};
-
 struct BT_RTTMS_STRUCT
 {
 //Counts
 	unsigned short VertexCount;
-	unsigned long IndexCount;
 
 //Data
-	BT_RTTMS_VERTEX* Vertices;
-	unsigned short* Indices;
+	float* Vertices;
 
 //Updated vertices
 	bool ChangedAVertex;
@@ -48,10 +34,10 @@ struct BT_RTTMS_STRUCTINTERNALS
 	bool DeleteMeshData;
 };
 
-typedef void(*BT_RTTMS_UpdateHandler_t)(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,void* Vertices);
+typedef void(*BT_RTTMS_UpdateHandler_t)(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,float* Vertices);
 
 EXPORT void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID,BT_RTTMS_UpdateHandler_t UpdateHandler);
-static void BT_RTTMS_CallUpdateHandlers(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,BT_RTTMS_VERTEX* Vertices);
+static void BT_RTTMS_CallUpdateHandlers(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,float* Vertices);
 void BT_RTTMS_DeleteUpdateHandlers(unsigned long TerrainID);
 EXPORT void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID);
 EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr);

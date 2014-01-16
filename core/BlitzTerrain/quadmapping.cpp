@@ -631,13 +631,13 @@ void BT_QuadMap::UpdateMesh(s_BT_DrawBuffer* DrawBuffer,bool ClearUpdateInfo)
 	//Update vertices
 		if(UpdateVertexBuffer==true){
 			//BT_Intern_RefreshVB(DrawBuffer,UpdateFirstVertex,UpdateLastVertex,Mesh_Vertex);
-			BT_Intern_RefreshVB(DrawBuffer,0,UpdateLastVertex+1,Mesh_Vertex);
+			BT_Intern_RefreshVB(DrawBuffer,0,Mesh_Vertices,Mesh_Vertex);
 			DrawBuffer->Vertices=Mesh_Vertices;
 		}
 
 	//Update indices
 		if(UpdateIndexBuffer==true){
-			BT_Intern_RefreshIB(DrawBuffer,UpdateFirstIndex,UpdateLastIndex,Mesh_Index);
+			BT_Intern_RefreshIB(DrawBuffer,0,Mesh_Indices,Mesh_Index);
 			DrawBuffer->Primitives=(unsigned short)Mesh_Indices/3;
 		}
 	}
@@ -645,12 +645,7 @@ void BT_QuadMap::UpdateMesh(s_BT_DrawBuffer* DrawBuffer,bool ClearUpdateInfo)
 //Clear update info
 	if(ClearUpdateInfo==true){
 		UpdateVertexBuffer=false;
-		UpdateFirstVertex=0;
-		UpdateLastVertex=0;
-
 		UpdateIndexBuffer=false;
-		UpdateFirstIndex=0;
-		UpdateLastIndex=0;
 	}
 }
 
@@ -881,7 +876,7 @@ void BT_QuadMap::SetSideLOD(unsigned char Side,unsigned long LODLevel)
 	//Copy segment data into edges
 		unsigned short Vertexn=0;
 		Vertexn=SideFirstVertex;
-		for(unsigned char Point=0;Point<(QuadsAccross+1);Point++){
+		for(unsigned char Point=0;Point<(QuadsAccross+((Side==3)?0:1));Point++){
 		// Adjust interpolation values every time we cross a known height vertex
 			if(Point%LODTileSpan==0) {
 				InterpMin=Vertex[Vertexn].Pos_y;
@@ -896,16 +891,7 @@ void BT_QuadMap::SetSideLOD(unsigned char Side,unsigned long LODLevel)
 		}
 
 	//Update vertex buffer
-		if(UpdateVertexBuffer==true){
-			if(UpdateFirstVertex>SideFirstVertex)
-				UpdateFirstVertex=SideFirstVertex;
-			if(UpdateLastVertex<Vertexn)
-				UpdateLastVertex=Vertexn;
-		}else{
-			UpdateFirstVertex=SideFirstVertex;
-			UpdateLastVertex=Vertexn;
-			UpdateVertexBuffer=true;
-		}
+		UpdateVertexBuffer=true;
 	}
 }
 
@@ -914,43 +900,36 @@ void BT_QuadMap::FillMeshData(BT_RTTMS_STRUCT* Meshdata)
 //Check that the quadmap is generated
 	if(Generated==true){
 		((BT_RTTMS_STRUCTINTERNALS*)Meshdata->Internals)->DeleteMeshData=false;
-		Meshdata->IndexCount=0;
-		Meshdata->Indices=NULL;
 		Meshdata->VertexCount=0;
 		Meshdata->Vertices=NULL;
 		if(MeshMade==false){
 			((BT_RTTMS_STRUCTINTERNALS*)Meshdata->Internals)->DeleteMeshData=true;
 			GenerateMeshData();
 		}
-		Meshdata->IndexCount=Mesh_Indices;
 		Meshdata->VertexCount=Mesh_Vertices;
-		Meshdata->Vertices=(BT_RTTMS_VERTEX*)Mesh_Vertex;
-		Meshdata->Indices=Mesh_Index;
+		Meshdata->Vertices=(float*)malloc(Mesh_Vertices*sizeof(float));
+		for(unsigned short Vertexn=0;Vertexn<Mesh_Vertices;Vertexn++)
+			Meshdata->Vertices[Vertexn]=Vertex[Vertexn].Pos_y;
 		Meshdata->ChangedAVertex=false;
 		Meshdata->FirstUpdatedVertex=0;
 		Meshdata->LastUpdatedVertex=0;
 	}
 }
 
-void BT_QuadMap::ChangeMeshData(unsigned short VertexStart,unsigned short VertexEnd,BT_RTTMS_VERTEX* Vertices)
+void BT_QuadMap::ChangeMeshData(unsigned short VertexStart,unsigned short VertexEnd,float* Vertices)
 {
 //Check that the quadmap is generated
 	if(Generated==true){
 	//Update vertex buffer
-		if(UpdateVertexBuffer==true){
-			if(UpdateFirstVertex>VertexStart)
-				UpdateFirstVertex=VertexStart;
-			if(UpdateLastVertex<VertexEnd)
-				UpdateLastVertex=VertexEnd;
-		}else{
-			UpdateFirstVertex=VertexStart;
-			UpdateLastVertex=VertexEnd;
-			UpdateVertexBuffer=true;
-		}
+		UpdateVertexBuffer=true;
 
 	//Copy data back into the quadmap structures
 		for(unsigned short Vertexn=VertexStart;Vertexn<VertexEnd+1;Vertexn++)
-			Vertex[Vertexn].Pos_y=Vertices[Vertexn].Pos_y;
+			Vertex[Vertexn].Pos_y=Vertices[Vertexn];
+
+	//Regenerate mesh data
+		UpdateVertices=true;
+		GenerateMeshData();
 
 	//Recalculate bounds
 		CalculateBounds();
