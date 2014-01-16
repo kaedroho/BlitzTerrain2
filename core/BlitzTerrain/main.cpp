@@ -4169,6 +4169,12 @@ void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID,unsigned long LODLevel
 		Sector->QuadMap->ChangeMeshData(StartVertex,EndVertex,Vertices);
 		Sector->UpdateMesh=true;
 
+	//Force update of edges
+		Sector->LeftSideNeedsUpdate=true;
+		Sector->RightSideNeedsUpdate=true;
+		Sector->TopSideNeedsUpdate=true;
+		Sector->BottomSideNeedsUpdate=true;
+
 	//Update collision
 		if(Sector->DBPObject!=0){
 			Sector->QuadMap->UpdateDBPMesh(Sector->DBPObject->pFrame->pMesh);
