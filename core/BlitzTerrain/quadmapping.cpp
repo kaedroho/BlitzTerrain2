@@ -880,7 +880,13 @@ void BT_QuadMap::SetSideLOD(unsigned char Side,unsigned long LODLevel)
 		// Adjust interpolation values every time we cross a known height vertex
 			if(Point%LODTileSpan==0) {
 				InterpMin=Vertex[Vertexn].Pos_y;
-				InterpMax=Vertex[Vertexn+LODTileSpan].Pos_y;
+
+				// Last vertex needs to have InterpMax set to the first vertex
+				if(Side==3 && Point==QuadsAccross-LODTileSpan) {
+					InterpMax=Vertex[0].Pos_y;
+				} else {
+					InterpMax=Vertex[Vertexn+LODTileSpan].Pos_y;
+				}
 			}
 
 		//Calculate new height
