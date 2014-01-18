@@ -132,10 +132,10 @@ struct s_BT_Sector
 	bool LeftSideNeedsUpdate;
 	bool RightSideNeedsUpdate;
 	bool BottomSideNeedsUpdate;
-	unsigned char TopSideLODLevel;
-	unsigned char LeftSideLODLevel;
-	unsigned char RightSideLODLevel;
-	unsigned char BottomSideLODLevel;
+	int TopSideLODLevel;
+	int LeftSideLODLevel;
+	int RightSideLODLevel;
+	int BottomSideLODLevel;
 
 	//Quadtree
 	s_BT_QuadTree* QuadTree;
@@ -228,7 +228,7 @@ struct s_BT_QuadTree
 
 struct s_BT_LODMap
 {
-	unsigned char Level;
+	int Level;
 };
 
 struct s_BT_terrain
