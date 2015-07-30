@@ -5,10 +5,10 @@ NEW FEATURES
 
  * Quad reduction now works
 
-REMOVED FEATURS
+REMOVED FEATURES
 
- * Removed load/save terrain
- * Removed "update terrain"
+ * Removed load/save functions
+ * Removed "update terrain" function
 
 BUG FIXES
 
