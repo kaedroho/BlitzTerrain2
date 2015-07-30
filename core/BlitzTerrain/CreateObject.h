@@ -4,8 +4,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include <globstruct.h>
-#include <DBOData.h>
+#include "dbp/globstruct.h"
+#include "dbp/DBOData.h"
 
 #ifdef COMPILE_GDK
 	#include <DarkGDK.h>

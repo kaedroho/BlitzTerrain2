@@ -2,8 +2,8 @@
 
 
 
-#include <DBOData.h>
-#include <Globstruct.h>
+#include "dbp/DBOData.h"
+#include "dbp\globstruct.h"
 #include "main.h"
 
 #ifdef COMPILE_GDK

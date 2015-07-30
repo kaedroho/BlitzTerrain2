@@ -16,6 +16,9 @@
     <Filter Include="Header Files\GDKHeader">
       <UniqueIdentifier>{ca65c66f-41cd-45c5-b979-957353bb2f00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\dbp">
+      <UniqueIdentifier>{5a41a126-49e0-4260-aff6-a887e1bd4798}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code-from-dbp.cpp">
@@ -61,6 +64,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Program Files\Microsoft Visual Studio 10.0\VC\include\BlitzTerrain.h">
       <Filter>Header Files\GDKHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="dbp\global.h">
+      <Filter>Header Files\dbp</Filter>
+    </ClInclude>
+    <ClInclude Include="dbp\globstruct.h">
+      <Filter>Header Files\dbp</Filter>
+    </ClInclude>
+    <ClInclude Include="dbp\ccameradatac.h">
+      <Filter>Header Files\dbp</Filter>
+    </ClInclude>
+    <ClInclude Include="dbp\DBOData.h">
+      <Filter>Header Files\dbp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

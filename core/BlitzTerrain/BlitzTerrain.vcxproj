@@ -357,6 +357,10 @@
     <ClInclude Include="..\..\..\..\Program Files\Microsoft Visual Studio 10.0\VC\include\BlitzTerrain.h" />
     <ClInclude Include="code-from-dbp.h" />
     <ClInclude Include="CreateObject.h" />
+    <ClInclude Include="dbp\ccameradatac.h" />
+    <ClInclude Include="dbp\DBOData.h" />
+    <ClInclude Include="dbp\global.h" />
+    <ClInclude Include="dbp\globstruct.h" />
     <ClInclude Include="EnvironmentMapping.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="quadmapping.h" />

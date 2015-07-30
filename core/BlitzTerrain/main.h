@@ -14,8 +14,8 @@
 #include <map>
 #include <string>
 #include <sstream>
-#include <DBOData.h>
-#include <ccameradatac.h>
+#include "dbp/DBOData.h"
+#include "dbp/ccameradatac.h"
 #pragma comment(lib,"D3dx9.lib")
 
 #ifdef COMPILE_GDK
@@ -24,7 +24,7 @@
 	#define EXPORT
 #else
 //DBP Includes
-	#include <globstruct.h>
+	#include "dbp/globstruct.h"
 
 //DBP Commands
 	typedef void(*t_dbAddToRenderList)(LPVOID,int);
