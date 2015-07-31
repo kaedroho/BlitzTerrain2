@@ -1,0 +1,102 @@
+//BLITZWERKS TERRAIN 2.02 EXAMPLE - PAINTING
+//CREATED BY KARL HOBLEY (KAEDROHO) http://www.blitzwerks.co.uk
+//CODE BELOW MAY BE USED IN COMMERCIAL AND NON COMMERCIAL PROJECTS
+//CREATED AND TESTED WITH DBPRO 7.4
+
+//This demo shows how to use the painting functions of Blitzwerks Terrain.
+//These functions allow you to change the colour of parts of your terrains. This will add realism if you want to damage your terrains or create a terrain editor.
+
+
+//CONTROLS
+//ARROWKEYS AND MOUSE - MOVE
+// F1 - WIREFRAME ON. F2 - WIREFRAME OFF
+
+//LEFT MOUSE BUTTON - RAISE TERRAIN
+//RIGHT MOUSE BUTTON - LOWER TERRAIN
+
+//Setup
+    sync on : sync rate 0 : sync
+    center text screen width()/2,screen height()/2,"Loading..." : sync : cls
+    
+//Load media
+    global g_HeightmapImgID : global g_TextureImgID : global g_DetailmapImgID
+    g_HeightmapImgID=1 : g_TextureImgID=2 : g_DetailmapImgID=3
+    load image "..\Media\heightmap.bmp",g_HeightmapImgID
+    load image "..\Media\texture.jpg",g_TextureImgID
+    load image "..\Media\detail.tga",g_DetailmapImgID
+    
+//Create terrain
+    //Make the terrain
+    global g_TerrainID
+    g_TerrainID=BT MakeTerrain()
+    
+    //Set images
+    BT SetTerrainHeightmap g_TerrainID,g_HeightmapImgID
+    BT SetTerrainTexture g_TerrainID,g_TextureImgID
+    BT SetTerrainDetail g_TerrainID,g_DetailmapImgID
+    
+    //Set some other values
+    BT SetTerrainScale g_TerrainID,12.0
+    BT SetTerrainYScale g_TerrainID,2.0
+    BT SetTerrainSplit g_TerrainID,8
+    BT SetTerrainDetailTile g_TerrainID,3.0
+    
+    //LOD
+    BT SetTerrainLOD g_TerrainID,3 //3 LOD levels
+    BT SetTerrainLODDistance g_TerrainID,1,1000.0 //LOD Distances start at one and go up to 1 less the LOD level count
+    BT SetTerrainLODDistance g_TerrainID,2,2000.0
+    
+    //Smoothing
+    BT SetTerrainSmoothing g_TerrainID,1
+    
+    //Quad rotation
+    BT SetTerrainQuadRotation g_TerrainID,1
+    
+    //Build
+    global g_TerrainObjectID
+    g_TerrainObjectID=1
+    
+    //This command processes the heightmap and creates all the internal structures for the terrain
+    BT BuildTerrain g_TerrainID,g_TerrainObjectID,1
+    
+//Setup camera
+    set camera range 10,10000
+    hide mouse
+    
+//Enable auto render
+    BT EnableAutoRender 1
+    
+//Main loop
+    StartTime=timer()
+    do
+    //Camera movement
+        Elapsedtime#=(timer()-StartTime)/3000.0+Elapsedtime#*0.7
+        StartTime=timer()
+        cx#=camera angle x()+mousemovey()/4.0
+        if cx#>90.0 then cx#=90.0
+        if cx#<-90.0 then cx#=-90.0
+        rotate camera cx#,camera angle y()+mousemovex()/4.0,0.0
+        if upkey() then move camera 1000.0*Elapsedtime#
+        if downkey() then move camera -1000.0*Elapsedtime#
+        gheight#=BT GetGroundHeight(g_TerrainID,camera position x(),camera position z())
+        if camera position y()-40<gheight# then position camera camera position x(),gheight#+40,camera position z()
+        
+    //Paint
+        BT PaintTerrain g_TerrainID,camera position x(),camera position z(),200,rgb(0,0,255)
+        BT UpdateTerrainTexture g_TerrainID
+        
+    //Wireframe
+        if keystate(59) then set object wireframe g_TerrainObjectID,1
+        if keystate(60) then set object wireframe g_TerrainObjectID,0
+        
+    //FPS
+        text 10,10,str$(screen fps())
+        
+    //Position mouse
+        position mouse screen width()/2,screen height()/2
+        
+    //Update screen
+        sync
+        
+    loop
+    
