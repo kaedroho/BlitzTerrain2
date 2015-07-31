@@ -59,13 +59,13 @@
 	#define C_BT_MAXTERRAINS 255
 	#define C_BT_MAXLODLEVELS 255
 	#define C_BT_MAXTERRAINSIZE 4096
-	#define BT_VERSION "2.02 R2 FULL"
+	#define BT_VERSION "2.3.0 FULL"
 	#pragma message("!!!!!!!!!!!!!!!!!! COMPILING FULL VERSION !!!!!!!!!!!!!!!!!!")
 #else
 	#define C_BT_MAXTERRAINS 2
 	#define C_BT_MAXLODLEVELS 3
 	#define C_BT_MAXTERRAINSIZE 512
-	#define BT_VERSION "2.02 R2 FREE"
+	#define BT_VERSION "2.3.0 FREE"
 #endif
 
 
