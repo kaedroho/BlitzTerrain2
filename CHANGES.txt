@@ -1,0 +1,16 @@
+2.3.0 (xx.xx.xxxx)
+------------------
+
+NEW FEATURES
+
+ * Quad reduction now works
+
+REMOVED FEATURS
+
+ * Removed load/save terrain
+ * Removed "update terrain"
+
+BUG FIXES
+
+ * Many fixes to level of detail
+ * Various memory management fixes (Lee Bamber)
