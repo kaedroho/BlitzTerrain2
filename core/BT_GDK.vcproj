@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="BlitzTerrain_GDK"
+	Name="BlitzTerrain GDK bindings"
 	ProjectGUID="{87899628-4BB2-4253-B666-93EDEF4B2916}"
 	RootNamespace="BlitzTerrain_GDK"
 	Keyword="Win32Proj"

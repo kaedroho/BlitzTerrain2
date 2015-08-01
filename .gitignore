@@ -1,11 +1,11 @@
 core/Debug/
 core/Release/
-core/BlitzTerrain/Resource.aps
-core/BlitzTerrain/Debug/
-core/BlitzTerrain/Release/
-core/BlitzTerrain/Debug_GDK/
-core/BlitzTerrain/Release_GDK/
-core/ipch/
+core/Resource.aps
+core/Debug_GDK/
+core/Release_GDK/
+/Debug/
+/Release/
+/ipch/
 *.sdf
 *.opensdf
 *.suo

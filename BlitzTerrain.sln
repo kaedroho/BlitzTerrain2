@@ -1,7 +1,6 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BlitzTerrain", "BlitzTerrain\BlitzTerrain.vcxproj", "{DC3D254B-0B9C-4272-B2DC-D0B06835D3A0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BT_core", "core\BT_core.vcxproj", "{DC3D254B-0B9C-4272-B2DC-D0B06835D3A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
