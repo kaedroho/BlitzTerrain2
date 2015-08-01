@@ -42,4 +42,33 @@ EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr);
 EXPORT unsigned short BT_RTTMS_FindVertex(void* StructPtr, unsigned short Vrow, unsigned short Vcol);
 struct s_BT_terrain;
 void BT_RTTMS_UnlockTerrain(s_BT_terrain* TerrainPtr);
+
+
+// Defined in rttms/rttmsmain.cpp
+EXPORT void BT_LockVertexdataForSector(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
+EXPORT unsigned long BT_LockedASector();
+EXPORT unsigned long BT_GetLockedTerrain();
+EXPORT unsigned long BT_GetLockedSector();
+EXPORT void BT_UnlockVertexData();
+EXPORT unsigned short BT_GetVertexCount();
+EXPORT unsigned long BT_GetIndexCount();
+EXPORT unsigned short BT_GetIndex(unsigned long IndexID);
+#ifdef COMPILE_GDK
+float BT_GetVertexPositionX(unsigned short VertexID);
+float BT_GetVertexPositionX(unsigned short Vrow, unsigned short Vcol);
+float BT_GetVertexPositionY(unsigned short VertexID);
+float BT_GetVertexPositionY(unsigned short Vrow, unsigned short Vcol);
+float BT_GetVertexPositionZ(unsigned short VertexID);
+float BT_GetVertexPositionZ(unsigned short Vrow, unsigned short Vcol);
+#else
+EXPORT unsigned long BT_GetVertexPositionX(unsigned short VertexID);
+EXPORT unsigned long BT_GetVertexPositionX(unsigned short Vrow, unsigned short Vcol);
+EXPORT unsigned long BT_GetVertexPositionY(unsigned short VertexID);
+EXPORT unsigned long BT_GetVertexPositionY(unsigned short Vrow, unsigned short Vcol);
+EXPORT unsigned long BT_GetVertexPositionZ(unsigned short VertexID);
+EXPORT unsigned long BT_GetVertexPositionZ(unsigned short Vrow, unsigned short Vcol);
+#endif
+EXPORT void BT_SetVertexHeight(unsigned short VertexID, float Height);
+EXPORT void BT_SetVertexHeight(unsigned short Vrow, unsigned short Vcol, float Height);
+
 #endif

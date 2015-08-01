@@ -1,6 +1,5 @@
-#include "brush.h"
+#include "../rttms.h"
 #include <math.h>
-
 
 void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
 void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID, BT_RTTMS_UpdateHandler_t UpdateHandler);

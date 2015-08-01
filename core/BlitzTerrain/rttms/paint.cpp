@@ -1,4 +1,4 @@
-#include "paint.h"
+#include "../rttms.h"
 #include "../dbp/DBOData.h"
 
 #pragma comment(lib,"d3dx9.lib")
@@ -9,8 +9,12 @@ void* BT_GetTerrainInfo(unsigned long TerrainID);
 void* BT_GetLODLevelInfo(unsigned long TerrainID, unsigned long LODLevelID);
 void* BT_GetSectorInfo(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
 unsigned long BT_TerrainExist(unsigned long TerrainID);
-unsigned long BT_GetGroundHeight(unsigned long TerrainID, float X, float Z);
 
+#ifdef COMPILE_GDK
+float BT_GetGroundHeight(unsigned long TerrainID, float X, float Z);
+#else
+unsigned long BT_GetGroundHeight(unsigned long TerrainID, float X, float Z);
+#endif
 
 #ifndef COMPILE_GDK
 extern t_dbGetImageWidth dbGetImageWidth;

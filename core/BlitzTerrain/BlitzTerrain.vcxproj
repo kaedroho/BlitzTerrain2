@@ -378,10 +378,6 @@
     <ClInclude Include="quadmapping.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="rttms.h" />
-    <ClInclude Include="rttms\brush.h" />
-    <ClInclude Include="rttms\main.h" />
-    <ClInclude Include="rttms\paint.h" />
-    <ClInclude Include="rttms\wholeterrain.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

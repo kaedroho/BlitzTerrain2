@@ -19,9 +19,6 @@
     <Filter Include="Header Files\dbp">
       <UniqueIdentifier>{5a41a126-49e0-4260-aff6-a887e1bd4798}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\rttms">
-      <UniqueIdentifier>{038e52c6-c48d-432d-9f0f-d707b2e91e27}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\rttms">
       <UniqueIdentifier>{4ee8e13d-585d-4aee-9edb-de6c576f8f3d}</UniqueIdentifier>
     </Filter>
@@ -94,18 +91,6 @@
     </ClInclude>
     <ClInclude Include="dbp\DBOData.h">
       <Filter>Header Files\dbp</Filter>
-    </ClInclude>
-    <ClInclude Include="rttms\brush.h">
-      <Filter>Header Files\rttms</Filter>
-    </ClInclude>
-    <ClInclude Include="rttms\main.h">
-      <Filter>Header Files\rttms</Filter>
-    </ClInclude>
-    <ClInclude Include="rttms\paint.h">
-      <Filter>Header Files\rttms</Filter>
-    </ClInclude>
-    <ClInclude Include="rttms\wholeterrain.h">
-      <Filter>Header Files\rttms</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
