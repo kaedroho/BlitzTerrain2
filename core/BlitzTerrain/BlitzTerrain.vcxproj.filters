@@ -45,9 +45,6 @@
     <ClCompile Include="rttms\brush.cpp">
       <Filter>Source Files\rttms</Filter>
     </ClCompile>
-    <ClCompile Include="rttms\wholeterrain.cpp">
-      <Filter>Source Files\rttms</Filter>
-    </ClCompile>
     <ClCompile Include="rttms\paint.cpp">
       <Filter>Source Files\rttms</Filter>
     </ClCompile>

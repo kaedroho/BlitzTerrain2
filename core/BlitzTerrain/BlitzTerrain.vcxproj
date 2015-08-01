@@ -363,7 +363,6 @@
     <ClCompile Include="rttms\brush.cpp" />
     <ClCompile Include="rttms\rttmsmain.cpp" />
     <ClCompile Include="rttms\paint.cpp" />
-    <ClCompile Include="rttms\wholeterrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Program Files\Microsoft Visual Studio 10.0\VC\include\BlitzTerrain.h" />
