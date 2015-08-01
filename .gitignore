@@ -1,3 +1,8 @@
+core/Debug/
+core/Release/
+core/Resource.aps
+core/Debug_GDK/
+core/Release_GDK/
 /Debug/
 /Release/
 /ipch/
