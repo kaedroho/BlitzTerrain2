@@ -2,5 +2,4 @@
 #define _PAINT_H
 
 #include "main.h"
-
 #endif

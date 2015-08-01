@@ -6,8 +6,7 @@
 
 
 //RTTMS STRUCTURES
-struct BT_RTTMS_STRUCT
-{
+struct BT_RTTMS_STRUCT {
 	unsigned short VertexCount;
 	float* Vertices;
 	bool ChangedAVertex;
@@ -19,8 +18,7 @@ struct BT_RTTMS_STRUCT
 
 
 //BLITZTERRAIN STRUCTURES
-struct BT_TerrainInfo
-{
+struct BT_TerrainInfo {
 	bool Built;
 	bool Generated;
 	unsigned long Texture;
@@ -47,8 +45,7 @@ struct BT_TerrainInfo
 	unsigned long SmoothAmount;
 	void* DBPObjectPtr;
 };
-struct BT_LODLevelInfo
-{
+struct BT_LODLevelInfo {
 	float SectorSize;
 	unsigned char SectorDetail;
 	unsigned short Sectors;
@@ -56,8 +53,7 @@ struct BT_LODLevelInfo
 	unsigned short Split;
 	unsigned char TileSpan;
 };
-struct BT_SectorInfo
-{
+struct BT_SectorInfo {
 	bool Excluded;
 	unsigned short Row;
 	unsigned short Column;
@@ -70,7 +66,7 @@ struct BT_SectorInfo
 
 
 //UPDATE HANDLER TYPE
-typedef void(*BT_RTTMS_UpdateHandler_t)(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,float* Vertices);
+typedef void (*BT_RTTMS_UpdateHandler_t)(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID, unsigned short StartVertex, unsigned short EndVertex, float* Vertices);
 
 
 //FUNCTIONS
@@ -79,21 +75,21 @@ typedef void(*BT_RTTMS_UpdateHandler_t)(unsigned long TerrainID,unsigned long LO
 	#include <BlitzTerrain.h>
 	#define EXPORT
 
-	void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID);
-	void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID,BT_RTTMS_UpdateHandler_t UpdateHandler);
-	void* BT_GetTerrainInfo(unsigned long TerrainID);
-	void* BT_GetLODLevelInfo(unsigned long TerrainID,unsigned long LODLevelID);
-	void* BT_GetSectorInfo(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID);
+void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
+void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID, BT_RTTMS_UpdateHandler_t UpdateHandler);
+void* BT_GetTerrainInfo(unsigned long TerrainID);
+void* BT_GetLODLevelInfo(unsigned long TerrainID, unsigned long LODLevelID);
+void* BT_GetSectorInfo(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
 #else
 	#define EXPORT __declspec(dllexport)
 
-	//From DBPro
-	typedef long(*t_dbGetImageWidth)(long);
-	typedef long(*t_dbGetImageHeight)(long);
+//From DBPro
+typedef long (*t_dbGetImageWidth)(long);
+typedef long (*t_dbGetImageHeight)(long);
 #endif
 
 
-EXPORT void BT_LockVertexdataForSector(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID);
+EXPORT void BT_LockVertexdataForSector(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
 EXPORT unsigned long BT_LockedASector();
 EXPORT unsigned long BT_GetLockedTerrain();
 EXPORT unsigned long BT_GetLockedSector();
@@ -102,23 +98,20 @@ EXPORT unsigned short BT_GetVertexCount();
 EXPORT unsigned long BT_GetIndexCount();
 EXPORT unsigned short BT_GetIndex(unsigned long IndexID);
 #ifdef COMPILE_GDK
-	float BT_GetVertexPositionX(unsigned short VertexID);
-	float BT_GetVertexPositionX(unsigned short Vrow,unsigned short Vcol);
-	float BT_GetVertexPositionY(unsigned short VertexID);
-	float BT_GetVertexPositionY(unsigned short Vrow,unsigned short Vcol);
-	float BT_GetVertexPositionZ(unsigned short VertexID);
-	float BT_GetVertexPositionZ(unsigned short Vrow,unsigned short Vcol);
+float BT_GetVertexPositionX(unsigned short VertexID);
+float BT_GetVertexPositionX(unsigned short Vrow, unsigned short Vcol);
+float BT_GetVertexPositionY(unsigned short VertexID);
+float BT_GetVertexPositionY(unsigned short Vrow, unsigned short Vcol);
+float BT_GetVertexPositionZ(unsigned short VertexID);
+float BT_GetVertexPositionZ(unsigned short Vrow, unsigned short Vcol);
 #else
-	EXPORT unsigned long BT_GetVertexPositionX(unsigned short VertexID);
-	EXPORT unsigned long BT_GetVertexPositionX(unsigned short Vrow,unsigned short Vcol);
-	EXPORT unsigned long BT_GetVertexPositionY(unsigned short VertexID);
-	EXPORT unsigned long BT_GetVertexPositionY(unsigned short Vrow,unsigned short Vcol);
-	EXPORT unsigned long BT_GetVertexPositionZ(unsigned short VertexID);
-	EXPORT unsigned long BT_GetVertexPositionZ(unsigned short Vrow,unsigned short Vcol);
+EXPORT unsigned long BT_GetVertexPositionX(unsigned short VertexID);
+EXPORT unsigned long BT_GetVertexPositionX(unsigned short Vrow, unsigned short Vcol);
+EXPORT unsigned long BT_GetVertexPositionY(unsigned short VertexID);
+EXPORT unsigned long BT_GetVertexPositionY(unsigned short Vrow, unsigned short Vcol);
+EXPORT unsigned long BT_GetVertexPositionZ(unsigned short VertexID);
+EXPORT unsigned long BT_GetVertexPositionZ(unsigned short Vrow, unsigned short Vcol);
 #endif
-EXPORT void BT_SetVertexHeight(unsigned short VertexID,float Height);
-EXPORT void BT_SetVertexHeight(unsigned short Vrow,unsigned short Vcol,float Height);
-
-
-
+EXPORT void BT_SetVertexHeight(unsigned short VertexID, float Height);
+EXPORT void BT_SetVertexHeight(unsigned short Vrow, unsigned short Vcol, float Height);
 #endif
