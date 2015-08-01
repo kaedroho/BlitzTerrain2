@@ -1,33 +1,18 @@
 #include "paint.h"
-#include <DBOData.h>
+#include "../dbp/DBOData.h"
 
 #pragma comment(lib,"d3dx9.lib")
 
-#ifdef COMPILE_GDK
 void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
-void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID, BT_RTTMS_UpdateHandler_t UpdateHandler);
+void  BT_RTTMS_AddUpdateHandler(unsigned long TerrainID, BT_RTTMS_UpdateHandler_t UpdateHandler);
 void* BT_GetTerrainInfo(unsigned long TerrainID);
 void* BT_GetLODLevelInfo(unsigned long TerrainID, unsigned long LODLevelID);
 void* BT_GetSectorInfo(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
 unsigned long BT_TerrainExist(unsigned long TerrainID);
-float BT_GetGroundHeight(unsigned long TerrainID, float X, float Z);
-#else
-typedef void*(*BT_RTTMS_LockSectorVertexData_t)(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
-typedef void (*BT_RTTMS_AddUpdateHandler_t)(unsigned long TerrainID, BT_RTTMS_UpdateHandler_t UpdateHandler);
-typedef void*(*BT_GetTerrainInfo_t)(unsigned long TerrainID);
-typedef void*(*BT_GetLODLevelInfo_t)(unsigned long TerrainID, unsigned long LODLevelID);
-typedef void*(*BT_GetSectorInfo_t)(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
-typedef unsigned long (*BT_TerrainExist_t)(unsigned long TerrainID);
-typedef unsigned long (*BT_GetGroundHeight_t)(unsigned long TerrainID, float X, float Z);
+unsigned long BT_GetGroundHeight(unsigned long TerrainID, float X, float Z);
 
-extern BT_RTTMS_LockSectorVertexData_t BT_RTTMS_LockSectorVertexData;
-extern BT_RTTMS_AddUpdateHandler_t BT_RTTMS_AddUpdateHandler;
-extern BT_GetTerrainInfo_t BT_GetTerrainInfo;
-extern BT_GetLODLevelInfo_t BT_GetLODLevelInfo;
-extern BT_GetSectorInfo_t BT_GetSectorInfo;
-extern BT_TerrainExist_t BT_TerrainExist;
-extern BT_GetGroundHeight_t BT_GetGroundHeight;
 
+#ifndef COMPILE_GDK
 extern t_dbGetImageWidth dbGetImageWidth;
 extern t_dbGetImageHeight dbGetImageHeight;
 #endif

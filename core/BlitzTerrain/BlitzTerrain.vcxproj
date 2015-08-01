@@ -360,6 +360,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="quadmapping.cpp" />
     <ClCompile Include="rttms.cpp" />
+    <ClCompile Include="rttms\brush.cpp" />
+    <ClCompile Include="rttms\rttmsmain.cpp" />
+    <ClCompile Include="rttms\paint.cpp" />
+    <ClCompile Include="rttms\wholeterrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Program Files\Microsoft Visual Studio 10.0\VC\include\BlitzTerrain.h" />
@@ -374,6 +378,10 @@
     <ClInclude Include="quadmapping.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="rttms.h" />
+    <ClInclude Include="rttms\brush.h" />
+    <ClInclude Include="rttms\main.h" />
+    <ClInclude Include="rttms\paint.h" />
+    <ClInclude Include="rttms\wholeterrain.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

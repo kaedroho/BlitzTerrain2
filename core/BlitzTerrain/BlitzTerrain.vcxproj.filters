@@ -19,6 +19,12 @@
     <Filter Include="Header Files\dbp">
       <UniqueIdentifier>{5a41a126-49e0-4260-aff6-a887e1bd4798}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\rttms">
+      <UniqueIdentifier>{038e52c6-c48d-432d-9f0f-d707b2e91e27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rttms">
+      <UniqueIdentifier>{4ee8e13d-585d-4aee-9edb-de6c576f8f3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code-from-dbp.cpp">
@@ -38,6 +44,18 @@
     </ClCompile>
     <ClCompile Include="rttms.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rttms\brush.cpp">
+      <Filter>Source Files\rttms</Filter>
+    </ClCompile>
+    <ClCompile Include="rttms\wholeterrain.cpp">
+      <Filter>Source Files\rttms</Filter>
+    </ClCompile>
+    <ClCompile Include="rttms\paint.cpp">
+      <Filter>Source Files\rttms</Filter>
+    </ClCompile>
+    <ClCompile Include="rttms\rttmsmain.cpp">
+      <Filter>Source Files\rttms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +94,18 @@
     </ClInclude>
     <ClInclude Include="dbp\DBOData.h">
       <Filter>Header Files\dbp</Filter>
+    </ClInclude>
+    <ClInclude Include="rttms\brush.h">
+      <Filter>Header Files\rttms</Filter>
+    </ClInclude>
+    <ClInclude Include="rttms\main.h">
+      <Filter>Header Files\rttms</Filter>
+    </ClInclude>
+    <ClInclude Include="rttms\paint.h">
+      <Filter>Header Files\rttms</Filter>
+    </ClInclude>
+    <ClInclude Include="rttms\wholeterrain.h">
+      <Filter>Header Files\rttms</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
