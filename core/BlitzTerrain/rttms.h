@@ -3,46 +3,43 @@
 
 #include "main.h"
 
-struct BT_RTTMS_STRUCT
-{
-//Counts
+struct BT_RTTMS_STRUCT {
+// Counts
 	unsigned short VertexCount;
 
-//Data
+// Data
 	float* Vertices;
 
-//Updated vertices
+// Updated vertices
 	bool ChangedAVertex;
 	unsigned short FirstUpdatedVertex;
 	unsigned short LastUpdatedVertex;
 
-//Internals
+// Internals
 	void* Internals;
 };
 
-struct BT_RTTMS_STRUCTINTERNALS
-{
-//Terrain, LODLevel and Sector
+struct BT_RTTMS_STRUCTINTERNALS {
+// Terrain, LODLevel and Sector
 	unsigned long TerrainID;
 	unsigned long LODLevelID;
 	unsigned long SectorID;
 
-//Sector pointer
+// Sector pointer
 	s_BT_Sector* SectorPtr;
 
-//Delete meshdata
+// Delete meshdata
 	bool DeleteMeshData;
 };
 
-typedef void(*BT_RTTMS_UpdateHandler_t)(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,float* Vertices);
+typedef void (*BT_RTTMS_UpdateHandler_t)(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID, unsigned short StartVertex, unsigned short EndVertex, float* Vertices);
 
-EXPORT void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID,BT_RTTMS_UpdateHandler_t UpdateHandler);
-static void BT_RTTMS_CallUpdateHandlers(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,float* Vertices);
+EXPORT void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID, BT_RTTMS_UpdateHandler_t UpdateHandler);
+static void BT_RTTMS_CallUpdateHandlers(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID, unsigned short StartVertex, unsigned short EndVertex, float* Vertices);
 void BT_RTTMS_DeleteUpdateHandlers(unsigned long TerrainID);
-EXPORT void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID);
+EXPORT void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID);
 EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr);
-EXPORT unsigned short BT_RTTMS_FindVertex(void* StructPtr,unsigned short Vrow,unsigned short Vcol);
+EXPORT unsigned short BT_RTTMS_FindVertex(void* StructPtr, unsigned short Vrow, unsigned short Vcol);
 struct s_BT_terrain;
 void BT_RTTMS_UnlockTerrain(s_BT_terrain* TerrainPtr);
-
 #endif

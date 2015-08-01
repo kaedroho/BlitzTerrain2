@@ -23,29 +23,29 @@
 
 	#define EXPORT
 #else
-//DBP Includes
+// DBP Includes
 	#include "dbp/globstruct.h"
 
-//DBP Commands
-	typedef void(*t_dbAddToRenderList)(LPVOID,int);
+// DBP Commands
+typedef void (*t_dbAddToRenderList)(LPVOID, int);
 
-	typedef void(*t_dbDeleteObject)(long);
-	typedef void(*t_dbSetBlendMappingOn)(long,long,long,long,long);
+typedef void (*t_dbDeleteObject)(long);
+typedef void (*t_dbSetBlendMappingOn)(long, long, long, long, long);
 
-	typedef long(*t_dbGetImageWidth)(long);
-	typedef long(*t_dbGetImageHeight)(long);
-	typedef long(*t_dbImageExist)(long);
+typedef long (*t_dbGetImageWidth)(long);
+typedef long (*t_dbGetImageHeight)(long);
+typedef long (*t_dbImageExist)(long);
 
-	typedef long(*t_dbMemblockExist)(long);
-	typedef void(*t_dbMakeMemblockFromImage)(long,long);
-	typedef unsigned long(*t_dbMemblockDword)(long,long);
-	typedef void(*t_dbDeleteMemblock)(long);
-	typedef unsigned long(*t_dbGetMemblockPtr)(long);
+typedef long (*t_dbMemblockExist)(long);
+typedef void (*t_dbMakeMemblockFromImage)(long, long);
+typedef unsigned long (*t_dbMemblockDword)(long, long);
+typedef void (*t_dbDeleteMemblock)(long);
+typedef unsigned long (*t_dbGetMemblockPtr)(long);
 
-	typedef void*(*t_dbGetCameraInternalData)(long);
-	typedef void*(*t_dbSetAutoCam)(float,float,float,float);
+typedef void*(*t_dbGetCameraInternalData)(long);
+typedef void*(*t_dbSetAutoCam)(float, float, float, float);
 
-	typedef IDirect3DDevice9* (*t_dbGetDirect3DDevice) ();
+typedef IDirect3DDevice9* (*t_dbGetDirect3DDevice) ();
 
 
 	#define EXPORT __declspec(dllexport)
@@ -76,13 +76,11 @@ struct s_BT_Sector;
 #include "quadmapping.h"
 #include "EnvironmentMapping.h"
 
-struct Vector3
-{
-	float x,y,z;
+struct Vector3 {
+	float x, y, z;
 };
 
-struct s_BT_DrawBuffer
-{
+struct s_BT_DrawBuffer {
 	IDirect3DVertexBuffer9* VertexBuffer;
 	IDirect3DIndexBuffer9* IndexBuffer;
 	IDirect3DIndexBuffer9* EdgeLineIndexBuffer;
@@ -99,31 +97,30 @@ struct s_BT_terrain;
 struct s_BT_QuadTree;
 class BT_QuadMap;
 
-struct s_BT_Sector
-{
-	//Excluded
+struct s_BT_Sector {
+	// Excluded
 	bool Excluded;
 
-	//ID
+	// ID
 	unsigned long ID;
 
-	//Positions
+	// Positions
 	unsigned short Row;
 	unsigned short Column;
 	float Pos_x;
 	float Pos_y;
 	float Pos_z;
 
-	//Quadmap
+	// Quadmap
 	BT_QuadMap* QuadMap;
 
-	//Drawbuffer
+	// Drawbuffer
 	s_BT_DrawBuffer* DrawBuffer;
 
-	//World Matrix
+	// World Matrix
 	D3DXMATRIX WorldMatrix;
 
-	//LODLevel and Terrain
+	// LODLevel and Terrain
 	s_BT_LODLevel* LODLevel;
 	s_BT_terrain* Terrain;
 
@@ -137,26 +134,25 @@ struct s_BT_Sector
 	int RightSideLODLevel;
 	int BottomSideLODLevel;
 
-	//Quadtree
+	// Quadtree
 	s_BT_QuadTree* QuadTree;
 
-	//Update mesh bool
+	// Update mesh bool
 	bool UpdateMesh;
 
-	//RTTMS
+	// RTTMS
 	bool VertexDataLocked;
 	BT_RTTMS_STRUCT* VertexDataRTTMS;
 
-	//Object
+	// Object
 	sObject* DBPObject;
 	sFrame* LODLevelObjectFrame;
 
-	//Info
+	// Info
 	void* Info;
 };
 
-struct BT_SectorInfo
-{
+struct BT_SectorInfo {
 	bool Excluded;
 	unsigned short Row;
 	unsigned short Column;
@@ -168,8 +164,7 @@ struct BT_SectorInfo
 };
 
 
-struct s_BT_LODLevel
-{
+struct s_BT_LODLevel {
 	unsigned char ID;
 	float SectorSize;
 	unsigned char SectorDetail;
@@ -181,12 +176,11 @@ struct s_BT_LODLevel
 	s_BT_terrain* Terrain;
 	sObject* DBPObject;
 
-	//Info
+	// Info
 	void* Info;
 };
 
-struct BT_LODLevelInfo
-{
+struct BT_LODLevelInfo {
 	float SectorSize;
 	unsigned char SectorDetail;
 	unsigned short Sectors;
@@ -197,15 +191,13 @@ struct BT_LODLevelInfo
 };
 
 
-struct s_BT_CullBox
-{
-	float Front,Back,
-		  Left,Right,
-		  Top,Bottom;
+struct s_BT_CullBox {
+	float Front, Back,
+	      Left, Right,
+	      Top, Bottom;
 };
 
-struct s_BT_QuadTree
-{
+struct s_BT_QuadTree {
 	s_BT_QuadTree* n1;
 	s_BT_QuadTree* n2;
 	s_BT_QuadTree* n3;
@@ -220,44 +212,42 @@ struct s_BT_QuadTree
 	s_BT_Sector* Sector;
 	bool Excluded;
 	s_BT_CullBox* CullBox;
-	float PosX,PosY,PosZ;
+	float PosX, PosY, PosZ;
 	bool DrawThis;
 	bool Culled;
 	bool CullboxChanged;
 };
 
-struct s_BT_LODMap
-{
+struct s_BT_LODMap {
 	int Level;
 };
 
-struct s_BT_terrain
-{
-	//Exists
+struct s_BT_terrain {
+	// Exists
 	bool Exists;
 
-	//ID
+	// ID
 	unsigned long ID;
 
-	//Build stuff
+	// Build stuff
 	bool Built;
 	bool Generated;
 
-	//Point lists
+	// Point lists
 	float* HeightPoint;
 
-	//Object stuff
+	// Object stuff
 	sObject* Object;
 	unsigned long ObjectID;
 
-	//Images
+	// Images
 	unsigned long Heightmap;
 	unsigned long Texture;
 	unsigned long Detailmap;
 	unsigned long Environmentmap;
 	unsigned long Exclusionmap;
 
-	//Settings
+	// Settings
 	unsigned long Smoothing;
 	bool QuadRotation;
 	bool QuadReduction;
@@ -268,45 +258,44 @@ struct s_BT_terrain
 	bool MeshOptimisation;
 	unsigned short Sectors;
 
-	//LOD Levels
+	// LOD Levels
 	s_BT_LODLevel* LODLevel;
 
-	//Sizes and details
+	// Sizes and details
 	unsigned short Heightmapsize;
 	float TerrainSize;
 
-	//Quadtree
+	// Quadtree
 	s_BT_QuadTree* QuadTree;
 	unsigned char QuadTreeLevels;
 
-	//Exclusion threshold
+	// Exclusion threshold
 	unsigned char ExclusionThreshold;
 
-	//LODMap
+	// LODMap
 	s_BT_LODMap** LODMap;
 
-	//AT Mode
+	// AT Mode
 	unsigned char ATMode;
 
-	//Detail BlendMode
+	// Detail BlendMode
 	unsigned char DetailBlendMode;
 
-	//Vertex declaration
+	// Vertex declaration
 	IDirect3DVertexDeclaration9* VertexDeclaration;
 
-	//Environment Map
+	// Environment Map
 	BT_EnvironmentMap* EnvironmentMap;
 
-	//Multidetailmapping
+	// Multidetailmapping
 	bool MultiDetailmapping;
 	unsigned long DetailMapCount;
 
-	//Info
+	// Info
 	void* Info;
 };
 
-struct BT_TerrainInfo
-{
+struct BT_TerrainInfo {
 	bool Built;
 	bool Generated;
 	unsigned long Texture;
@@ -329,7 +318,7 @@ struct BT_TerrainInfo
 	unsigned char ATMode;
 	unsigned char DetailBlendMode;
 	void* InternalData;
-	//Added in 2.2
+	// Added in 2.2
 	unsigned long SmoothAmount;
 	void* DBPObjectPtr;
 };
@@ -337,12 +326,11 @@ struct BT_TerrainInfo
 
 struct BT_QuadMap_Main;
 
-struct s_BT_main
-{
-	//Terrains
+struct s_BT_main {
+	// Terrains
 	s_BT_terrain Terrains[C_BT_MAXTERRAINS];
 
-	//Build info
+	// Build info
 	bool Building;
 	bool BuildType;
 	s_BT_terrain* CurrentBuildTerrain;
@@ -352,55 +340,54 @@ struct s_BT_main
 	unsigned long CurrentBuildLODLevel;
 	unsigned long CurrentBuildTerrainSector;
 
-	//Current function
+	// Current function
 	unsigned long CurrentFunction;
 
-	//BuildStep
+	// BuildStep
 	unsigned long buildstep;
 
-	//Updating
+	// Updating
 	tagCameraData* CurrentUpdateCamera;
 	bool FrustumExtracted;
 
-	//Frustum Culling
+	// Frustum Culling
 	D3DXVECTOR3 CullOffset;
 	D3DXVECTOR3 CullScale;
 	float Frustum[5][4];
 
-	//LOD Cam
+	// LOD Cam
 	D3DXVECTOR3 LODCamPosition;
 
-	//Statistics
+	// Statistics
 	unsigned long DrawPrimitiveCount;
 	unsigned long DrawCalls;
 	unsigned long CullChecks;
 
-	//Current render terrain
+	// Current render terrain
 	s_BT_terrain* CurrentRenderTerrain;
 
-	//Quadmap info
+	// Quadmap info
 	BT_QuadMap_Main QuadmapInfo;
 
-	//Instruction queue
+	// Instruction queue
 	char* InstructionQueue;
 	unsigned long InstructionQueueSize;
 	unsigned long InstructionQueueUsed;
 
-	//Advanced Terrain mode
+	// Advanced Terrain mode
 	bool ATMode;
 
-	//Auto render
+	// Auto render
 	bool AutoRender;
 
-	//Effect
+	// Effect
 	cSpecialEffect* CurrentEffect;
 
-	//Initialised boolean (for GDK)
+	// Initialised boolean (for GDK)
 	bool Initialised;
 };
 
-struct BT_SectorMeshData
-{
+struct BT_SectorMeshData {
 	bool DeleteMeshData;
 	void* Vertex_Data;
 	unsigned short Vertex_Count;
@@ -416,37 +403,37 @@ struct BT_SectorMeshData
 void BT_Init();
 #endif
 EXPORT unsigned long BT_MakeTerrain();
-EXPORT void BT_SetTerrainHeightmap(unsigned long terrainid,unsigned long image);
-EXPORT void BT_SetTerrainTexture(unsigned long terrainid,unsigned long image);
-EXPORT void BT_SetTerrainExclusion(unsigned long terrainid,unsigned long image);
-EXPORT void BT_SetTerrainExclusionThreshold(unsigned long terrainid,unsigned long threshold);
-EXPORT void BT_SetTerrainDetail(unsigned long terrainid,unsigned long image);
-EXPORT void BT_SetTerrainDetailBlendMode(unsigned long terrainid,unsigned char mode);
-EXPORT void BT_SetTerrainEnvironment(unsigned long terrainid,unsigned long image);
-EXPORT unsigned long BT_AddTerrainEnvironment(unsigned long terrainid,unsigned long Colour);
-EXPORT void BT_SetTerrainLOD(unsigned long terrainid,unsigned char LODLevels);
-EXPORT void BT_SetTerrainSplit(unsigned long terrainid,unsigned long Split);
-EXPORT void BT_SetTerrainDetailTile(unsigned long terrainid,float Tile);
-EXPORT void BT_SetTerrainQuadReduction(unsigned long terrainid,bool Enabled);
-EXPORT void BT_SetTerrainQuadRotation(unsigned long terrainid,bool Enabled);
-EXPORT void BT_SetTerrainSmoothing(unsigned long terrainid,unsigned long Amount);
-EXPORT void BT_SetTerrainScale(unsigned long terrainid,float Scale);
-EXPORT void BT_SetTerrainYScale(unsigned long terrainid,float YScale);
-EXPORT void BT_SetTerrainLODDistance(unsigned long terrainid,unsigned char LODLevel,float value);
-EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID);
-EXPORT void BT_BuildTerrain(unsigned long terrainid,unsigned long ObjectID,bool GenerateTerrain);
+EXPORT void BT_SetTerrainHeightmap(unsigned long terrainid, unsigned long image);
+EXPORT void BT_SetTerrainTexture(unsigned long terrainid, unsigned long image);
+EXPORT void BT_SetTerrainExclusion(unsigned long terrainid, unsigned long image);
+EXPORT void BT_SetTerrainExclusionThreshold(unsigned long terrainid, unsigned long threshold);
+EXPORT void BT_SetTerrainDetail(unsigned long terrainid, unsigned long image);
+EXPORT void BT_SetTerrainDetailBlendMode(unsigned long terrainid, unsigned char mode);
+EXPORT void BT_SetTerrainEnvironment(unsigned long terrainid, unsigned long image);
+EXPORT unsigned long BT_AddTerrainEnvironment(unsigned long terrainid, unsigned long Colour);
+EXPORT void BT_SetTerrainLOD(unsigned long terrainid, unsigned char LODLevels);
+EXPORT void BT_SetTerrainSplit(unsigned long terrainid, unsigned long Split);
+EXPORT void BT_SetTerrainDetailTile(unsigned long terrainid, float Tile);
+EXPORT void BT_SetTerrainQuadReduction(unsigned long terrainid, bool Enabled);
+EXPORT void BT_SetTerrainQuadRotation(unsigned long terrainid, bool Enabled);
+EXPORT void BT_SetTerrainSmoothing(unsigned long terrainid, unsigned long Amount);
+EXPORT void BT_SetTerrainScale(unsigned long terrainid, float Scale);
+EXPORT void BT_SetTerrainYScale(unsigned long terrainid, float YScale);
+EXPORT void BT_SetTerrainLODDistance(unsigned long terrainid, unsigned char LODLevel, float value);
+EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID);
+EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID, bool GenerateTerrain);
 EXPORT int BT_ContinueBuild();
 EXPORT unsigned long BT_TerrainExist(unsigned long TerrainID);
 EXPORT void BT_DeleteTerrain(unsigned long TerrainID);
 #ifdef COMPILE_GDK
-EXPORT float BT_GetGroundHeight(unsigned long terrainid,float x,float z);
+EXPORT float BT_GetGroundHeight(unsigned long terrainid, float x, float z);
 EXPORT float BT_GetTerrainSize(unsigned long terrainid);
 #else
-EXPORT DWORD BT_GetGroundHeight(unsigned long terrainid,float x,float z);
+EXPORT DWORD BT_GetGroundHeight(unsigned long terrainid, float x, float z);
 EXPORT DWORD BT_GetTerrainSize(unsigned long terrainid);
 #endif
-EXPORT unsigned long BT_GetPointExcluded(unsigned long terrainid,float x,float z);
-EXPORT unsigned long BT_GetPointEnvironment(unsigned long terrainid,float x,float z);
+EXPORT unsigned long BT_GetPointExcluded(unsigned long terrainid, float x, float z);
+EXPORT unsigned long BT_GetPointEnvironment(unsigned long terrainid, float x, float z);
 #ifdef COMPILE_GDK
 EXPORT char* BT_GetVersion();
 #else
@@ -457,48 +444,48 @@ EXPORT void BT_SetATMode(bool ATMode);
 EXPORT void BT_EnableAutoRender(bool AutoRender);
 EXPORT unsigned long BT_GetStatistic(unsigned long code);
 EXPORT unsigned long BT_GetTerrainObjectID(unsigned long terrainid);
-EXPORT void BT_MakeSectorObject(unsigned long terrainid,unsigned long LODLevel,unsigned long SectorID,unsigned long ObjectID);
-EXPORT void BT_MakeTerrainObject(unsigned long terrainid,unsigned long LODLevel,unsigned long ObjectID);
+EXPORT void BT_MakeSectorObject(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID, unsigned long ObjectID);
+EXPORT void BT_MakeTerrainObject(unsigned long terrainid, unsigned long LODLevel, unsigned long ObjectID);
 
 #ifdef COMPILE_GDK
-EXPORT float BT_GetSectorPositionX(unsigned long terrainid,unsigned long LODLevel,unsigned long SectorID);
-EXPORT float BT_GetSectorPositionY(unsigned long terrainid,unsigned long LODLevel,unsigned long SectorID);
-EXPORT float BT_GetSectorPositionZ(unsigned long terrainid,unsigned long LODLevel,unsigned long SectorID);
+EXPORT float BT_GetSectorPositionX(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID);
+EXPORT float BT_GetSectorPositionY(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID);
+EXPORT float BT_GetSectorPositionZ(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID);
 #else
-EXPORT DWORD BT_GetSectorPositionX(unsigned long terrainid,unsigned long LODLevel,unsigned long SectorID);
-EXPORT DWORD BT_GetSectorPositionY(unsigned long terrainid,unsigned long LODLevel,unsigned long SectorID);
-EXPORT DWORD BT_GetSectorPositionZ(unsigned long terrainid,unsigned long LODLevel,unsigned long SectorID);
+EXPORT DWORD BT_GetSectorPositionX(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID);
+EXPORT DWORD BT_GetSectorPositionY(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID);
+EXPORT DWORD BT_GetSectorPositionZ(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID);
 #endif
-EXPORT unsigned long BT_GetSectorCount(unsigned long TerrainID,unsigned long LODLevel);
+EXPORT unsigned long BT_GetSectorCount(unsigned long TerrainID, unsigned long LODLevel);
 #ifdef COMPILE_GDK
-EXPORT float BT_GetSectorSize(unsigned long TerrainID,unsigned long LODLevel);
+EXPORT float BT_GetSectorSize(unsigned long TerrainID, unsigned long LODLevel);
 #else
-EXPORT unsigned long BT_GetSectorSize(unsigned long TerrainID,unsigned long LODLevel);
+EXPORT unsigned long BT_GetSectorSize(unsigned long TerrainID, unsigned long LODLevel);
 #endif
-EXPORT unsigned long BT_GetSectorExcluded(unsigned long terrainid,unsigned long LODLevel,unsigned long SectorID);
-EXPORT unsigned long BT_GetSectorRow(unsigned long terrainid,unsigned long LODLevel,unsigned long SectorID);
-EXPORT unsigned long BT_GetSectorCollumn(unsigned long terrainid,unsigned long LODLevel,unsigned long SectorID);
+EXPORT unsigned long BT_GetSectorExcluded(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID);
+EXPORT unsigned long BT_GetSectorRow(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID);
+EXPORT unsigned long BT_GetSectorCollumn(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID);
 EXPORT void BT_SetCurrentCamera(unsigned long CameraID);
 EXPORT void BT_UpdateTerrainLOD(unsigned long TerrainID);
 EXPORT void BT_UpdateTerrainCull(unsigned long TerrainID);
 EXPORT void BT_UpdateTerrain(unsigned long TerrainID);
 EXPORT void BT_RenderTerrain(unsigned long TerrainID);
 
-EXPORT void *BT_GetSectorInternalData(unsigned long TerrainID,unsigned long LODLevel,unsigned long SectorID);
-EXPORT void BT_DeleteSectorInternalData(unsigned long TerrainID,unsigned long LODLevel,unsigned long SectorID);
+EXPORT void *BT_GetSectorInternalData(unsigned long TerrainID, unsigned long LODLevel, unsigned long SectorID);
+EXPORT void BT_DeleteSectorInternalData(unsigned long TerrainID, unsigned long LODLevel, unsigned long SectorID);
 
 EXPORT void BT_Intern_Render();
-static void BT_Intern_AddToInstructionQueue(char Instruction,char Data);
+static void BT_Intern_AddToInstructionQueue(char Instruction, char Data);
 static void BT_Intern_ClearStatistics();
-static void BT_Intern_CalculateLODLevelsRec(s_BT_terrain* Terrain,s_BT_QuadTree* Quadtree,unsigned long Level,unsigned char LODLevelToDraw);
+static void BT_Intern_CalculateLODLevelsRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level, unsigned char LODLevelToDraw);
 static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain);
 static void BT_Intern_FixSectorLODSeams(s_BT_Sector* SectorPtr);
-static void BT_Intern_CalculateCullingRec(s_BT_terrain* Terrain,s_BT_QuadTree* Quadtree,unsigned long Level,bool IntersectingFrustum);
-static void BT_Intern_UpdateCullBoxesRec(s_BT_terrain* Terrain,s_BT_QuadTree* Quadtree,unsigned long Level);
-static void BT_Intern_RenderTerrainRec(s_BT_terrain* Terrain,s_BT_QuadTree* Quadtree,unsigned long Level);
-static void BT_Intern_UnlockSectorsRec(s_BT_terrain* Terrain,s_BT_QuadTree* Quadtree,unsigned long Level);
+static void BT_Intern_CalculateCullingRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level, bool IntersectingFrustum);
+static void BT_Intern_UpdateCullBoxesRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level);
+static void BT_Intern_RenderTerrainRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level);
+static void BT_Intern_UnlockSectorsRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level);
 static void BT_Intern_RenderSector(s_BT_Sector* Sector);
-static float BT_Intern_DistanceToLODCamera(s_BT_terrain* Terrain,s_BT_CullBox* CullBox);
+static float BT_Intern_DistanceToLODCamera(s_BT_terrain* Terrain, s_BT_CullBox* CullBox);
 static void BT_Intern_ContinueBuild();
 static void BT_Intern_RenderTerrain(s_BT_terrain* Terrain);
 bool BT_Intern_TerrainExist(unsigned long terrainid);
@@ -506,23 +493,23 @@ static long BT_Intern_ImageExist(unsigned long imageid);
 void BT_Intern_Error(int number);
 static char* BT_Intern_GetErrorString(int number);
 static char* BT_Intern_GetFunctionName(int number);
-static void BT_Intern_GetSectorHeights(s_BT_terrain* Terrain,unsigned long LODLevel,unsigned long row,unsigned long column,float* buffer);
-static bool BT_Intern_GetSectorExclusion(s_BT_terrain* Terrain,unsigned long LODLevel,unsigned long excludememblock,unsigned long row,unsigned long column,bool* buffer);
+static void BT_Intern_GetSectorHeights(s_BT_terrain* Terrain, unsigned long LODLevel, unsigned long row, unsigned long column, float* buffer);
+static bool BT_Intern_GetSectorExclusion(s_BT_terrain* Terrain, unsigned long LODLevel, unsigned long excludememblock, unsigned long row, unsigned long column, bool* buffer);
 static void BT_Intern_BuildSector(s_BT_Sector* Sector);
-static void BT_Intern_DeleteTerrain(unsigned long TerrainID,bool DeleteObject);
-float BT_Intern_GetPointHeight(s_BT_terrain* Terrain,float Px,float Pz,char LODLevel,bool Round);
-Vector3 BT_Intern_GetPointNormal(s_BT_terrain* Terrain,float Px,float Pz);
-static bool BT_Intern_GetPointExcluded(s_BT_terrain* Terrain,float Px,float Pz);
+static void BT_Intern_DeleteTerrain(unsigned long TerrainID, bool DeleteObject);
+float BT_Intern_GetPointHeight(s_BT_terrain* Terrain, float Px, float Pz, char LODLevel, bool Round);
+Vector3 BT_Intern_GetPointNormal(s_BT_terrain* Terrain, float Px, float Pz);
+static bool BT_Intern_GetPointExcluded(s_BT_terrain* Terrain, float Px, float Pz);
 s_BT_QuadTree* BT_Intern_AllocateQuadTree(s_BT_terrain* Terrain);
-static s_BT_QuadTree* BT_Intern_AllocateQuadTreeRec(s_BT_terrain* Terrain,unsigned char Levels,s_BT_QuadTree* Parent,unsigned char row,unsigned char collumn);
+static s_BT_QuadTree* BT_Intern_AllocateQuadTreeRec(s_BT_terrain* Terrain, unsigned char Levels, s_BT_QuadTree* Parent, unsigned char row, unsigned char collumn);
 
 static void BT_Intern_DeAllocateQuadTree(s_BT_QuadTree* Quadtree);
 static void BT_Intern_DeAllocateQuadTreeRec(s_BT_QuadTree* Quadtree);
 
 static float BT_Intern_GetHeightFromColor(unsigned long Colour);
 
-void BT_Intern_RefreshVB(s_BT_DrawBuffer* DrawBuffer,unsigned long FirstVertex,unsigned long LastVertex,BT_Meshdata_Vertex* Vertex);
-void BT_Intern_RefreshIB(s_BT_DrawBuffer* DrawBuffer,unsigned long FirstIndex,unsigned long LastIndex,unsigned short* Index);
+void BT_Intern_RefreshVB(s_BT_DrawBuffer* DrawBuffer, unsigned long FirstVertex, unsigned long LastVertex, BT_Meshdata_Vertex* Vertex);
+void BT_Intern_RefreshIB(s_BT_DrawBuffer* DrawBuffer, unsigned long FirstIndex, unsigned long LastIndex, unsigned short* Index);
 
 static void BT_Intern_ExtractFrustum();
 static int BT_Intern_CullBox(s_BT_CullBox* CullBox);
@@ -532,7 +519,7 @@ static void BT_Intern_UnlockSectorVertexData(s_BT_Sector* Sector);
 
 struct BT_RTTMS_VERTEX;
 
-void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID,unsigned long LODLevelID,unsigned long SectorID,unsigned short StartVertex,unsigned short EndVertex,float* VerticesPtr);
+void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID, unsigned short StartVertex, unsigned short EndVertex, float* VerticesPtr);
 
 static void BT_Intern_SmoothTerrain(s_BT_terrain* Terrain);
 
@@ -630,5 +617,4 @@ static void BT_Intern_SmoothTerrain(s_BT_terrain* Terrain);
 
 
 #define C_BT_INTERNALSCALE 128.0f
-
 #endif

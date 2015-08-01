@@ -4,8 +4,7 @@
 struct D3DXVECTOR4;
 struct s_BT_Sector;
 
-struct BT_Quadmap_Generator
-{
+struct BT_Quadmap_Generator {
 	bool QuadRotation;
 	bool QuadReduction;
 	float TileSize;
@@ -20,59 +19,54 @@ struct BT_Quadmap_Generator
 	bool RemoveFarZ;
 };
 
-struct BT_Quadmap_Vertex
-{
-	//Exclude
+struct BT_Quadmap_Vertex {
+	// Exclude
 	bool Exclude;
 
-	//Position
+	// Position
 	float Pos_y;
-	unsigned char Vrow,Vcol;
+	unsigned char Vrow, Vcol;
 
-	//Normals
+	// Normals
 	signed char Nrm_x, Nrm_y, Nrm_z;
 
-	//Index
+	// Index
 	unsigned short Index;
 	BT_Quadmap_Vertex* NewPtr;
-
 };
 
-struct BT_Quadmap_Edge
-{
-	char Edge; //0 - top, 1 - right,2 - bottom,3 - left
+struct BT_Quadmap_Edge {
+	char Edge; // 0 - top, 1 - right,2 - bottom,3 - left
 	unsigned char Position;
 	BT_Quadmap_Vertex* Vertex;
 };
 
-struct BT_Quadmap_Quad
-{
-	//Exclude
+struct BT_Quadmap_Quad {
+	// Exclude
 	bool Exclude;
 
-	//Vertices
+	// Vertices
 	BT_Quadmap_Vertex* V1;
 	BT_Quadmap_Vertex* V2;
 	BT_Quadmap_Vertex* V3;
 	BT_Quadmap_Vertex* V4;
 
-	//Size
+	// Size
 	float Size;
 
-	//Rotation
+	// Rotation
 	bool Rotation;
 };
 
-struct BT_Meshdata_Vertex
-{
-	//Position
-	float Pos_x,Pos_y,Pos_z;
+struct BT_Meshdata_Vertex {
+	// Position
+	float Pos_x, Pos_y, Pos_z;
 
-	//Normals
-	float Nrm_x,Nrm_y,Nrm_z;
+	// Normals
+	float Nrm_x, Nrm_y, Nrm_z;
 
-	//UVs
-	float U0,V0,U1,V1;
+	// UVs
+	float U0, V0, U1, V1;
 };
 
 struct s_BT_DrawBuffer;
@@ -91,22 +85,34 @@ public:
 	void GenerateMeshData();
 	void DeleteMeshData();
 	void SetToMesh(s_BT_DrawBuffer* DrawBuffer);
-	void UpdateMesh(s_BT_DrawBuffer* DrawBuffer,bool ClearUpdateInfo);
-	unsigned long GetVertexCount() {return Mesh_Vertices;}
-	unsigned long GetIndexCount() {return Mesh_Indices;}
+	void UpdateMesh(s_BT_DrawBuffer* DrawBuffer, bool ClearUpdateInfo);
+	unsigned long GetVertexCount()
+	{
+		return Mesh_Vertices;
+	}
+	unsigned long GetIndexCount()
+	{
+		return Mesh_Indices;
+	}
 	s_BT_DrawBuffer* GeneratePlain();
 	void GenerateDBPMesh(sMesh* Mesh);
 	void UpdateDBPMesh(sMesh* Mesh);
-	bool GetPointExcluded(float x,float z);
-	float GetPointHeight(float x,float y,bool Round);
-	void SetSideLOD(unsigned char Side,unsigned long LODLevel);
-	float GetHighestPoint() {return HighestPoint;}
-	float GetLowestPoint() {return LowestPoint;}
+	bool GetPointExcluded(float x, float z);
+	float GetPointHeight(float x, float y, bool Round);
+	void SetSideLOD(unsigned char Side, unsigned long LODLevel);
+	float GetHighestPoint()
+	{
+		return HighestPoint;
+	}
+	float GetLowestPoint()
+	{
+		return LowestPoint;
+	}
 	void FillMeshData(BT_RTTMS_STRUCT* Meshdata);
 	void DeleteInternalData();
-	void ReduceQuad(unsigned short QuadTL,unsigned short QuadTR,unsigned short QuadBL,unsigned short QuadBR,BT_Quadmap_Quad* Quads, bool CheckHeights);
-	void ChangeMeshData(unsigned short VertexStart,unsigned short VertexEnd,float* Vertices);
-	unsigned short FindVertex(unsigned short Vrow,unsigned short Vcol);
+	void ReduceQuad(unsigned short QuadTL, unsigned short QuadTR, unsigned short QuadBL, unsigned short QuadBR, BT_Quadmap_Quad* Quads, bool CheckHeights);
+	void ChangeMeshData(unsigned short VertexStart, unsigned short VertexEnd, float* Vertices);
+	unsigned short FindVertex(unsigned short Vrow, unsigned short Vcol);
 
 	BT_QuadMap* Above;
 	BT_QuadMap* Below;
@@ -114,35 +120,35 @@ public:
 	BT_QuadMap* Right;
 
 private:
-	//Generated boolean
+	// Generated boolean
 	bool Generated;
 
-	//Vertex list
+	// Vertex list
 	BT_Quadmap_Vertex* Vertex;
 
-	//Quad list
+	// Quad list
 	BT_Quadmap_Quad* Quad;
 
-	//QuadMap
+	// QuadMap
 	BT_Quadmap_Quad** QuadMap;
 
-	//Mesh data
+	// Mesh data
 	bool MeshMade;
 	unsigned short Mesh_Vertices;
 	unsigned long Mesh_Indices;
 	BT_Meshdata_Vertex* Mesh_Vertex;
 	unsigned short* Mesh_Index;
 
-	//Mesh updates
+	// Mesh updates
 	bool UpdateVertices;
 	bool UpdateIndices;
 	bool RefreshNormals;
 
-	//Buffer updates
+	// Buffer updates
 	bool UpdateVertexBuffer;
 	bool UpdateIndexBuffer;
 
-	//Sizes
+	// Sizes
 	unsigned short Vertices;
 	unsigned short Quads;
 	float Size;
@@ -150,22 +156,21 @@ private:
 	unsigned char TileSpan;
 	unsigned char QuadsAccross;
 
-	//Highest and lowest points
+	// Highest and lowest points
 	float HighestPoint;
 	float LowestPoint;
 
-	//Optimisation
+	// Optimisation
 	bool Optimised;
 
-	//Sector ID
+	// Sector ID
 	s_BT_Sector* Sector;
 };
 
 void BT_Intern_StartQuadMapGeneration(BT_Quadmap_Generator Generator);
 void BT_Intern_EndQuadMapGeneration();
 
-struct BT_QuadMap_Main
-{
+struct BT_QuadMap_Main {
 	bool Locked;
 	BT_Quadmap_Vertex* TempVertexdata;
 	BT_Quadmap_Quad* TempQuaddata;
@@ -173,5 +178,4 @@ struct BT_QuadMap_Main
 	unsigned long TempVertices;
 	unsigned long TempQuads;
 };
-
 #endif
