@@ -228,18 +228,18 @@ EXPORT void BT_SetTerrainHeightmap(unsigned long terrainid, unsigned long image)
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINHEIGHTMAP;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		if (BT_Main.Terrains[terrainid].Built == false) {
-			// Set the values
-			BT_Main.Terrains[terrainid].Heightmap = image;
-		} else {
-			BT_Intern_Error(C_BT_ERROR_TERRAINALREADYBUILT);
-			return;
-		}
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+// Check that the terrain is not built
+	if (BT_Main.Terrains[terrainid].Built) {
+		BT_Intern_Error(C_BT_ERROR_TERRAINALREADYBUILT);
+		return;
+	}
+
+	BT_Main.Terrains[terrainid].Heightmap = image;
 }
 // === END FUNCTION ===
 
@@ -254,21 +254,22 @@ EXPORT void BT_SetTerrainTexture(unsigned long terrainid, unsigned long image)
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINTEXTURE;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		if (BT_Main.Terrains[terrainid].Built) {
-			// Set the texture
-			BT_Main.Terrains[terrainid].Texture = image;
-			dbSetBlendMappingOn(BT_Main.Terrains[terrainid].ObjectID, 0, image, 10, 4);
-		} else {
-			// Set the texture
-			BT_Main.Terrains[terrainid].Texture = image;
-		}
-		// Update in terrain info
-		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Texture = image;
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+	if (BT_Main.Terrains[terrainid].Built) {
+		// Set the texture
+		BT_Main.Terrains[terrainid].Texture = image;
+		dbSetBlendMappingOn(BT_Main.Terrains[terrainid].ObjectID, 0, image, 10, 4);
+	} else {
+		// Set the texture
+		BT_Main.Terrains[terrainid].Texture = image;
+	}
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Texture = image;
 }
 // === END FUNCTION ===
 
@@ -283,20 +284,22 @@ EXPORT void BT_SetTerrainExclusion(unsigned long terrainid, unsigned long image)
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINEXCLUSION;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		if (BT_Main.Terrains[terrainid].Built == false) {
-			// Set the exclusionmap
-			BT_Main.Terrains[terrainid].Exclusionmap = image;
-			// Update in terrain info
-			((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Exclusion = true;
-		} else {
-			BT_Intern_Error(C_BT_ERROR_TERRAINALREADYBUILT);
-			return;
-		}
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+// Check that the terrain is not built
+	if (BT_Main.Terrains[terrainid].Built) {
+		BT_Intern_Error(C_BT_ERROR_TERRAINALREADYBUILT);
+		return;
+	}
+
+	// Set the exclusionmap
+	BT_Main.Terrains[terrainid].Exclusionmap = image;
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Exclusion = true;
 }
 // === END FUNCTION ===
 
@@ -310,21 +313,22 @@ EXPORT void BT_SetTerrainExclusionThreshold(unsigned long terrainid, unsigned lo
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINEXCLUSIONTHRESHOLD;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		if (BT_Main.Terrains[terrainid].Built == false) {
-			// Set the exclusion threshold
-			BT_Main.Terrains[terrainid].ExclusionThreshold = unsigned char(threshold);
-
-			// Update in terrain info
-			((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->ExclusionThreshold = unsigned char(threshold);
-		} else {
-			BT_Intern_Error(C_BT_ERROR_TERRAINALREADYBUILT);
-			return;
-		}
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+// Check that the terrain is not built
+	if (BT_Main.Terrains[terrainid].Built) {
+		BT_Intern_Error(C_BT_ERROR_TERRAINALREADYBUILT);
+		return;
+	}
+
+	// Set the exclusion threshold
+	BT_Main.Terrains[terrainid].ExclusionThreshold = unsigned char(threshold);
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->ExclusionThreshold = unsigned char(threshold);
 }
 // === END FUNCTION ===
 
@@ -339,20 +343,21 @@ EXPORT void BT_SetTerrainDetail(unsigned long terrainid, unsigned long image)
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINDETAIL;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		if (BT_Main.Terrains[terrainid].Built) {
-			// Set the detailmap
-			BT_Main.Terrains[terrainid].Detailmap = image;
-			dbSetBlendMappingOn(BT_Main.Terrains[terrainid].ObjectID, 1, image, 11, BT_Main.Terrains[terrainid].DetailBlendMode);
-		} else {
-			BT_Main.Terrains[terrainid].Detailmap = image;
-		}
-		// Update in terrain info
-		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Detailmap = image;
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+	if (BT_Main.Terrains[terrainid].Built) {
+		// Set the detailmap
+		BT_Main.Terrains[terrainid].Detailmap = image;
+		dbSetBlendMappingOn(BT_Main.Terrains[terrainid].ObjectID, 1, image, 11, BT_Main.Terrains[terrainid].DetailBlendMode);
+	} else {
+		BT_Main.Terrains[terrainid].Detailmap = image;
+	}
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Detailmap = image;
 }
 // === END FUNCTION ===
 
@@ -367,22 +372,23 @@ EXPORT void BT_SetTerrainDetailBlendMode(unsigned long terrainid, unsigned char 
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINDETAILBLENDMODE;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		if (BT_Main.Terrains[terrainid].Built == true) {
-			// Set the detail blendmode
-			BT_Main.Terrains[terrainid].DetailBlendMode = mode;
-			if (BT_Main.Terrains[terrainid].Detailmap)
-				dbSetBlendMappingOn(BT_Main.Terrains[terrainid].ObjectID, 1, BT_Main.Terrains[terrainid].Detailmap, 11, mode);
-		} else {
-			// Set the detail blendmode
-			BT_Main.Terrains[terrainid].DetailBlendMode = mode;
-		}
-		// Update in terrain info
-		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->DetailBlendMode = mode;
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+	if (BT_Main.Terrains[terrainid].Built == true) {
+		// Set the detail blendmode
+		BT_Main.Terrains[terrainid].DetailBlendMode = mode;
+		if (BT_Main.Terrains[terrainid].Detailmap)
+			dbSetBlendMappingOn(BT_Main.Terrains[terrainid].ObjectID, 1, BT_Main.Terrains[terrainid].Detailmap, 11, mode);
+	} else {
+		// Set the detail blendmode
+		BT_Main.Terrains[terrainid].DetailBlendMode = mode;
+	}
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->DetailBlendMode = mode;
 }
 // === END FUNCTION ===
 
@@ -397,13 +403,13 @@ EXPORT void BT_SetTerrainEnvironment(unsigned long terrainid, unsigned long imag
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINENVIRONMENT;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		// Set the environmentmap
-		BT_Main.Terrains[terrainid].Environmentmap = image;
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+	// Set the environmentmap
+	BT_Main.Terrains[terrainid].Environmentmap = image;
 }
 // === END FUNCTION ===
 
@@ -418,18 +424,19 @@ EXPORT unsigned long BT_AddTerrainEnvironment(unsigned long terrainid, unsigned 
 	BT_Main.CurrentFunction = C_BT_FUNCTION_ADDTERRAINENVIRONMENT;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		if (BT_Main.Terrains[terrainid].Built == true) {
-			BT_Intern_Error(C_BT_ERROR_CANNOTUSEFUNCTIONONBUILTTERRAIN);
-			return 0;
-		} else {
-			// Add the environment
-			return BT_Intern_AddEnvironment(BT_Main.Terrains[terrainid].EnvironmentMap, Colour);
-		}
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return 0;
 	}
+
+// Give error if terrain is already built
+	if (BT_Main.Terrains[terrainid].Built) {
+		BT_Intern_Error(C_BT_ERROR_CANNOTUSEFUNCTIONONBUILTTERRAIN);
+		return 0;
+	}
+
+	// Add the environment
+	return BT_Intern_AddEnvironment(BT_Main.Terrains[terrainid].EnvironmentMap, Colour);
 }
 // === END FUNCTION ===
 
@@ -444,22 +451,22 @@ EXPORT void BT_SetTerrainLOD(unsigned long terrainid, unsigned char LODLevels)
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINLOD;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		// Check the LOD Levels
-		if (LODLevels > 0 && LODLevels <= C_BT_MAXLODLEVELS) {
-			// Set the LODLevels
-			BT_Main.Terrains[terrainid].LODLevels = LODLevels;
-
-			// Update in terrain info
-			((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->LODLevels = LODLevels;
-		} else {
-			BT_Intern_Error(C_BT_ERROR_INVALIDLODLEVELS);
-			return;
-		}
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+// Check the LOD levels
+	if (LODLevels <= 0 || LODLevels > C_BT_MAXLODLEVELS) {
+		BT_Intern_Error(C_BT_ERROR_INVALIDLODLEVELS);
+		return;
+	}
+
+	// Set the LODLevels
+	BT_Main.Terrains[terrainid].LODLevels = LODLevels;
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->LODLevels = LODLevels;
 }
 // === END FUNCTION ===
 
@@ -474,13 +481,13 @@ EXPORT void BT_SetTerrainSplit(unsigned long terrainid, unsigned long Split)
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINSPLIT;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		// Set the Collision LODLevel
-		BT_Main.Terrains[terrainid].LODLevel[0].Split = unsigned short(Split);
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+	// Set the Collision LODLevel
+	BT_Main.Terrains[terrainid].LODLevel[0].Split = unsigned short(Split);
 }
 // === END FUNCTION ===
 
@@ -495,16 +502,16 @@ EXPORT void BT_SetTerrainDetailTile(unsigned long terrainid, float Tile)
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINDETAILTILE;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		// Set the Collision LODLevel
-		BT_Main.Terrains[terrainid].Tile = Tile;
-
-		// Update in terrain info
-		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Tile = Tile;
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+	// Set the Collision LODLevel
+	BT_Main.Terrains[terrainid].Tile = Tile;
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Tile = Tile;
 }
 // === END FUNCTION ===
 
@@ -539,16 +546,16 @@ EXPORT void BT_SetTerrainQuadRotation(unsigned long terrainid, bool Enabled)
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINQUADROTATION;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		// Set Quad rotation
-		BT_Main.Terrains[terrainid].QuadRotation = Enabled;
-
-		// Update in terrain info
-		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->QuadRotation = Enabled;
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+	// Set Quad rotation
+	BT_Main.Terrains[terrainid].QuadRotation = Enabled;
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->QuadRotation = Enabled;
 }
 // === END FUNCTION ===
 
@@ -563,21 +570,21 @@ EXPORT void BT_SetTerrainSmoothing(unsigned long terrainid, unsigned long Amount
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINSMOOTHING;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		// Limit amount
-		if (Amount > 100)
-			Amount = 100;
-
-		// Set the Collision LODLevel
-		BT_Main.Terrains[terrainid].Smoothing = Amount;
-
-		// Update in terrain info
-		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Smoothing = (Amount > 0);
-		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->SmoothAmount = Amount;
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+	// Limit amount
+	if (Amount > 100)
+		Amount = 100;
+
+	// Set the Collision LODLevel
+	BT_Main.Terrains[terrainid].Smoothing = Amount;
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Smoothing = (Amount > 0);
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->SmoothAmount = Amount;
 }
 // === END FUNCTION ===
 
@@ -592,16 +599,16 @@ EXPORT void BT_SetTerrainScale(unsigned long terrainid, float Scale)
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINSCALE;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		// Set the Scale
-		BT_Main.Terrains[terrainid].Scale = Scale;
-
-		// Update in terrain info
-		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Scale = Scale;
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+	// Set the Scale
+	BT_Main.Terrains[terrainid].Scale = Scale;
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Scale = Scale;
 }
 // === END FUNCTION ===
 
@@ -616,16 +623,16 @@ EXPORT void BT_SetTerrainYScale(unsigned long terrainid, float YScale)
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINYSCALE;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		// Set the Collision LODLevel
-		BT_Main.Terrains[terrainid].YScale = YScale;
-
-		// Update in terrain info
-		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->YScale = YScale;
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
 	}
+
+	// Set the Collision LODLevel
+	BT_Main.Terrains[terrainid].YScale = YScale;
+
+	// Update in terrain info
+	((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->YScale = YScale;
 }
 // === END FUNCTION ===
 
@@ -640,22 +647,23 @@ EXPORT void BT_SetTerrainLODDistance(unsigned long terrainid, unsigned char LODL
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINLODDISTANCES;
 
 // Check that the terrain exists
-	if (BT_Intern_TerrainExist(terrainid)) {
-		if (LODLevel < BT_Main.Terrains[terrainid].LODLevels) {
-			// Check if the terrain is built
-			if (BT_Main.Terrains[terrainid].Built == true) {
-				((BT_LODLevelInfo*)BT_Main.Terrains[terrainid].LODLevel[LODLevel].Info)->Distance = value;
-				BT_Main.Terrains[terrainid].LODLevel[LODLevel].Distance = value / BT_Main.Terrains[terrainid].Scale * C_BT_INTERNALSCALE;
-			} else {
-				BT_Main.Terrains[terrainid].LODLevel[LODLevel].Distance = value;
-			}
-		} else {
-			BT_Intern_Error(C_BT_ERROR_LODLEVELDOESNTEXIST);
-			return;
-		}
-	} else {
+	if (!BT_Intern_TerrainExist(terrainid)) {
 		BT_Intern_Error(C_BT_ERROR_TERRAINDOESNTEXIST);
 		return;
+	}
+
+// Check that the LODLevel exists
+	if (LODLevel >= BT_Main.Terrains[terrainid].LODLevels) {
+		BT_Intern_Error(C_BT_ERROR_LODLEVELDOESNTEXIST);
+		return;
+	}
+
+	// Check if the terrain is built
+	if (BT_Main.Terrains[terrainid].Built == true) {
+		((BT_LODLevelInfo*)BT_Main.Terrains[terrainid].LODLevel[LODLevel].Info)->Distance = value;
+		BT_Main.Terrains[terrainid].LODLevel[LODLevel].Distance = value / BT_Main.Terrains[terrainid].Scale * C_BT_INTERNALSCALE;
+	} else {
+		BT_Main.Terrains[terrainid].LODLevel[LODLevel].Distance = value;
 	}
 }
 // === END FUNCTION ===
