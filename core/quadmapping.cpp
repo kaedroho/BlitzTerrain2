@@ -46,7 +46,7 @@ void BT_Intern_EndQuadMapGeneration() {
 }
 
 void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
-// Variables
+	// Variables
 	unsigned short Vertexn;
 	unsigned short Quadn;
 	unsigned char Vrow;
@@ -61,7 +61,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 	BT_Quadmap_Quad* TempQuad;
 	unsigned long InnerVertices;
 
-// Calculate some Values
+	// Calculate some Values
 	Vertices = (Generator.Size + 1) * (Generator.Size + 1);
 	Quads = Generator.Size * Generator.Size;
 	SectorSize = Generator.Size * Generator.TileSize;
@@ -72,20 +72,20 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 	Sector = Generator.Sector;
 	TileSize = Generator.TileSize;
 
-// Allocate Vertices and Quads
+	// Allocate Vertices and Quads
 	TempVertex = BT_Main.QuadmapInfo.TempVertexdata;
 	TempQuad = BT_Main.QuadmapInfo.TempQuaddata;
 	BT_Quadmap_Vertex*** VertexMap = BT_Main.QuadmapInfo.TempVertexMap;
 
-// Allocate Quadmap
+	// Allocate Quadmap
 	QuadMap = (BT_Quadmap_Quad**)malloc(Quads * sizeof(BT_Quadmap_Quad*));
 	if (QuadMap == nullptr)
 		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
 
-// Loop through vertices
+	// Loop through vertices
 	Vertexn = 0;
 
-// Top
+	// Top
 	for (unsigned char i = 0; i < Generator.Size; i++) {
 		// Set row and collumn
 		Vrow = 0;
@@ -109,7 +109,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 		Vertexn++;
 	}
 
-// Right
+	// Right
 	for (unsigned char i = 0; i < Generator.Size; i++) {
 		// Set row and collumn
 		Vrow = i;
@@ -133,7 +133,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 		Vertexn++;
 	}
 
-// Bottom
+	// Bottom
 	for (unsigned char i = 0; i < Generator.Size; i++) {
 		// Set row and collumn
 		Vrow = Generator.Size;
@@ -157,7 +157,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 		Vertexn++;
 	}
 
-// Left
+	// Left
 	for (unsigned char i = 0; i < Generator.Size; i++) {
 		// Set row and collumn
 		Vrow = Generator.Size - i;
@@ -181,7 +181,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 		Vertexn++;
 	}
 
-// Inside
+	// Inside
 	for (unsigned char i = 0; i < unsigned(Generator.Size - 1); i++) {
 		for (unsigned char ii = 0; ii < unsigned(Generator.Size - 1); ii++) {
 			// Set row and collumn
@@ -207,7 +207,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 		}
 	}
 
-// Loop through Quads
+	// Loop through Quads
 	for (Quadn = 0; Quadn < Quads; Quadn++) {
 		// Get row and collumn
 		Vrow = (unsigned char)floor((float)(Quadn / Generator.Size));
@@ -242,11 +242,11 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 	}
 
 
-// Initialise include variables
+	// Initialise include variables
 	IncVertices = Vertices;
 	IncQuads = Quads;
 
-// Quad reduction
+	// Quad reduction
 	if (Generator.QuadReduction) {
 		unsigned char Level = 1;
 		while (true) {
@@ -277,7 +277,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 		}
 	}
 
-// Extra variables for quad rotation
+	// Extra variables for quad rotation
 	float V1h;
 	float V2h;
 	float V3h;
@@ -285,7 +285,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 	float HD1;
 	float HD2;
 
-// Quad rotation
+	// Quad rotation
 	if (Generator.QuadRotation) {
 		for (Quadn = 0; Quadn < Quads; Quadn++) {
 			if (!TempQuad[Quadn].Exclude) {
@@ -305,7 +305,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 		}
 	}
 
-// Optimise arrays
+	// Optimise arrays
 	if (Generator.Optimise) {
 		// Make new arrays
 		Vertex = (BT_Quadmap_Vertex*)calloc(IncVertices + 1, sizeof(BT_Quadmap_Vertex));
@@ -392,15 +392,15 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 		memcpy(Quad, TempQuad, Quads * sizeof(BT_Quadmap_Quad));
 	}
 
-// Calculate bounds
+	// Calculate bounds
 	CalculateBounds();
 
-// Say that the quadmap is generated
+	// Say that the quadmap is generated
 	Generated = true;
 }
 
 void BT_QuadMap::CalculateNormals() {
-// Middle
+	// Middle
 	for (unsigned short i = 0; i < (QuadsAccross + 1) * (QuadsAccross + 1); i++) {
 		// Get x and y
 		float x = Sector->Pos_x + float(Vertex[i].Vcol * TileSize - Size / 2.0);
@@ -425,10 +425,10 @@ void BT_QuadMap::CalculateNormals() {
 }
 
 void BT_QuadMap::CalculateBounds() {
-// Reset highest and lowest point
+	// Reset highest and lowest point
 	HighestPoint = LowestPoint = Vertex[0].Pos_y;
 
-// Loop through vertices
+	// Loop through vertices
 	for (unsigned short Vertexn = 1; Vertexn <= Vertices; Vertexn++) {
 		// Highest point
 		if (Vertex[Vertexn].Pos_y > HighestPoint) {
@@ -443,10 +443,10 @@ void BT_QuadMap::CalculateBounds() {
 }
 
 s_BT_DrawBuffer* BT_QuadMap::GeneratePlain() {
-// Variables
+	// Variables
 	s_BT_DrawBuffer* DrawBuffer = NULL;
 
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Make draw buffer
 		DrawBuffer = (s_BT_DrawBuffer*)malloc(sizeof(s_BT_DrawBuffer));
@@ -477,10 +477,10 @@ s_BT_DrawBuffer* BT_QuadMap::GeneratePlain() {
 }
 
 void BT_QuadMap::GenerateDBPMesh(sMesh* Mesh) {
-// Variables
+	// Variables
 	bool bDeleteMeshData = false;
 
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Generate mesh data if its not already generated
 		if (!MeshMade) {
@@ -514,10 +514,10 @@ void BT_QuadMap::GenerateDBPMesh(sMesh* Mesh) {
 }
 
 void BT_QuadMap::UpdateDBPMesh(sMesh* Mesh) {
-// Variables
+	// Variables
 	bool bDeleteMeshData = false;
 
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Generate mesh data if its not already generated
 		if (!MeshMade) {
@@ -536,7 +536,7 @@ void BT_QuadMap::UpdateDBPMesh(sMesh* Mesh) {
 }
 
 void BT_QuadMap::SetToMesh(s_BT_DrawBuffer* DrawBuffer) {
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		bool DeleteData = false;
 		if (!MeshMade) {
@@ -600,7 +600,7 @@ void BT_QuadMap::SetToMesh(s_BT_DrawBuffer* DrawBuffer) {
 }
 
 void BT_QuadMap::UpdateMesh(s_BT_DrawBuffer* DrawBuffer, bool ClearUpdateInfo) {
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Update normals - Bit of a hack... This really should be in ChangeMesh but that can cause seams
 		if (RefreshNormals) {
@@ -630,7 +630,7 @@ void BT_QuadMap::UpdateMesh(s_BT_DrawBuffer* DrawBuffer, bool ClearUpdateInfo) {
 		}
 	}
 
-// Clear update info
+	// Clear update info
 	if (ClearUpdateInfo) {
 		UpdateVertexBuffer = false;
 		UpdateIndexBuffer = false;
@@ -639,12 +639,12 @@ void BT_QuadMap::UpdateMesh(s_BT_DrawBuffer* DrawBuffer, bool ClearUpdateInfo) {
 
 
 void BT_QuadMap::GenerateMeshData() {
-// Variables
+	// Variables
 	unsigned long CurrentVertex;
 	unsigned long CurrentIndex;
 	unsigned long CurrentQuad;
 
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Create mesh if not made
 		if (!MeshMade) {
@@ -721,7 +721,7 @@ void BT_QuadMap::GenerateMeshData() {
 }
 
 void BT_QuadMap::DeleteMeshData() {
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		if (MeshMade) {
 			MeshMade = false;
@@ -736,14 +736,14 @@ void BT_QuadMap::DeleteMeshData() {
 
 
 bool BT_QuadMap::GetPointExcluded(float x, float z) {
-// Variables
+	// Variables
 	float U;
 	float V;
 	unsigned long Row;
 	unsigned long Collumn;
 	BT_Quadmap_Quad* cQuad;
 
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Find position on quadmap
 		U = float((x + Size * 0.5) / Size);
@@ -769,7 +769,7 @@ bool BT_QuadMap::GetPointExcluded(float x, float z) {
 
 
 float BT_QuadMap::GetPointHeight(float x, float z, bool Round) {
-// Variables
+	// Variables
 	float U;
 	float V;
 	unsigned short Row;
@@ -782,7 +782,7 @@ float BT_QuadMap::GetPointHeight(float x, float z, bool Round) {
 	float Dy;
 	float Dz;
 
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Find position on quadmap
 		U = float((x + Size * 0.5) / Size);
@@ -847,7 +847,7 @@ float BT_QuadMap::GetPointHeight(float x, float z, bool Round) {
 }
 
 void BT_QuadMap::SetSideLOD(unsigned char Side, unsigned long LODLevel) {
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Find first vertex
 		unsigned short SideFirstVertex = Side * QuadsAccross;
@@ -884,7 +884,7 @@ void BT_QuadMap::SetSideLOD(unsigned char Side, unsigned long LODLevel) {
 }
 
 void BT_QuadMap::FillMeshData(BT_RTTMS_STRUCT* Meshdata) {
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		((BT_RTTMS_STRUCTINTERNALS*)Meshdata->Internals)->DeleteMeshData = false;
 		Meshdata->VertexCount = 0;
@@ -904,7 +904,7 @@ void BT_QuadMap::FillMeshData(BT_RTTMS_STRUCT* Meshdata) {
 }
 
 void BT_QuadMap::ChangeMeshData(unsigned short VertexStart, unsigned short VertexEnd, float* Vertices) {
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Update vertex buffer
 		UpdateVertexBuffer = true;
@@ -926,7 +926,7 @@ void BT_QuadMap::ChangeMeshData(unsigned short VertexStart, unsigned short Verte
 }
 
 void BT_QuadMap::DeleteInternalData() {
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Delete everything
 		if (Vertex != NULL)
@@ -943,16 +943,16 @@ void BT_QuadMap::DeleteInternalData() {
 }
 
 void BT_QuadMap::ReduceQuad(unsigned short QuadTL, unsigned short QuadTR, unsigned short QuadBL, unsigned short QuadBR, BT_Quadmap_Quad* Quads, bool CheckHeights) {
-// Check that none of them are excluded
+	// Check that none of them are excluded
 	if (Quads[QuadTL].Exclude || Quads[QuadTR].Exclude || Quads[QuadBL].Exclude || Quads[QuadBR].Exclude)
 		return;
 
-// Check that they are all the same size
+	// Check that they are all the same size
 	if (!((Quads[QuadTL].Size == Quads[QuadTR].Size) && (Quads[QuadBL].Size == Quads[QuadBR].Size) && (Quads[QuadTL].Size == Quads[QuadBL].Size))) {
 		return;
 	}
 
-// Check that this quad is flat
+	// Check that this quad is flat
 	if (CheckHeights) {
 		// Get heights of each point
 		float p11, p12, p13, p21, p22, p23, p31, p32, p33;
@@ -985,7 +985,7 @@ void BT_QuadMap::ReduceQuad(unsigned short QuadTL, unsigned short QuadTR, unsign
 			return;
 	}
 
-// Reduce the quad
+	// Reduce the quad
 	// Exclude all but top left
 	Quads[QuadTR].Exclude = true;
 	Quads[QuadBL].Exclude = true;
@@ -999,7 +999,7 @@ void BT_QuadMap::ReduceQuad(unsigned short QuadTL, unsigned short QuadTR, unsign
 }
 
 unsigned short BT_QuadMap::FindVertex(unsigned short Vcol, unsigned short Vrow) {
-// Check that the quadmap is generated
+	// Check that the quadmap is generated
 	if (Generated) {
 		// Find the vertex
 		BT_Quadmap_Vertex* Vertex;
@@ -1024,6 +1024,6 @@ unsigned short BT_QuadMap::FindVertex(unsigned short Vcol, unsigned short Vrow) 
 		}
 	}
 
-// Return nothing
+	// Return nothing
 	return 0;
 }

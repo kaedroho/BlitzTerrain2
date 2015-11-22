@@ -17,23 +17,23 @@ unsigned long BT_GetGroundHeight(unsigned long TerrainID, float X, float Z);
 
 EXPORT void BT_SetPointHeight(unsigned long TerrainID, unsigned long TVrow, unsigned long TVcol, float Height)
 {
-//Check that the terrain exists
+	// Check that the terrain exists
 	if (BT_TerrainExist(TerrainID)) {
-		//Get terrain info
+		// Get terrain info
 		BT_TerrainInfo* TerrainInfo = (BT_TerrainInfo*)BT_GetTerrainInfo(TerrainID);
 
-		//Check that the terrain is built and generated
+		// Check that the terrain is built and generated
 		if (TerrainInfo->Built == true && TerrainInfo->Generated == true) {
-			//Check that the point is on the terrain
+			// Check that the point is on the terrain
 			if (TVrow >= 0 && TVrow <= TerrainInfo->Heightmapsize && TVcol >= 0 && TVcol <= TerrainInfo->Heightmapsize) {
-				//Loop through LODLevels
+				// Loop through LODLevels
 				bool Break = false;
 				unsigned char LODLevel = 0;
 				do {
-					//Get LODLevel info
+					// Get LODLevel info
 					BT_LODLevelInfo* LODLevelInfo = (BT_LODLevelInfo*)BT_GetLODLevelInfo(TerrainID, LODLevel);
 
-					//Find which sector(s) the point is on
+					// Find which sector(s) the point is on
 					unsigned short TwoPowerLODLevel = unsigned short(pow(2.0f, float(LODLevel)));
 					unsigned short Vrow = unsigned short(TVrow / TwoPowerLODLevel);
 					unsigned short Vcol = unsigned short(TVcol / TwoPowerLODLevel);
@@ -61,7 +61,7 @@ EXPORT void BT_SetPointHeight(unsigned long TerrainID, unsigned long TVrow, unsi
 						   BT_UnlockVertexData();
 						 */
 
-						//Set the height of the point on this sector
+						// Set the height of the point on this sector
 						BT_UnlockVertexData();
 						BT_LockVertexdataForSector(TerrainID, LODLevel, Srow * LODLevelInfo->Split + Scol);
 						Vrow = Vrow - Srow * LODLevelInfo->SectorDetail;
@@ -69,7 +69,7 @@ EXPORT void BT_SetPointHeight(unsigned long TerrainID, unsigned long TVrow, unsi
 						BT_SetVertexHeight(Vrow, Vcol, Height);
 						BT_UnlockVertexData();
 
-						//Set the height of the point on the left sector
+						// Set the height of the point on the left sector
 						if (LeftSide == true && Scol > 0) {
 							BT_UnlockVertexData();
 							BT_LockVertexdataForSector(TerrainID, LODLevel, Srow * LODLevelInfo->Split + (Scol - 1));
@@ -77,7 +77,7 @@ EXPORT void BT_SetPointHeight(unsigned long TerrainID, unsigned long TVrow, unsi
 							BT_UnlockVertexData();
 						}
 
-						//Set the height of the point on the top sector
+						// Set the height of the point on the top sector
 						if (TopSide == true && Srow > 0) {
 							BT_UnlockVertexData();
 							BT_LockVertexdataForSector(TerrainID, LODLevel, (Srow - 1) * LODLevelInfo->Split + Scol);
@@ -85,7 +85,7 @@ EXPORT void BT_SetPointHeight(unsigned long TerrainID, unsigned long TVrow, unsi
 							BT_UnlockVertexData();
 						}
 
-						//Set the height of the point on the top left sector
+						// Set the height of the point on the top left sector
 						if (LeftSide == true && TopSide == true && Srow > 0 && Scol > 0) {
 							BT_UnlockVertexData();
 							BT_LockVertexdataForSector(TerrainID, LODLevel, (Srow - 1) * LODLevelInfo->Split + (Scol - 1));
@@ -93,7 +93,7 @@ EXPORT void BT_SetPointHeight(unsigned long TerrainID, unsigned long TVrow, unsi
 							BT_UnlockVertexData();
 						}
 
-						//Increase LODLevel
+						// Increase LODLevel
 						LODLevel++;
 						if (LODLevel == TerrainInfo->LODLevels)
 							Break = true;
@@ -107,14 +107,14 @@ EXPORT void BT_SetPointHeight(unsigned long TerrainID, unsigned long TVrow, unsi
 
 EXPORT void BT_SetGroundHeight(unsigned long TerrainID, float X, float Z, float Height)
 {
-//Check that the terrain exists
+	// Check that the terrain exists
 	if (BT_TerrainExist(TerrainID)) {
-		//Get terrain info
+		// Get terrain info
 		BT_TerrainInfo* TerrainInfo = (BT_TerrainInfo*)BT_GetTerrainInfo(TerrainID);
 
-		//Check that the terrain is built and generated
+		// Check that the terrain is built and generated
 		if (TerrainInfo->Built == true && TerrainInfo->Generated == true) {
-			//Set the height
+			// Set the height
 			BT_SetPointHeight(TerrainID, unsigned short((X / TerrainInfo->Scale) + 0.5), unsigned short((Z / TerrainInfo->Scale) + 0.5), Height);
 		}
 	}
@@ -122,20 +122,20 @@ EXPORT void BT_SetGroundHeight(unsigned long TerrainID, float X, float Z, float 
 
 
 
-//CIRCLE BRUSHES
+// CIRCLE BRUSHES
 
 typedef float (*CircleBrush_t)(float XDist, float ZDist, float MidHeight, float Radius, float Amount, float CurrentHeight, float CapHeight);
 
 static void BT_CircleBrush(unsigned long TerrainID, float X, float Z, float Radius, float Amount, CircleBrush_t BrushFunc, bool GetMidHeight, float CapHeight)
 {
-//Check that the terrain exists
+	// Check that the terrain exists
 	if (BT_TerrainExist(TerrainID)) {
-		//Get terrain info
+		// Get terrain info
 		BT_TerrainInfo* TerrainInfo = (BT_TerrainInfo*)BT_GetTerrainInfo(TerrainID);
 
-		//Check that the terrain is built and generated
+		// Check that the terrain is built and generated
 		if (TerrainInfo->Built == true && TerrainInfo->Generated == true) {
-			//Get mid height
+			// Get mid height
 			float MidHeight = 0.0;
 
 #ifdef COMPILE_GDK
@@ -148,7 +148,7 @@ static void BT_CircleBrush(unsigned long TerrainID, float X, float Z, float Radi
 			}
 #endif
 
-			//Find sector(s) the brush is on
+			// Find sector(s) the brush is on
 			float OuterLeft = max(X - Radius, 0);
 			float OuterRight = min(X + Radius, TerrainInfo->TerrainSize);
 			float OuterTop = max(Z - Radius, 0);
@@ -162,17 +162,17 @@ static void BT_CircleBrush(unsigned long TerrainID, float X, float Z, float Radi
 			        float InnerBottom=Z+InnerRadius;
 			 */
 
-			//Loop through LODLevels
+			// Loop through LODLevels
 			bool Break = false;
 			unsigned char LODLevel = 0;
 
 			unsigned short MidVrow = unsigned short((X / TerrainInfo->Scale));
 			unsigned short MidVcol = unsigned short((Z / TerrainInfo->Scale));
 			do {
-				//Get LODLevel info
+				// Get LODLevel info
 				BT_LODLevelInfo* LODLevelInfo = (BT_LODLevelInfo*)BT_GetLODLevelInfo(TerrainID, LODLevel);
 
-				//Find the vertices the box is on
+				// Find the vertices the box is on
 				unsigned short TwoPowerLODLevel = unsigned short(pow(2.0f, float(LODLevel)));
 				unsigned short OuterTopV = unsigned short(floor((OuterTop / TerrainInfo->Scale) / TwoPowerLODLevel));
 				unsigned short OuterLeftV = unsigned short(floor((OuterLeft / TerrainInfo->Scale) / TwoPowerLODLevel));
@@ -186,7 +186,7 @@ static void BT_CircleBrush(unsigned long TerrainID, float X, float Z, float Radi
 				        unsigned short InnerRightV=unsigned short(min(ceil((InnerRight/TerrainInfo->Scale)/TwoPowerLODLevel),TerrainInfo->Heightmapsize));
 				 */
 
-				//Find the sectors the box is on
+				// Find the sectors the box is on
 				unsigned short TopS = unsigned short(OuterTopV / float(LODLevelInfo->SectorDetail));
 				unsigned short LeftS = unsigned short(OuterLeftV / float(LODLevelInfo->SectorDetail));
 				unsigned short BottomS = unsigned short(OuterBottomV / float(LODLevelInfo->SectorDetail));
@@ -196,15 +196,15 @@ static void BT_CircleBrush(unsigned long TerrainID, float X, float Z, float Radi
 				if (LeftS * LODLevelInfo->SectorDetail == OuterLeftV && LeftS > 0)
 					LeftS--;
 
-				//Loop through sectors
+				// Loop through sectors
 				for (unsigned short SectorX = LeftS; SectorX <= RightS; SectorX++) {
 					for (unsigned short SectorY = TopS; SectorY <= BottomS; SectorY++) {
-						//Lock vertexdata for this sector
+						// Lock vertexdata for this sector
 						BT_UnlockVertexData();
 						BT_LockVertexdataForSector(TerrainID, LODLevel, SectorX * LODLevelInfo->Split + SectorY);
 
-						//Edit every vertex in sector, leave it to distance check to find which ones to do
-						//This will be changed to inner and outer box in the future for a big speed increase
+						// Edit every vertex in sector, leave it to distance check to find which ones to do
+						// This will be changed to inner and outer box in the future for a big speed increase
 						for (unsigned short Vrow = 0; Vrow <= LODLevelInfo->SectorDetail; Vrow++) {
 							for (unsigned short Vcol = 0; Vcol <= LODLevelInfo->SectorDetail; Vcol++) {
 							#ifdef COMPILE_GDK
@@ -223,7 +223,7 @@ static void BT_CircleBrush(unsigned long TerrainID, float X, float Z, float Radi
 					}
 				}
 
-				//Increase LODLevel
+				// Increase LODLevel
 				LODLevel++;
 				if (LODLevel == TerrainInfo->LODLevels)
 					Break = true;
@@ -233,7 +233,7 @@ static void BT_CircleBrush(unsigned long TerrainID, float X, float Z, float Radi
 }
 
 
-//Currently, distance checks are done here. This will be changed in the future when I add an inner and outer box system.
+// Currently, distance checks are done here. This will be changed in the future when I add an inner and outer box system.
 
 static float BT_CircleBrush_Raise(float XDist, float ZDist, float MidHeight, float Radius, float Amount, float CurrentHeight, float CapHeight)
 {
@@ -243,10 +243,10 @@ static float BT_CircleBrush_Raise(float XDist, float ZDist, float MidHeight, flo
 		float fDegree = ((cos(float((Dist * 1.57079633) / (Radius / 2.0f))) + 1.0f) / 2.0f);
 		float fNewHeight = CurrentHeight + fDegree * Amount;
 		if (CapHeight != -1.0f && fNewHeight > CurrentHeight) {
-			//if ( fNewHeight > CapHeight )
-			//{
+			// if ( fNewHeight > CapHeight )
+			// {
 			fNewHeight = (CapHeight * fDegree) + (CurrentHeight * (1.0f - fDegree));
-			//}
+			// }
 		}
 		return fNewHeight;
 	} else {
@@ -269,18 +269,18 @@ static float BT_CircleBrush_Flatten(float XDist, float ZDist, float MidHeight, f
 
 EXPORT void BT_RaiseTerrain(unsigned long TerrainID, float X, float Z, float Radius, float Amount)
 {
-//Raise the terrain
+	// Raise the terrain
 	BT_CircleBrush(TerrainID, X, Z, Radius, Amount, BT_CircleBrush_Raise, false, -1.0f);
 }
 
 EXPORT void BT_RaiseTerrain(unsigned long TerrainID, float X, float Z, float Radius, float Amount, float capheight)
 {
-//Raise the terrain
+	// Raise the terrain
 	BT_CircleBrush(TerrainID, X, Z, Radius, Amount, BT_CircleBrush_Raise, false, capheight);
 }
 
 EXPORT void BT_FlattenTerrain(unsigned long TerrainID, float X, float Z, float Radius)
 {
-//Flatten the terrain
+	// Flatten the terrain
 	BT_CircleBrush(TerrainID, X, Z, Radius, 0.0f, BT_CircleBrush_Flatten, true, -1.0f);
 }

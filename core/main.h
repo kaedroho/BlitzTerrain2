@@ -23,7 +23,7 @@
 
 	#define EXPORT
 #else
-// DBP Includes
+	// DBP Includes
 	#include "dbp/globstruct.h"
 
 // DBP Commands

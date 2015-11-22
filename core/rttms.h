@@ -4,31 +4,31 @@
 #include "main.h"
 
 struct BT_RTTMS_STRUCT {
-// Counts
+	// Counts
 	unsigned short VertexCount;
 
-// Data
+	// Data
 	float* Vertices;
 
-// Updated vertices
+	// Updated vertices
 	bool ChangedAVertex;
 	unsigned short FirstUpdatedVertex;
 	unsigned short LastUpdatedVertex;
 
-// Internals
+	// Internals
 	void* Internals;
 };
 
 struct BT_RTTMS_STRUCTINTERNALS {
-// Terrain, LODLevel and Sector
+	// Terrain, LODLevel and Sector
 	unsigned long TerrainID;
 	unsigned long LODLevelID;
 	unsigned long SectorID;
 
-// Sector pointer
+	// Sector pointer
 	s_BT_Sector* SectorPtr;
 
-// Delete meshdata
+	// Delete meshdata
 	bool DeleteMeshData;
 };
 

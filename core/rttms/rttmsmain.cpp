@@ -19,20 +19,20 @@ static unsigned long gBT_LockedSectorID = 0;
 
 EXPORT void BT_LockVertexdataForSector(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID)
 {
-//Check that vertexdata isnt already locked
+	// Check that vertexdata isnt already locked
 	if (gBT_LockedASector == false) {
-		//Lock the vertexdata (this command is very small, all it does is set a locked flag and returns the RTTMS structure)
+		// Lock the vertexdata (this command is very small, all it does is set a locked flag and returns the RTTMS structure)
 		gBT_SectorRTTMS = (BT_RTTMS_STRUCT*)BT_RTTMS_LockSectorVertexData(TerrainID, LODLevelID, SectorID);
 		if (gBT_SectorRTTMS == NULL)
 			return;
 
-		//Set globals
+		// Set globals
 		gBT_LockedASector = true;
 		gBT_LockedTerrainID = TerrainID;
 		gBT_LockedLODLevelID = LODLevelID;
 		gBT_LockedSectorID = SectorID;
 
-		//Get info
+		// Get info
 		gBT_LockedTerrainInfo = (BT_TerrainInfo*)BT_GetTerrainInfo(TerrainID);
 		gBT_LockedLODLevelInfo = (BT_LODLevelInfo*)BT_GetLODLevelInfo(TerrainID, LODLevelID);
 		gBT_LockedSectorInfo = (BT_SectorInfo*)BT_GetSectorInfo(TerrainID, LODLevelID, SectorID);
@@ -66,9 +66,9 @@ EXPORT unsigned long BT_GetLockedSector()
 
 EXPORT void BT_UnlockVertexData()
 {
-//Check that vertexdata is locked
+	// Check that vertexdata is locked
 	if (gBT_LockedASector == true) {
-		//Zero everything
+		// Zero everything
 		gBT_LockedASector = false;
 		gBT_SectorRTTMS = NULL;
 		gBT_LockedTerrainID = 0;
@@ -147,10 +147,10 @@ EXPORT void BT_SetVertexHeight(unsigned short VertexID, float Height)
 {
 	if (gBT_LockedASector == true) {
 		if (gBT_SectorRTTMS->VertexCount + 1 > VertexID) {
-			//Set position
+			// Set position
 			gBT_SectorRTTMS->Vertices[VertexID] = Height;
 
-			//Set updated vertices
+			// Set updated vertices
 			if (gBT_SectorRTTMS->ChangedAVertex == false) {
 				gBT_SectorRTTMS->FirstUpdatedVertex = gBT_SectorRTTMS->LastUpdatedVertex = VertexID;
 				gBT_SectorRTTMS->ChangedAVertex = true;

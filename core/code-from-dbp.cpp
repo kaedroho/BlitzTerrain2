@@ -1,4 +1,4 @@
-//THIS CODE WAS BORROWED FROM DBPRO 7.5 AND MODIFIED TO WORK WITH BLITZTERRAIN
+// THIS CODE WAS BORROWED FROM DBPRO 7.5 AND MODIFIED TO WORK WITH BLITZTERRAIN
 
 
 
@@ -18,28 +18,28 @@ extern GlobStruct* g_Glob;
 
 bool DBPRO_SetMeshRenderStates( sMesh* pMesh )
 {
-//Get D3D Device
+	// Get D3D Device
 	IDirect3DDevice9* D3DDevice=dbGetDirect3DDevice();
 
-//Wireframe
+	// Wireframe
 	if ( pMesh->bWireframe )
 		D3DDevice->SetRenderState ( D3DRS_FILLMODE, D3DFILL_WIREFRAME );
 	else
 		D3DDevice->SetRenderState ( D3DRS_FILLMODE, D3DFILL_SOLID );
 
-//Lighting
+	// Lighting
 	if ( pMesh->bLight )
 		D3DDevice->SetRenderState ( D3DRS_LIGHTING, TRUE );
 	else
 		D3DDevice->SetRenderState ( D3DRS_LIGHTING, FALSE );
 
-//Culling
+	// Culling
 	if ( pMesh->bCull )
 		D3DDevice->SetRenderState ( D3DRS_CULLMODE, D3DCULL_CCW );
 	else	
 		D3DDevice->SetRenderState ( D3DRS_CULLMODE, D3DCULL_NONE );
 
-//Fog
+	// Fog
 	if(g_Glob)
 	{
 		if(g_Glob->iFogState==1)
@@ -56,7 +56,7 @@ bool DBPRO_SetMeshRenderStates( sMesh* pMesh )
 	}
 
 // Need render state struct to get Ambient colour
-//Ambient
+// Ambient
 //	if ( pMesh->bAmbient==false && m_RenderStates.iAmbient==1
 //	||	 m_RenderStates.iAmbient==0 || m_RenderStates.iAmbient==2 )
 //	{
@@ -91,7 +91,7 @@ bool DBPRO_SetMeshRenderStates( sMesh* pMesh )
 	// leefix - 070204 - introduced for better Zwrite control
 	bool bCorrectZWriteState = pMesh->bZWrite;
 
-//Transparency
+	// Transparency
 	bool bDoGhostAgain = false;
 	if ( pMesh->bTransparency==true )
 	{
@@ -146,7 +146,7 @@ bool DBPRO_SetMeshRenderStates( sMesh* pMesh )
 		bDoGhostAgain = true;
 	}
 
-//Ghosting
+	// Ghosting
 	if ( bDoGhostAgain==true )
 	{
 		if ( pMesh->bGhost )
@@ -213,13 +213,13 @@ bool DBPRO_SetMeshRenderStates( sMesh* pMesh )
 
 	}
 
-//Z Write
+	// Z Write
 	if ( pMesh->bZWrite )
 		D3DDevice->SetRenderState ( D3DRS_ZWRITEENABLE,		TRUE );
 	else
 		D3DDevice->SetRenderState ( D3DRS_ZWRITEENABLE,		FALSE );
 
-//Z Bias
+	// Z Bias
 	if ( pMesh->bZBiasActive )
 	{
 		D3DDevice->SetRenderState ( D3DRS_DEPTHBIAS,			*(DWORD*)&pMesh->fZBiasDepth );
@@ -231,13 +231,13 @@ bool DBPRO_SetMeshRenderStates( sMesh* pMesh )
 		D3DDevice->SetRenderState ( D3DRS_SLOPESCALEDEPTHBIAS,	0 );
 	}
 
-//Z Read
+	// Z Read
 	if ( pMesh->bZRead )
 		D3DDevice->SetRenderState ( D3DRS_ZENABLE,		TRUE );
 	else
 		D3DDevice->SetRenderState ( D3DRS_ZENABLE,		FALSE );
 
-//Material
+	// Material
 	if ( pMesh->bUsesMaterial )
 	{
 		// use diffuse from material (if present)
@@ -270,10 +270,10 @@ bool DBPRO_SetMeshRenderStates( sMesh* pMesh )
 
 void DBPRO_ApplyEffect ( sMesh* pMesh, tagCameraData* m_Camera_Ptr )
 {
-//Get D3D Device
+	// Get D3D Device
 	IDirect3DDevice9* D3DDevice=dbGetDirect3DDevice();
 
-//Get effect
+	// Get effect
 	cSpecialEffect* Effect=pMesh->pVertexShaderEffect;
 
 	// Gather and calculate required constants data
@@ -471,14 +471,14 @@ void DBPRO_ApplyEffect ( sMesh* pMesh, tagCameraData* m_Camera_Ptr )
 		{
 			// TIME DATA IN SECONDS
 			float fTime =0.0f;
-//			float fTime = (float)(timeGetTime() / 1000.0);
+	//			float fTime = (float)(timeGetTime() / 1000.0);
 			Effect->m_pEffect->SetFloat( Effect->m_TimeEffectHandle, fTime );
 		}
 		if( Effect->m_SinTimeEffectHandle != NULL )
 		{
 			// TIME DATA IN SECONDS
 			float fSinTime =0.0f;
-//			float fSinTime = (float)sin((timeGetTime() / 1000.0));
+	//			float fSinTime = (float)sin((timeGetTime() / 1000.0));
 			Effect->m_pEffect->SetFloat( Effect->m_SinTimeEffectHandle, fSinTime );
 		}
 
@@ -546,7 +546,7 @@ void DBPRO_ApplyEffect ( sMesh* pMesh, tagCameraData* m_Camera_Ptr )
 		}
 
 
-	//Commit changes
+	// Commit changes
 		D3DDevice->SetRenderState ( D3DRS_CLIPPLANEENABLE, 0x00 );
 		Effect->m_pEffect->CommitChanges();
 

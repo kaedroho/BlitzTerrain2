@@ -24,22 +24,22 @@ extern t_dbGetImageHeight dbGetImageHeight;
 
 EXPORT void BT_PaintTerrain(unsigned long TerrainID, float X, float Z, float Radius, unsigned long Colour)
 {
-//Check that the terrain exists
+	// Check that the terrain exists
 	if (BT_TerrainExist(TerrainID)) {
-		//Get terrain info
+		// Get terrain info
 		BT_TerrainInfo* TerrainInfo = (BT_TerrainInfo*)BT_GetTerrainInfo(TerrainID);
 
-		//Check that the terrain is built
+		// Check that the terrain is built
 		if (TerrainInfo->Built == true) {
-			//Check that the terrain has a texture
+			// Check that the terrain has a texture
 			if (TerrainInfo->Texture > 0) {
-				//Get DBP Object
+				// Get DBP Object
 				sObject* Object = (sObject*)TerrainInfo->DBPObjectPtr;
 
-				//Get texture
+				// Get texture
 				LPDIRECT3DTEXTURE9 Texture = Object->pFrame->pMesh->pTextures[0].pTexturesRef;
 
-				//Get rect
+				// Get rect
 				long ImageWidth = dbGetImageWidth(TerrainInfo->Texture);
 				long ImageHeight = dbGetImageHeight(TerrainInfo->Texture);
 				long TexX = unsigned long((X * ImageWidth) / TerrainInfo->TerrainSize);
@@ -52,7 +52,7 @@ EXPORT void BT_PaintTerrain(unsigned long TerrainID, float X, float Z, float Rad
 				Rect.left = TexX - TexWidth;
 				Rect.right = TexX + TexWidth;
 
-				//Clamp rect
+				// Clamp rect
 				if (Rect.top < 0)
 					Rect.top = 0;
 				if (Rect.top >= ImageHeight)
@@ -70,14 +70,14 @@ EXPORT void BT_PaintTerrain(unsigned long TerrainID, float X, float Z, float Rad
 				if (Rect.right > ImageWidth)
 					Rect.right = ImageWidth;
 
-				//Get point position on rect
+				// Get point position on rect
 				long PosX = TexX - (Rect.left + Rect.right) / 2;
 				long PosY = TexY - (Rect.top + Rect.bottom) / 2;
 
-				//Lock rect
+				// Lock rect
 				D3DLOCKED_RECT LockedRect;
 				if (Texture->LockRect(0, &LockedRect, &Rect, 0) == D3D_OK) {
-					//Draw circle
+					// Draw circle
 					for (long x = 0; x < TexWidth * 2; x++) {
 						if (x + Rect.left < ImageWidth) {
 							for (long y = 0; y < TexHeight * 2; y++) {
@@ -91,7 +91,7 @@ EXPORT void BT_PaintTerrain(unsigned long TerrainID, float X, float Z, float Rad
 							}
 						}
 					}
-					//Unlock the rect
+					// Unlock the rect
 					Texture->UnlockRect(0);
 				}
 			}
@@ -101,22 +101,22 @@ EXPORT void BT_PaintTerrain(unsigned long TerrainID, float X, float Z, float Rad
 
 EXPORT void BT_PaintTerrain(unsigned long TerrainID, float X, float Z, float Radius, unsigned long MinColour, unsigned long MaxColour)
 {
-//Check that the terrain exists
+	// Check that the terrain exists
 	if (BT_TerrainExist(TerrainID)) {
-		//Get terrain info
+		// Get terrain info
 		BT_TerrainInfo* TerrainInfo = (BT_TerrainInfo*)BT_GetTerrainInfo(TerrainID);
 
-		//Check that the terrain is built
+		// Check that the terrain is built
 		if (TerrainInfo->Built == true) {
-			//Check that the terrain has a texture
+			// Check that the terrain has a texture
 			if (TerrainInfo->Texture > 0) {
-				//Get DBP Object
+				// Get DBP Object
 				sObject* Object = (sObject*)TerrainInfo->DBPObjectPtr;
 
-				//Get texture
+				// Get texture
 				LPDIRECT3DTEXTURE9 Texture = Object->pFrame->pMesh->pTextures[0].pTexturesRef;
 
-				//Get rect
+				// Get rect
 				long ImageWidth = dbGetImageWidth(TerrainInfo->Texture);
 				long ImageHeight = dbGetImageHeight(TerrainInfo->Texture);
 				long TexX = unsigned long((X * ImageWidth) / TerrainInfo->TerrainSize);
@@ -129,7 +129,7 @@ EXPORT void BT_PaintTerrain(unsigned long TerrainID, float X, float Z, float Rad
 				Rect.left = TexX - TexWidth;
 				Rect.right = TexX + TexWidth;
 
-				//Clamp rect
+				// Clamp rect
 				if (Rect.top < 0)
 					Rect.top = 0;
 				if (Rect.top >= ImageHeight)
@@ -147,14 +147,14 @@ EXPORT void BT_PaintTerrain(unsigned long TerrainID, float X, float Z, float Rad
 				if (Rect.right > ImageWidth)
 					Rect.right = ImageWidth;
 
-				//Get point position on rect
+				// Get point position on rect
 				long PosX = TexX - (Rect.left + Rect.right) / 2;
 				long PosY = TexY - (Rect.top + Rect.bottom) / 2;
 
-				//Lock rect
+				// Lock rect
 				D3DLOCKED_RECT LockedRect;
 				if (Texture->LockRect(0, &LockedRect, &Rect, 0) == D3D_OK) {
-					//Draw circle
+					// Draw circle
 					for (long x = 0; x < TexWidth * 2; x++) {
 						if (x + Rect.left < ImageWidth) {
 							for (long y = 0; y < TexHeight * 2; y++) {
@@ -176,7 +176,7 @@ EXPORT void BT_PaintTerrain(unsigned long TerrainID, float X, float Z, float Rad
 							}
 						}
 					}
-					//Unlock the rect
+					// Unlock the rect
 					Texture->UnlockRect(0);
 				}
 			}
@@ -186,22 +186,22 @@ EXPORT void BT_PaintTerrain(unsigned long TerrainID, float X, float Z, float Rad
 
 EXPORT void BT_SetPointColour(unsigned long TerrainID, float X, float Z, unsigned long Colour)
 {
-//Check that the terrain exists
+	// Check that the terrain exists
 	if (BT_TerrainExist(TerrainID)) {
-		//Get terrain info
+		// Get terrain info
 		BT_TerrainInfo* TerrainInfo = (BT_TerrainInfo*)BT_GetTerrainInfo(TerrainID);
 
-		//Check that the terrain is built
+		// Check that the terrain is built
 		if (TerrainInfo->Built == true) {
-			//Check that the terrain has a texture
+			// Check that the terrain has a texture
 			if (TerrainInfo->Texture > 0) {
-				//Get DBP Object
+				// Get DBP Object
 				sObject* Object = (sObject*)TerrainInfo->DBPObjectPtr;
 
-				//Get texture
+				// Get texture
 				LPDIRECT3DTEXTURE9 Texture = Object->pFrame->pMesh->pTextures[0].pTexturesRef;
 
-				//Get rect
+				// Get rect
 				long ImageWidth = dbGetImageWidth(TerrainInfo->Texture);
 				long ImageHeight = dbGetImageHeight(TerrainInfo->Texture);
 				long TexX = unsigned long((X * ImageWidth) / TerrainInfo->TerrainSize);
@@ -212,7 +212,7 @@ EXPORT void BT_SetPointColour(unsigned long TerrainID, float X, float Z, unsigne
 				Rect.left = TexX;
 				Rect.right = TexX;
 
-				//Clamp rect
+				// Clamp rect
 				if (Rect.top < 0)
 					Rect.top = 0;
 				if (Rect.top >= ImageHeight - 1)
@@ -230,13 +230,13 @@ EXPORT void BT_SetPointColour(unsigned long TerrainID, float X, float Z, unsigne
 				if (Rect.right > ImageWidth - 1)
 					Rect.right = ImageWidth - 1;
 
-				//Lock rect
+				// Lock rect
 				D3DLOCKED_RECT LockedRect;
 				if (Texture->LockRect(0, &LockedRect, &Rect, 0) == D3D_OK) {
-					//Set colour
+					// Set colour
 					*((D3DCOLOR*)LockedRect.pBits) = Colour;
 
-					//Unlock the rect
+					// Unlock the rect
 					Texture->UnlockRect(0);
 				}
 			}
@@ -247,22 +247,22 @@ EXPORT void BT_SetPointColour(unsigned long TerrainID, float X, float Z, unsigne
 
 EXPORT void BT_UpdateTerrainTexture(unsigned long TerrainID)
 {
-//Check that the terrain exists
+	// Check that the terrain exists
 	if (BT_TerrainExist(TerrainID)) {
-		//Get terrain info
+		// Get terrain info
 		BT_TerrainInfo* TerrainInfo = (BT_TerrainInfo*)BT_GetTerrainInfo(TerrainID);
 
-		//Check that the terrain is built
+		// Check that the terrain is built
 		if (TerrainInfo->Built == true) {
-			//Check that the terrain has a texture
+			// Check that the terrain has a texture
 			if (TerrainInfo->Texture > 0) {
-				//Get DBP Object
+				// Get DBP Object
 				sObject* Object = (sObject*)TerrainInfo->DBPObjectPtr;
 
-				//Get texture
+				// Get texture
 				LPDIRECT3DTEXTURE9 Texture = Object->pFrame->pMesh->pTextures[0].pTexturesRef;
 
-				//Update the texture
+				// Update the texture
 				D3DXFilterTexture(Texture, NULL, 0, D3DX_DEFAULT);
 			}
 		}

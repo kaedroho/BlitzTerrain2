@@ -5,7 +5,7 @@
 
 unsigned short BT_Intern_AddEnvironment(BT_EnvironmentMap* EnvironmentMap, unsigned long Colour)
 {
-// Check that this environment map is not made
+	// Check that this environment map is not made
 	if (!EnvironmentMap->Made) {
 		// Increase buffer size
 		EnvironmentMap->EnvironmentCount++;
@@ -22,23 +22,23 @@ unsigned short BT_Intern_AddEnvironment(BT_EnvironmentMap* EnvironmentMap, unsig
 		return EnvironmentMap->EnvironmentCount;
 	}
 
-// Return nothing
+	// Return nothing
 	return 0;
 }
 
 void BT_Intern_CreateEnvironmentMap(BT_EnvironmentMap* EnvironmentMap, unsigned long Width, unsigned long Height, unsigned long* Buffer)
 {
-// Allocate buffer
+	// Allocate buffer
 	EnvironmentMap->Buffer = (unsigned short*)malloc(Width * Height * sizeof(unsigned short));
 	if (EnvironmentMap->Buffer == nullptr)
 		BT_Intern_Error(C_BT_ERROR_MEMORYERROR);
 	memset(EnvironmentMap->Buffer, 0, Width * Height * sizeof(unsigned short));
 
-// Set width and height
+	// Set width and height
 	EnvironmentMap->Width = Width;
 	EnvironmentMap->Height = Height;
 
-// Loop through points and add to the environment map
+	// Loop through points and add to the environment map
 	for (unsigned long x = 0; x < Width; x++) {
 		for (unsigned long y = 0; y < Height; y++) {
 			for (unsigned short CurrentEnvironment = 1; CurrentEnvironment < EnvironmentMap->EnvironmentCount + 1; CurrentEnvironment++) {
@@ -48,11 +48,11 @@ void BT_Intern_CreateEnvironmentMap(BT_EnvironmentMap* EnvironmentMap, unsigned 
 		}
 	}
 
-// Cleanup
+	// Cleanup
 	free(EnvironmentMap->EnvironmentBuffer);
 	EnvironmentMap->EnvironmentBuffer = 0;
 
-// Say that its made
+	// Say that its made
 	EnvironmentMap->Made = true;
 }
 
@@ -64,15 +64,15 @@ void BT_Intern_CleanupEnvironmentMap(BT_EnvironmentMap* EnvironmentMap)
 
 void BT_Intern_DeleteEnvironmentMap(BT_EnvironmentMap* EnvironmentMap)
 {
-// Delete Environment info
+	// Delete Environment info
 	if (EnvironmentMap->EnvironmentBuffer != 0)
 		free(EnvironmentMap->EnvironmentBuffer);
 
-// Delete buffer
+	// Delete buffer
 	if (EnvironmentMap->Buffer != 0)
 		free(EnvironmentMap->Buffer);
 
-// Clean up
+	// Clean up
 	memset(EnvironmentMap, 0, sizeof(BT_EnvironmentMap));
 }
 
