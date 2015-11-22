@@ -118,7 +118,7 @@ void BT_Init()
 {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_INIT;
 
-	if (BT_Main.Initialised == false) {
+	if (!BT_Main.Initialised) {
 		AddToRenderList(&BT_Intern_Render, 7500);
 
 		memset(&BT_Main, 0, sizeof(s_BT_main));
@@ -377,7 +377,7 @@ EXPORT void BT_SetTerrainDetailBlendMode(unsigned long terrainid, unsigned char 
 		return;
 	}
 
-	if (BT_Main.Terrains[terrainid].Built == true) {
+	if (BT_Main.Terrains[terrainid].Built) {
 		// Set the detail blendmode
 		BT_Main.Terrains[terrainid].DetailBlendMode = mode;
 		if (BT_Main.Terrains[terrainid].Detailmap)
@@ -659,7 +659,7 @@ EXPORT void BT_SetTerrainLODDistance(unsigned long terrainid, unsigned char LODL
 	}
 
 	// Check if the terrain is built
-	if (BT_Main.Terrains[terrainid].Built == true) {
+	if (BT_Main.Terrains[terrainid].Built) {
 		((BT_LODLevelInfo*)BT_Main.Terrains[terrainid].LODLevel[LODLevel].Info)->Distance = value;
 		BT_Main.Terrains[terrainid].LODLevel[LODLevel].Distance = value / BT_Main.Terrains[terrainid].Scale * C_BT_INTERNALSCALE;
 	} else {
@@ -712,7 +712,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID, boo
 		Terrain = &BT_Main.Terrains[terrainid];
 
 		// Check that the terrain isnt built
-		if (Terrain->Built == true)
+		if (Terrain->Built)
 			BT_Intern_Error(C_BT_ERROR_TERRAINALREADYBUILT);
 
 		// Find the heightmap image
@@ -721,25 +721,25 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID, boo
 		// Check all the images
 
 		// Heightmap
-		if (BT_Intern_ImageExist(HeightmapImg) == false) {
+		if (!BT_Intern_ImageExist(HeightmapImg)) {
 			BT_Intern_Error(C_BT_ERROR_HEIGHTMAPDOESNTEXIST);
 			return;
 		}
 
 		// Texture
-		if (BT_Intern_ImageExist(Terrain->Texture) == false)
+		if (!BT_Intern_ImageExist(Terrain->Texture))
 			Terrain->Texture = 0;
 
 		// Detailmap
-		if (BT_Intern_ImageExist(Terrain->Detailmap) == false)
+		if (!BT_Intern_ImageExist(Terrain->Detailmap))
 			Terrain->Detailmap = 0;
 
 		// Environmentmap
-		if (BT_Intern_ImageExist(Terrain->Environmentmap) == false)
+		if (!BT_Intern_ImageExist(Terrain->Environmentmap))
 			Terrain->Environmentmap = 0;
 
 		// Exclusionmap
-		if (BT_Intern_ImageExist(Terrain->Exclusionmap) == false)
+		if (!BT_Intern_ImageExist(Terrain->Exclusionmap))
 			Terrain->Exclusionmap = 0;
 
 
@@ -961,11 +961,11 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID, boo
 
 				Terrain->LODLevel[LODLevel].Sector[Sector].Excluded = false;
 				if (Excludememblock > 0) {
-					if (BT_Intern_GetSectorExclusion(Terrain, LODLevel, Excludememblock, Row, Column, Generator.exclusion) == true)
+					if (BT_Intern_GetSectorExclusion(Terrain, LODLevel, Excludememblock, Row, Column, Generator.exclusion))
 						SectorPtr->Excluded = true;
 				}
 
-				if (Terrain->LODLevel[LODLevel].Sector[Sector].Excluded == false) {
+				if (!Terrain->LODLevel[LODLevel].Sector[Sector].Excluded) {
 					// RTTMS
 					Terrain->LODLevel[LODLevel].Sector[Sector].VertexDataRTTMS = (BT_RTTMS_STRUCT*)malloc(sizeof(BT_RTTMS_STRUCT));
 					if (Terrain->LODLevel[LODLevel].Sector[Sector].VertexDataRTTMS == nullptr)
@@ -1012,26 +1012,26 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID, boo
 			Generator.LODLevel = LODLevel;
 			for (Sector = 0; Sector < Terrain->LODLevel[LODLevel].Sectors; Sector++) {
 				s_BT_Sector* SectorPtr = &Terrain->LODLevel[LODLevel].Sector[Sector];
-				if (SectorPtr->Excluded == false) {
+				if (!SectorPtr->Excluded) {
 					SectorPtr->QuadMap->Above = SectorPtr->QuadMap->Below = SectorPtr->QuadMap->Left = SectorPtr->QuadMap->Right = 0;
 					if (SectorPtr->Column != 0) {
 						s_BT_Sector* OtherSectorPtr = &Terrain->LODLevel[LODLevel].Sector[Sector - Terrain->LODLevel[LODLevel].Split];
-						if (OtherSectorPtr->Excluded == false)
+						if (!OtherSectorPtr->Excluded)
 							SectorPtr->QuadMap->Above = OtherSectorPtr->QuadMap;
 					}
 					if (SectorPtr->Row != Terrain->LODLevel[LODLevel].Split - 1) {
 						s_BT_Sector* OtherSectorPtr = &Terrain->LODLevel[LODLevel].Sector[Sector + 1];
-						if (OtherSectorPtr->Excluded == false)
+						if (!OtherSectorPtr->Excluded)
 							SectorPtr->QuadMap->Right = OtherSectorPtr->QuadMap;
 					}
 					if (SectorPtr->Row != 0) {
 						s_BT_Sector* OtherSectorPtr = &Terrain->LODLevel[LODLevel].Sector[Sector - 1];
-						if (OtherSectorPtr->Excluded == false)
+						if (!OtherSectorPtr->Excluded)
 							SectorPtr->QuadMap->Left = OtherSectorPtr->QuadMap;
 					}
 					if (SectorPtr->Column != Terrain->LODLevel[LODLevel].Split - 1) {
 						s_BT_Sector* OtherSectorPtr = &Terrain->LODLevel[LODLevel].Sector[Sector + Terrain->LODLevel[LODLevel].Split];
-						if (OtherSectorPtr->Excluded == false)
+						if (!OtherSectorPtr->Excluded)
 							SectorPtr->QuadMap->Below = OtherSectorPtr->QuadMap;
 					}
 
@@ -1112,7 +1112,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID, boo
 		Terrain->Built = 1;
 
 		// Build
-		if (GenerateTerrain == true) {
+		if (GenerateTerrain) {
 			unsigned long tempbuildstep = BT_Main.buildstep;
 			BT_Main.buildstep = 0;
 			int null = BT_ContinueBuild();
@@ -1152,7 +1152,7 @@ EXPORT int BT_ContinueBuild()
 	float Progress_flt;
 
 // Check that its building
-	if (BT_Main.Building == true) {
+	if (BT_Main.Building) {
 		if (BT_Main.buildstep > BT_Main.CurrentBuildTerrain->Sectors)
 			BT_Main.buildstep = 0;
 
@@ -1359,8 +1359,8 @@ EXPORT unsigned long BT_GetPointExcluded(unsigned long terrainid, float x, float
 	float Height = 0.0;
 
 // Check that the terrain exists and has been built
-	if (BT_Intern_TerrainExist(terrainid) == true) {
-		if (BT_Main.Terrains[terrainid].Built == true) {
+	if (BT_Intern_TerrainExist(terrainid)) {
+		if (BT_Main.Terrains[terrainid].Built) {
 			// Return if it is excluded
 			return BT_Intern_GetPointExcluded(&BT_Main.Terrains[terrainid], x / BT_Main.Terrains[terrainid].Scale * C_BT_INTERNALSCALE, z / BT_Main.Terrains[terrainid].Scale * C_BT_INTERNALSCALE);
 		}
@@ -1383,8 +1383,8 @@ EXPORT unsigned long BT_GetPointEnvironment(unsigned long terrainid, float x, fl
 	float Height = 0.0;
 
 // Check that the terrain exists and has been built
-	if (BT_Intern_TerrainExist(terrainid) == true) {
-		if (BT_Main.Terrains[terrainid].Built == true) {
+	if (BT_Intern_TerrainExist(terrainid)) {
+		if (BT_Main.Terrains[terrainid].Built) {
 			// Check the range
 			if (x > 0 && BT_Main.Terrains[terrainid].TerrainSize / C_BT_INTERNALSCALE * BT_Main.Terrains[terrainid].Scale > x &&
 			    z > 0 && BT_Main.Terrains[terrainid].TerrainSize / C_BT_INTERNALSCALE * BT_Main.Terrains[terrainid].Scale > z) {
@@ -2080,7 +2080,7 @@ EXPORT void BT_UpdateTerrainLOD(unsigned long TerrainID)
 // Check that the terrain exists
 	if (BT_Intern_TerrainExist(TerrainID)) {
 		// Check that the terrain is generated
-		if (BT_Main.Terrains[TerrainID].Generated == true) {
+		if (BT_Main.Terrains[TerrainID].Generated) {
 			// Add to queue
 			BT_Intern_AddToInstructionQueue(C_BT_INSTRUCTION_UPDATETERRAINLOD, (char)TerrainID);
 		} else {
@@ -2107,7 +2107,7 @@ EXPORT void BT_UpdateTerrainCull(unsigned long TerrainID)
 // Check that the terrain exists
 	if (BT_Intern_TerrainExist(TerrainID)) {
 		// Check that the terrain is generated
-		if (BT_Main.Terrains[TerrainID].Generated == true) {
+		if (BT_Main.Terrains[TerrainID].Generated) {
 			// Add to queue
 			BT_Intern_AddToInstructionQueue(C_BT_INSTRUCTION_UPDATETERRAINCULL, (char)TerrainID);
 		} else {
@@ -2134,7 +2134,7 @@ EXPORT void BT_RenderTerrain(unsigned long TerrainID)
 // Check if the terrain exists
 	if (BT_Intern_TerrainExist(TerrainID)) {
 		// Check that the terrain is generated
-		if (BT_Main.Terrains[TerrainID].Generated == true) {
+		if (BT_Main.Terrains[TerrainID].Generated) {
 			// Add to queue
 			BT_Intern_AddToInstructionQueue(C_BT_INSTRUCTION_RENDERTERRAIN, (char)TerrainID);
 		} else {
@@ -2197,7 +2197,7 @@ EXPORT void BT_Intern_Render()
 	BT_Intern_ClearStatistics();
 
 // Check if autorender is enabled
-	if (BT_Main.AutoRender == true) {
+	if (BT_Main.AutoRender) {
 		// Loop through cameras
 		for (unsigned long CameraID = 0; CameraID < 32; CameraID++) {
 			if (dbGetCameraInternalData(CameraID) != 0) {
@@ -2207,7 +2207,7 @@ EXPORT void BT_Intern_Render()
 				// Loop through terrains
 				for (unsigned long TerrainID = 1; TerrainID < C_BT_MAXTERRAINS; TerrainID++) {
 					// Check that the terrain exists
-					if (BT_Main.Terrains[TerrainID].Exists == true) {
+					if (BT_Main.Terrains[TerrainID].Exists) {
 						// Add terrain cull update to queue
 						BT_Intern_AddToInstructionQueue(C_BT_INSTRUCTION_UPDATETERRAINCULL, (char)TerrainID);
 
@@ -2249,7 +2249,7 @@ EXPORT void BT_Intern_Render()
 			BT_Main.CullScale.z = BT_Main.CullScale.z * BT_Main.Terrains[TerrainID].Scale / C_BT_INTERNALSCALE;
 
 			// Extract frustum
-			if (BT_Main.FrustumExtracted == false) {
+			if (!BT_Main.FrustumExtracted) {
 				BT_Intern_ExtractFrustum();
 				BT_Main.FrustumExtracted = true;
 			}
@@ -2282,7 +2282,7 @@ EXPORT void BT_Intern_Render()
 			unsigned long TerrainID = BT_Main.InstructionQueue[CurrentPos + 1];
 
 			// Check if the object is visible
-			if (BT_Main.Terrains[TerrainID].Object->pFrame->pMesh->bVisible == true) {
+			if (BT_Main.Terrains[TerrainID].Object->pFrame->pMesh->bVisible) {
 				// Set main camera
 				BT_Main.LODCamPosition = BT_Main.CurrentUpdateCamera->vecPosition;
 
@@ -2461,19 +2461,19 @@ static void BT_Intern_CalculateLODLevelsRec(s_BT_terrain* Terrain, s_BT_QuadTree
 // Check if LOD level is greater than 0
 	if (Level > 0) {
 		// Part 1
-		if (Quadtree->n1->Culled == false)
+		if (!Quadtree->n1->Culled)
 			BT_Intern_CalculateLODLevelsRec(Terrain, Quadtree->n1, Level - 1, LODLevelToDraw);
 
 		// Part 2
-		if (Quadtree->n2->Culled == false)
+		if (!Quadtree->n2->Culled)
 			BT_Intern_CalculateLODLevelsRec(Terrain, Quadtree->n2, Level - 1, LODLevelToDraw);
 
 		// Part 3
-		if (Quadtree->n3->Culled == false)
+		if (!Quadtree->n3->Culled)
 			BT_Intern_CalculateLODLevelsRec(Terrain, Quadtree->n3, Level - 1, LODLevelToDraw);
 
 		// Part 4
-		if (Quadtree->n4->Culled == false)
+		if (!Quadtree->n4->Culled)
 			BT_Intern_CalculateLODLevelsRec(Terrain, Quadtree->n4, Level - 1, LODLevelToDraw);
 	} else {
 		if (Terrain->LODMap[Quadtree->row][Quadtree->collumn].Level != LODLevelToDraw) {
@@ -2496,7 +2496,7 @@ static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
 		for (unsigned long Sector = 0; Sector < Terrain->LODLevel[LODLevel].Sectors; Sector++) {
 			s_BT_Sector* SectorPtr = &Terrain->LODLevel[LODLevel].Sector[Sector];
 			if (SectorPtr->QuadTree != NULL) {
-				if (SectorPtr->QuadTree->Culled == false && SectorPtr->QuadTree->DrawThis == true) {
+				if (!SectorPtr->QuadTree->Culled && SectorPtr->QuadTree->DrawThis) {
 					// Find row and collumn
 					s_BT_QuadTree* CurrentQuadTree = SectorPtr->QuadTree;
 					unsigned long Row = SectorPtr->Row * Span;
@@ -2560,8 +2560,8 @@ static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
 static void BT_Intern_FixSectorLODSeams(s_BT_Sector* SectorPtr)
 {
 // Fix the seams
-	if (SectorPtr->QuadTree != NULL && SectorPtr->Excluded == false) {
-		if (SectorPtr->QuadTree->Culled == false && SectorPtr->QuadTree->DrawThis == true) {
+	if (SectorPtr->QuadTree != NULL && !SectorPtr->Excluded) {
+		if (!SectorPtr->QuadTree->Culled && SectorPtr->QuadTree->DrawThis) {
 			// Make sure that the sector is unlocked
 			BT_Intern_UnlockSectorVertexData(SectorPtr);
 
@@ -2608,7 +2608,7 @@ static void BT_Intern_CalculateCullingRec(s_BT_terrain* Terrain, s_BT_QuadTree* 
 // Initialise Culled variable
 	Quadtree->Culled = true;
 
-	if (IntersectingFrustum == true) {
+	if (IntersectingFrustum) {
 		char Culled = BT_Intern_CullBox(Quadtree->CullBox);
 		if (Culled > 0) {
 			Quadtree->Culled = false;
@@ -2620,7 +2620,7 @@ static void BT_Intern_CalculateCullingRec(s_BT_terrain* Terrain, s_BT_QuadTree* 
 	}
 
 // Check if LOD level is greater than 0 and the sector isnt culled
-	if (Level > 0 && Quadtree->Culled == false) {
+	if (Level > 0 && !Quadtree->Culled) {
 		// Part 1
 		BT_Intern_CalculateCullingRec(Terrain, Quadtree->n1, Level - 1, IntersectingFrustum); // -x,-z
 
@@ -2644,7 +2644,7 @@ static void BT_Intern_CalculateCullingRec(s_BT_terrain* Terrain, s_BT_QuadTree* 
 static void BT_Intern_UpdateCullBoxesRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level)
 {
 // Check if the cullbox needs updating
-	if (Quadtree->CullboxChanged && Quadtree->Excluded == false) {
+	if (Quadtree->CullboxChanged && !Quadtree->Excluded) {
 		// Check if LOD level is greater than 0
 		if (Level > 0) {
 			// Part 1
@@ -2693,69 +2693,69 @@ static void BT_Intern_RenderTerrainRec(s_BT_terrain* Terrain, s_BT_QuadTree* Qua
 			if (BT_Main.LODCamPosition.z / Terrain->Scale * C_BT_INTERNALSCALE < Quadtree->PosZ) {
 				if (BT_Main.LODCamPosition.x / Terrain->Scale * C_BT_INTERNALSCALE < Quadtree->PosX) {
 					// Part 1
-					if (Quadtree->n1->Excluded == false && Quadtree->n1->Culled == false)
+					if (!Quadtree->n1->Excluded && !Quadtree->n1->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n1, Level - 1);    // -x,-z
 
 					// Part 2
-					if (Quadtree->n2->Excluded == false && Quadtree->n2->Culled == false)
+					if (!Quadtree->n2->Excluded && !Quadtree->n2->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n2, Level - 1);    // +x,-z
 
 					// Part 3
-					if (Quadtree->n3->Excluded == false && Quadtree->n3->Culled == false)
+					if (!Quadtree->n3->Excluded && !Quadtree->n3->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n3, Level - 1);    // -x,+z
 
 					// Part 4
-					if (Quadtree->n4->Excluded == false && Quadtree->n4->Culled == false)
+					if (!Quadtree->n4->Excluded && !Quadtree->n4->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n4, Level - 1);   // +x,+z
 				} else {
 					// Part 2
-					if (Quadtree->n2->Excluded == false && Quadtree->n2->Culled == false)
+					if (!Quadtree->n2->Excluded && !Quadtree->n2->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n2, Level - 1);    // +x,-z
 
 					// Part 1
-					if (Quadtree->n1->Excluded == false && Quadtree->n1->Culled == false)
+					if (!Quadtree->n1->Excluded && !Quadtree->n1->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n1, Level - 1);    // -x,-z
 
 					// Part 4
-					if (Quadtree->n4->Excluded == false && Quadtree->n4->Culled == false)
+					if (!Quadtree->n4->Excluded && !Quadtree->n4->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n4, Level - 1);   // +x,+z
 
 					// Part 3
-					if (Quadtree->n3->Excluded == false && Quadtree->n3->Culled == false)
+					if (!Quadtree->n3->Excluded && !Quadtree->n3->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n3, Level - 1);    // -x,+z
 				}
 			} else {
 				if (BT_Main.LODCamPosition.x / Terrain->Scale * C_BT_INTERNALSCALE < Quadtree->PosX) {
 					// Part 3
-					if (Quadtree->n3->Excluded == false && Quadtree->n3->Culled == false)
+					if (!Quadtree->n3->Excluded && !Quadtree->n3->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n3, Level - 1);    // -x,+z
 
 					// Part 4
-					if (Quadtree->n4->Excluded == false && Quadtree->n4->Culled == false)
+					if (!Quadtree->n4->Excluded && !Quadtree->n4->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n4, Level - 1);   // +x,+z
 
 					// Part 1
-					if (Quadtree->n1->Excluded == false && Quadtree->n1->Culled == false)
+					if (!Quadtree->n1->Excluded && !Quadtree->n1->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n1, Level - 1);    // -x,-z
 
 					// Part 2
-					if (Quadtree->n2->Excluded == false && Quadtree->n2->Culled == false)
+					if (!Quadtree->n2->Excluded && !Quadtree->n2->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n2, Level - 1);    // +x,-z
 				} else {
 					// Part 4
-					if (Quadtree->n4->Excluded == false && Quadtree->n4->Culled == false)
+					if (!Quadtree->n4->Excluded && !Quadtree->n4->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n4, Level - 1);   // +x,+z
 
 					// Part 3
-					if (Quadtree->n3->Excluded == false && Quadtree->n3->Culled == false)
+					if (!Quadtree->n3->Excluded && !Quadtree->n3->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n3, Level - 1);    // -x,+z
 
 					// Part 2
-					if (Quadtree->n2->Excluded == false && Quadtree->n2->Culled == false)
+					if (!Quadtree->n2->Excluded && !Quadtree->n2->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n2, Level - 1);    // +x,-z
 
 					// Part 1
-					if (Quadtree->n1->Excluded == false && Quadtree->n1->Culled == false)
+					if (!Quadtree->n1->Excluded && !Quadtree->n1->Culled)
 						BT_Intern_RenderTerrainRec(Terrain, Quadtree->n1, Level - 1);    // -x,-z
 				}
 			}
@@ -2782,19 +2782,19 @@ static void BT_Intern_UnlockSectorsRec(s_BT_terrain* Terrain, s_BT_QuadTree* Qua
 			BT_Intern_UnlockSectorVertexData(Quadtree->Sector);
 		} else {
 			// Part 1
-			if (Quadtree->n1->Excluded == false && Quadtree->n1->Culled == false)
+			if (!Quadtree->n1->Excluded && !Quadtree->n1->Culled)
 				BT_Intern_UnlockSectorsRec(Terrain, Quadtree->n1, Level - 1);    // -x,-z
 
 			// Part 2
-			if (Quadtree->n2->Excluded == false && Quadtree->n2->Culled == false)
+			if (!Quadtree->n2->Excluded && !Quadtree->n2->Culled)
 				BT_Intern_UnlockSectorsRec(Terrain, Quadtree->n2, Level - 1);    // +x,-z
 
 			// Part 3
-			if (Quadtree->n3->Excluded == false && Quadtree->n3->Culled == false)
+			if (!Quadtree->n3->Excluded && !Quadtree->n3->Culled)
 				BT_Intern_UnlockSectorsRec(Terrain, Quadtree->n3, Level - 1);    // -x,+z
 
 			// Part 4
-			if (Quadtree->n4->Excluded == false && Quadtree->n4->Culled == false)
+			if (!Quadtree->n4->Excluded && !Quadtree->n4->Culled)
 				BT_Intern_UnlockSectorsRec(Terrain, Quadtree->n4, Level - 1);   // +x,+z
 		}
 	} else {
@@ -2814,14 +2814,14 @@ static void BT_Intern_UnlockSectorsRec(s_BT_terrain* Terrain, s_BT_QuadTree* Qua
 static void BT_Intern_RenderSector(s_BT_Sector* Sector)
 {
 // Render sector
-	if (Sector->Excluded == false) {
+	if (!Sector->Excluded) {
 		// Fix LOD seams
 		BT_Intern_FixSectorLODSeams(Sector);
 		// Sector->QuadMap->DeleteMeshData();
 
 		// Check if the sector needs to update its drawbuffer
 		// Sector->QuadMap->GenerateMeshData();
-		if (Sector->UpdateMesh == true) {
+		if (Sector->UpdateMesh) {
 			Sector->QuadMap->UpdateMesh(Sector->DrawBuffer, true);
 			Sector->UpdateMesh = false;
 		}
@@ -2934,9 +2934,9 @@ static void BT_Intern_ContinueBuild()
 	Sector = &BT_Main.CurrentBuildTerrain->LODLevel[BT_Main.CurrentBuildLODLevel].Sector[BT_Main.CurrentBuildSector];
 
 // Check that the sector is not excluded
-	if (Sector->Excluded == false) {
+	if (!Sector->Excluded) {
 		// Build
-		if (BT_Main.BuildType == true) { // Rebuild
+		if (BT_Main.BuildType) { // Rebuild
 			BT_Intern_BuildSector(Sector);
 		} else { // Firstbuild
 			BT_Intern_BuildSector(Sector);
@@ -3305,7 +3305,7 @@ static bool BT_Intern_GetSectorExclusion(s_BT_terrain* Terrain, unsigned long LO
 			ExcludePos = 12 + ((Xb + StartX) + (Yb + StartY) * Terrain->Heightmapsize) * 4;
 			Excluded = Terrain->ExclusionThreshold > unsigned(D3DXCOLOR(dbMemblockDword(excludememblock, ExcludePos)).r * 255);
 			buffer[BufferPos] = Excluded;
-			if (Excluded == false)
+			if (!Excluded)
 				WholeSectorExcluded = false;
 		}
 	}
@@ -3341,7 +3341,7 @@ static void BT_Intern_BuildSector(s_BT_Sector* Sector)
 static void BT_Intern_DeleteTerrain(unsigned long TerrainID, bool DeleteObject)
 {
 // Check that the terrain is built
-	if (BT_Main.Terrains[TerrainID].Built == true) {
+	if (BT_Main.Terrains[TerrainID].Built) {
 		// Get terrain pointer
 		s_BT_terrain* Terrain;
 		Terrain = &BT_Main.Terrains[TerrainID];
@@ -3357,7 +3357,7 @@ static void BT_Intern_DeleteTerrain(unsigned long TerrainID, bool DeleteObject)
 			unsigned long Sector = 0;
 			for (Sector = 0; Sector < Terrain->LODLevel[LODLevel].Sectors; Sector++) {
 				// Check if the sector is not excluded
-				if (Terrain->LODLevel[LODLevel].Sector[Sector].Excluded == false) {
+				if (!Terrain->LODLevel[LODLevel].Sector[Sector].Excluded) {
 					// Delete drawbuffer
 					Terrain->LODLevel[LODLevel].Sector[Sector].DrawBuffer->VertexBuffer->Release();
 					Terrain->LODLevel[LODLevel].Sector[Sector].DrawBuffer->IndexBuffer->Release();
@@ -3390,7 +3390,7 @@ static void BT_Intern_DeleteTerrain(unsigned long TerrainID, bool DeleteObject)
 		free(Terrain->EnvironmentMap);
 
 		// Delete object
-		if (DeleteObject == true)
+		if (DeleteObject)
 			dbDeleteObject(Terrain->ObjectID);
 
 		// Delete update handlers
@@ -3460,7 +3460,7 @@ float BT_Intern_GetPointHeight(s_BT_terrain* Terrain, float Px, float Pz, char L
 	Quadmap = Sector->QuadMap;
 
 // Check that the sector exists
-	if (Sector->Excluded == false) {
+	if (!Sector->Excluded) {
 		// Get the height
 		Height = Quadmap->GetPointHeight(Px, Pz, Round);
 
@@ -3580,7 +3580,7 @@ static bool BT_Intern_GetPointExcluded(s_BT_terrain* Terrain, float Px, float Pz
 	Quadmap = Sector->QuadMap;
 
 // Check that the sector exists
-	if (Sector->Excluded == false) {
+	if (!Sector->Excluded) {
 		// Get the excluded
 		return Quadmap->GetPointExcluded(Px, Pz);
 	} else {
@@ -3653,7 +3653,7 @@ static s_BT_QuadTree* BT_Intern_AllocateQuadTreeRec(s_BT_terrain* Terrain, unsig
 		Quadtree->Sector->QuadTree = Quadtree;
 
 		// Set cullbox values
-		if (Quadtree->Sector->Excluded == false) {
+		if (!Quadtree->Sector->Excluded) {
 			Quadtree->CullBox->Left = float(Quadtree->Sector->Pos_x - Terrain->LODLevel[Levels].SectorSize / 2.0);
 			Quadtree->CullBox->Right = float(Quadtree->Sector->Pos_x + Terrain->LODLevel[Levels].SectorSize / 2.0);
 			Quadtree->CullBox->Front = float(Quadtree->Sector->Pos_z - Terrain->LODLevel[Levels].SectorSize / 2.0);
@@ -3678,7 +3678,7 @@ static s_BT_QuadTree* BT_Intern_AllocateQuadTreeRec(s_BT_terrain* Terrain, unsig
 
 		Quadtree->Excluded = Quadtree->n1->Excluded && Quadtree->n2->Excluded && Quadtree->n3->Excluded && Quadtree->n4->Excluded;
 
-		if (QHasSector == false) {
+		if (!QHasSector) {
 			Quadtree->CullBox->Left = Quadtree->n1->CullBox->Left;
 			Quadtree->CullBox->Right = Quadtree->n4->CullBox->Right;
 			Quadtree->CullBox->Front = Quadtree->n1->CullBox->Front;
@@ -3926,7 +3926,7 @@ static BT_RTTMS_STRUCT* BT_Intern_LockSectorVertexData(s_BT_Sector* Sector)
 static void BT_Intern_UnlockSectorVertexData(s_BT_Sector* Sector)
 {
 // Unlock vertexdata
-	if (Sector->VertexDataLocked == true) {
+	if (Sector->VertexDataLocked) {
 		BT_RTTMS_UnlockSectorVertexData((void*)Sector->VertexDataRTTMS);
 	}
 }

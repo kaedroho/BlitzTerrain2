@@ -47,16 +47,16 @@ void BT_RTTMS_DeleteUpdateHandlers(unsigned long TerrainID)
 EXPORT void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID)
 {
 // Check that the data exists
-	if (BT_Intern_TerrainExist(TerrainID) == false)
+	if (!BT_Intern_TerrainExist(TerrainID))
 		return NULL;
 	s_BT_terrain* Terrain = &BT_Main.Terrains[TerrainID];
-	if (Terrain->Built == false)
+	if (!Terrain->Built)
 		return NULL;
 	if (LODLevelID >= Terrain->LODLevels)
 		return NULL;
 	if (SectorID >= Terrain->LODLevel[LODLevelID].Sectors)
 		return NULL;
-	if (Terrain->LODLevel[LODLevelID].Sector[SectorID].VertexDataLocked == true)
+	if (Terrain->LODLevel[LODLevelID].Sector[SectorID].VertexDataLocked)
 		return (void*)Terrain->LODLevel[LODLevelID].Sector[SectorID].VertexDataRTTMS;
 
 // Get struct
@@ -83,14 +83,14 @@ EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr)
 	RTTMSStructInternals->SectorPtr->VertexDataLocked = false;
 
 // (full version only) If the vertexdata was updated, send the new vertexdata around
-	if (RTTMSStruct->ChangedAVertex == true)
+	if (RTTMSStruct->ChangedAVertex)
 		BT_RTTMS_CallUpdateHandlers(RTTMSStructInternals->TerrainID, RTTMSStructInternals->LODLevelID, RTTMSStructInternals->SectorID, RTTMSStruct->FirstUpdatedVertex, RTTMSStruct->LastUpdatedVertex, RTTMSStruct->Vertices);
 
 // Delete Vertices
 	free(RTTMSStruct->Vertices);
 
 // Delete mesh data if it has to be deleted
-	if (RTTMSStructInternals->DeleteMeshData == true) {
+	if (RTTMSStructInternals->DeleteMeshData) {
 		RTTMSStructInternals->SectorPtr->QuadMap->DeleteMeshData();
 	}
 }

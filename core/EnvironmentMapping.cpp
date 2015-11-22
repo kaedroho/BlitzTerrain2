@@ -6,7 +6,7 @@
 unsigned short BT_Intern_AddEnvironment(BT_EnvironmentMap* EnvironmentMap, unsigned long Colour)
 {
 // Check that this environment map is not made
-	if (EnvironmentMap->Made == false) {
+	if (!EnvironmentMap->Made) {
 		// Increase buffer size
 		EnvironmentMap->EnvironmentCount++;
 		EnvironmentMap->EnvironmentBuffer = (unsigned long*)realloc(EnvironmentMap->EnvironmentBuffer, (EnvironmentMap->EnvironmentCount + 1) * sizeof(unsigned long));
