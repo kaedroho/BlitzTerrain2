@@ -51,23 +51,11 @@ typedef IDirect3DDevice9* (*t_dbGetDirect3DDevice) ();
 	#define EXPORT __declspec(dllexport)
 #endif
 
-
-#define C_BT_FULLVERSION
 #define C_BT_VERSION 200
-
-#ifdef C_BT_FULLVERSION
-	#define C_BT_MAXTERRAINS 255
-	#define C_BT_MAXLODLEVELS 255
-	#define C_BT_MAXTERRAINSIZE 4096
-	#define BT_VERSION "2.3.0 FULL"
-	#pragma message("!!!!!!!!!!!!!!!!!! COMPILING FULL VERSION !!!!!!!!!!!!!!!!!!")
-#else
-	#define C_BT_MAXTERRAINS 2
-	#define C_BT_MAXLODLEVELS 3
-	#define C_BT_MAXTERRAINSIZE 512
-	#define BT_VERSION "2.3.0 FREE"
-#endif
-
+#define C_BT_MAXTERRAINS 255
+#define C_BT_MAXLODLEVELS 255
+#define C_BT_MAXTERRAINSIZE 4096
+#define BT_VERSION "2.3.0"
 
 using namespace std;
 

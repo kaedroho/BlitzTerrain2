@@ -3,14 +3,12 @@
 
 extern s_BT_main BT_Main;
 
-#ifdef C_BT_FULLVERSION
 BT_RTTMS_UpdateHandler_t* BT_RTTMS_UpdateHandlers[C_BT_MAXTERRAINS] = { 0 };
 unsigned long BT_RTTMS_UpdateHandlerCount[C_BT_MAXTERRAINS] = { 0 };
-#endif
+
 
 EXPORT void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID, BT_RTTMS_UpdateHandler_t UpdateHandler)
 {
-#ifdef C_BT_FULLVERSION
 // Increase update handler count
 	BT_RTTMS_UpdateHandlerCount[TerrainID]++;
 
@@ -27,28 +25,23 @@ EXPORT void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID, BT_RTTMS_UpdateHa
 
 // Set new update handler
 	BT_RTTMS_UpdateHandlers[TerrainID][BT_RTTMS_UpdateHandlerCount[TerrainID] - 1] = UpdateHandler;
-#endif
 }
 
 static void BT_RTTMS_CallUpdateHandlers(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID, unsigned short StartVertex, unsigned short EndVertex, float* Vertices)
 {
-#ifdef C_BT_FULLVERSION
 // Loop through update handlers and call each one
 	for (unsigned long i = 1; i <= BT_RTTMS_UpdateHandlerCount[TerrainID]; i++)
 		BT_RTTMS_UpdateHandlers[TerrainID][i - 1](TerrainID, LODLevelID, SectorID, StartVertex, EndVertex, Vertices);
-#endif
 }
 
 void BT_RTTMS_DeleteUpdateHandlers(unsigned long TerrainID)
 {
-#ifdef C_BT_FULLVERSION
 // Delete update handlers
 	if (BT_RTTMS_UpdateHandlerCount[TerrainID] != 0) {
 		free(BT_RTTMS_UpdateHandlers[TerrainID]);
 		BT_RTTMS_UpdateHandlers[TerrainID] = NULL;
 		BT_RTTMS_UpdateHandlerCount[TerrainID] = 0;
 	}
-#endif
 }
 
 EXPORT void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID)
@@ -90,10 +83,8 @@ EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr)
 	RTTMSStructInternals->SectorPtr->VertexDataLocked = false;
 
 // (full version only) If the vertexdata was updated, send the new vertexdata around
-#ifdef C_BT_FULLVERSION
 	if (RTTMSStruct->ChangedAVertex == true)
 		BT_RTTMS_CallUpdateHandlers(RTTMSStructInternals->TerrainID, RTTMSStructInternals->LODLevelID, RTTMSStructInternals->SectorID, RTTMSStruct->FirstUpdatedVertex, RTTMSStruct->LastUpdatedVertex, RTTMSStruct->Vertices);
-#endif
 
 // Delete Vertices
 	free(RTTMSStruct->Vertices);

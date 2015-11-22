@@ -286,11 +286,9 @@ EXPORT void BT_SetTerrainExclusion(unsigned long terrainid, unsigned long image)
 	if (BT_Intern_TerrainExist(terrainid)) {
 		if (BT_Main.Terrains[terrainid].Built == false) {
 			// Set the exclusionmap
-#ifdef C_BT_FULLVERSION
 			BT_Main.Terrains[terrainid].Exclusionmap = image;
 			// Update in terrain info
 			((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->Exclusion = true;
-#endif
 		} else {
 			BT_Intern_Error(C_BT_ERROR_TERRAINALREADYBUILT);
 			return;
@@ -315,12 +313,10 @@ EXPORT void BT_SetTerrainExclusionThreshold(unsigned long terrainid, unsigned lo
 	if (BT_Intern_TerrainExist(terrainid)) {
 		if (BT_Main.Terrains[terrainid].Built == false) {
 			// Set the exclusion threshold
-#ifdef C_BT_FULLVERSION
 			BT_Main.Terrains[terrainid].ExclusionThreshold = unsigned char(threshold);
 
 			// Update in terrain info
 			((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->ExclusionThreshold = unsigned char(threshold);
-#endif
 		} else {
 			BT_Intern_Error(C_BT_ERROR_TERRAINALREADYBUILT);
 			return;
@@ -526,11 +522,6 @@ EXPORT void BT_SetTerrainQuadReduction(unsigned long terrainID, bool enabled)
 	if (!BT_Intern_TerrainExist(terrainID))
 		return;
 
-	// Check that this is the full version
-	#ifndef C_BT_FULLVERSION
-	return;
-	#endif
-
 	// Set quad reduction
 	BT_Main.Terrains[terrainID].QuadReduction = enabled;
 	((BT_TerrainInfo*)BT_Main.Terrains[terrainID].Info)->QuadReduction = enabled;
@@ -550,9 +541,8 @@ EXPORT void BT_SetTerrainQuadRotation(unsigned long terrainid, bool Enabled)
 // Check that the terrain exists
 	if (BT_Intern_TerrainExist(terrainid)) {
 		// Set Quad rotation
-#ifdef C_BT_FULLVERSION
 		BT_Main.Terrains[terrainid].QuadRotation = Enabled;
-#endif
+
 		// Update in terrain info
 		((BT_TerrainInfo*)BT_Main.Terrains[terrainid].Info)->QuadRotation = Enabled;
 	} else {
@@ -3940,7 +3930,6 @@ static void BT_Intern_UnlockSectorVertexData(s_BT_Sector* Sector)
 // ======================================
 void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID, unsigned short StartVertex, unsigned short EndVertex, float* VerticesPtr)
 {
-#ifdef C_BT_FULLVERSION
 // Cast vertices
 	float* Vertices = (float*)VerticesPtr;
 
@@ -3976,7 +3965,6 @@ void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID, unsigned long LODLeve
 			QuadTree = QuadTree->Parent;
 		} while (QuadTree != NULL);
 	}
-#endif
 }
 // === END FUNCTION ===
 
@@ -3988,11 +3976,7 @@ void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID, unsigned long LODLeve
 static float BT_Intern_GetHeightFromColor(unsigned long Colour)
 {
 	D3DXCOLOR D3DColour = D3DXCOLOR(Colour);
-#ifdef C_BT_FULLVERSION
 	return D3DColour.r * 256.0f + D3DColour.g + D3DColour.b / 256.0f;
-#else
-	return D3DColour.r * 256.0f;
-#endif
 }
 // === END FUNCTION ===
 
