@@ -8,8 +8,7 @@ extern s_BT_main BT_Main;
 extern t_dbGetDirect3DDevice dbGetDirect3DDevice;
 #endif
 
-void BT_Intern_StartQuadMapGeneration(BT_Quadmap_Generator Generator)
-{
+void BT_Intern_StartQuadMapGeneration(BT_Quadmap_Generator Generator) {
 	if (!BT_Main.QuadmapInfo.Locked) {
 		BT_Main.QuadmapInfo.Locked = true;
 		BT_Main.QuadmapInfo.TempVertices = (Generator.Size + 1) * (Generator.Size + 1) + 1;
@@ -35,8 +34,7 @@ void BT_Intern_StartQuadMapGeneration(BT_Quadmap_Generator Generator)
 	}
 }
 
-void BT_Intern_EndQuadMapGeneration()
-{
+void BT_Intern_EndQuadMapGeneration() {
 	if (BT_Main.QuadmapInfo.Locked) {
 		free(BT_Main.QuadmapInfo.TempVertexdata);
 		free(BT_Main.QuadmapInfo.TempQuaddata);
@@ -47,8 +45,7 @@ void BT_Intern_EndQuadMapGeneration()
 	}
 }
 
-void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
-{
+void BT_QuadMap::Generate(BT_Quadmap_Generator Generator) {
 // Variables
 	unsigned short Vertexn;
 	unsigned short Quadn;
@@ -402,8 +399,7 @@ void BT_QuadMap::Generate(BT_Quadmap_Generator Generator)
 	Generated = true;
 }
 
-void BT_QuadMap::CalculateNormals()
-{
+void BT_QuadMap::CalculateNormals() {
 // Middle
 	for (unsigned short i = 0; i < (QuadsAccross + 1) * (QuadsAccross + 1); i++) {
 		// Get x and y
@@ -428,8 +424,7 @@ void BT_QuadMap::CalculateNormals()
 	}
 }
 
-void BT_QuadMap::CalculateBounds()
-{
+void BT_QuadMap::CalculateBounds() {
 // Reset highest and lowest point
 	HighestPoint = LowestPoint = Vertex[0].Pos_y;
 
@@ -447,8 +442,7 @@ void BT_QuadMap::CalculateBounds()
 	}
 }
 
-s_BT_DrawBuffer* BT_QuadMap::GeneratePlain()
-{
+s_BT_DrawBuffer* BT_QuadMap::GeneratePlain() {
 // Variables
 	s_BT_DrawBuffer* DrawBuffer = NULL;
 
@@ -482,8 +476,7 @@ s_BT_DrawBuffer* BT_QuadMap::GeneratePlain()
 	return NULL;
 }
 
-void BT_QuadMap::GenerateDBPMesh(sMesh* Mesh)
-{
+void BT_QuadMap::GenerateDBPMesh(sMesh* Mesh) {
 // Variables
 	bool bDeleteMeshData = false;
 
@@ -520,8 +513,7 @@ void BT_QuadMap::GenerateDBPMesh(sMesh* Mesh)
 	}
 }
 
-void BT_QuadMap::UpdateDBPMesh(sMesh* Mesh)
-{
+void BT_QuadMap::UpdateDBPMesh(sMesh* Mesh) {
 // Variables
 	bool bDeleteMeshData = false;
 
@@ -543,8 +535,7 @@ void BT_QuadMap::UpdateDBPMesh(sMesh* Mesh)
 	}
 }
 
-void BT_QuadMap::SetToMesh(s_BT_DrawBuffer* DrawBuffer)
-{
+void BT_QuadMap::SetToMesh(s_BT_DrawBuffer* DrawBuffer) {
 // Check that the quadmap is generated
 	if (Generated) {
 		bool DeleteData = false;
@@ -608,8 +599,7 @@ void BT_QuadMap::SetToMesh(s_BT_DrawBuffer* DrawBuffer)
 	}
 }
 
-void BT_QuadMap::UpdateMesh(s_BT_DrawBuffer* DrawBuffer, bool ClearUpdateInfo)
-{
+void BT_QuadMap::UpdateMesh(s_BT_DrawBuffer* DrawBuffer, bool ClearUpdateInfo) {
 // Check that the quadmap is generated
 	if (Generated) {
 		// Update normals - Bit of a hack... This really should be in ChangeMesh but that can cause seams
@@ -648,8 +638,7 @@ void BT_QuadMap::UpdateMesh(s_BT_DrawBuffer* DrawBuffer, bool ClearUpdateInfo)
 }
 
 
-void BT_QuadMap::GenerateMeshData()
-{
+void BT_QuadMap::GenerateMeshData() {
 // Variables
 	unsigned long CurrentVertex;
 	unsigned long CurrentIndex;
@@ -731,8 +720,7 @@ void BT_QuadMap::GenerateMeshData()
 	}
 }
 
-void BT_QuadMap::DeleteMeshData()
-{
+void BT_QuadMap::DeleteMeshData() {
 // Check that the quadmap is generated
 	if (Generated) {
 		if (MeshMade) {
@@ -747,8 +735,7 @@ void BT_QuadMap::DeleteMeshData()
 
 
 
-bool BT_QuadMap::GetPointExcluded(float x, float z)
-{
+bool BT_QuadMap::GetPointExcluded(float x, float z) {
 // Variables
 	float U;
 	float V;
@@ -781,8 +768,7 @@ bool BT_QuadMap::GetPointExcluded(float x, float z)
 
 
 
-float BT_QuadMap::GetPointHeight(float x, float z, bool Round)
-{
+float BT_QuadMap::GetPointHeight(float x, float z, bool Round) {
 // Variables
 	float U;
 	float V;
@@ -860,8 +846,7 @@ float BT_QuadMap::GetPointHeight(float x, float z, bool Round)
 	return 0.0;
 }
 
-void BT_QuadMap::SetSideLOD(unsigned char Side, unsigned long LODLevel)
-{
+void BT_QuadMap::SetSideLOD(unsigned char Side, unsigned long LODLevel) {
 // Check that the quadmap is generated
 	if (Generated) {
 		// Find first vertex
@@ -898,8 +883,7 @@ void BT_QuadMap::SetSideLOD(unsigned char Side, unsigned long LODLevel)
 	}
 }
 
-void BT_QuadMap::FillMeshData(BT_RTTMS_STRUCT* Meshdata)
-{
+void BT_QuadMap::FillMeshData(BT_RTTMS_STRUCT* Meshdata) {
 // Check that the quadmap is generated
 	if (Generated) {
 		((BT_RTTMS_STRUCTINTERNALS*)Meshdata->Internals)->DeleteMeshData = false;
@@ -919,8 +903,7 @@ void BT_QuadMap::FillMeshData(BT_RTTMS_STRUCT* Meshdata)
 	}
 }
 
-void BT_QuadMap::ChangeMeshData(unsigned short VertexStart, unsigned short VertexEnd, float* Vertices)
-{
+void BT_QuadMap::ChangeMeshData(unsigned short VertexStart, unsigned short VertexEnd, float* Vertices) {
 // Check that the quadmap is generated
 	if (Generated) {
 		// Update vertex buffer
@@ -942,8 +925,7 @@ void BT_QuadMap::ChangeMeshData(unsigned short VertexStart, unsigned short Verte
 	}
 }
 
-void BT_QuadMap::DeleteInternalData()
-{
+void BT_QuadMap::DeleteInternalData() {
 // Check that the quadmap is generated
 	if (Generated) {
 		// Delete everything
@@ -960,8 +942,7 @@ void BT_QuadMap::DeleteInternalData()
 	}
 }
 
-void BT_QuadMap::ReduceQuad(unsigned short QuadTL, unsigned short QuadTR, unsigned short QuadBL, unsigned short QuadBR, BT_Quadmap_Quad* Quads, bool CheckHeights)
-{
+void BT_QuadMap::ReduceQuad(unsigned short QuadTL, unsigned short QuadTR, unsigned short QuadBL, unsigned short QuadBR, BT_Quadmap_Quad* Quads, bool CheckHeights) {
 // Check that none of them are excluded
 	if (Quads[QuadTL].Exclude || Quads[QuadTR].Exclude || Quads[QuadBL].Exclude || Quads[QuadBR].Exclude)
 		return;
@@ -1017,8 +998,7 @@ void BT_QuadMap::ReduceQuad(unsigned short QuadTL, unsigned short QuadTR, unsign
 	Quads[QuadTL].Size *= 2;
 }
 
-unsigned short BT_QuadMap::FindVertex(unsigned short Vcol, unsigned short Vrow)
-{
+unsigned short BT_QuadMap::FindVertex(unsigned short Vcol, unsigned short Vrow) {
 // Check that the quadmap is generated
 	if (Generated) {
 		// Find the vertex

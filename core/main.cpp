@@ -32,13 +32,11 @@ t_dbSetAutoCam dbSetAutoCam;
 t_dbGetDirect3DDevice dbGetDirect3DDevice;
 
 
-EXPORT void Constructor()
-{
+EXPORT void Constructor() {
 	BT_Main.buildstep = 1;
 }
 
-const char* Dependencies[] =
-{
+const char* Dependencies[] = {
 	"DBProCore.dll",
 	"DBProSetupDebug.dll",
 	"DBProImageDebug.dll",
@@ -47,19 +45,16 @@ const char* Dependencies[] =
 };
 
 
-EXPORT int GetNumDependencies(void)
-{
+EXPORT int GetNumDependencies(void) {
 	return sizeof(Dependencies) / sizeof(const char*);
 }
 
 
-EXPORT char const* GetDependencyID(int ID)
-{
+EXPORT char const* GetDependencyID(int ID) {
 	return Dependencies[ID];
 }
 
-EXPORT void ReceiveCoreDataPtr(LPVOID CorePtr)
-{
+EXPORT void ReceiveCoreDataPtr(LPVOID CorePtr) {
 	g_Glob = (GlobStruct*)CorePtr;
 
 	HMODULE mod = GetModuleHandle("DBProCore.dll");
@@ -114,8 +109,7 @@ GlobStruct* GetGlobalData(void);
 // ================
 // === BT INIT ===
 // ================
-void BT_Init()
-{
+void BT_Init() {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_INIT;
 
 	if (!BT_Main.Initialised) {
@@ -142,8 +136,7 @@ void BT_Init()
 // ========================
 // === BT MAKE TERRAIN ===
 // ========================
-EXPORT unsigned long BT_MakeTerrain()
-{
+EXPORT unsigned long BT_MakeTerrain() {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_MAKETERRAIN;
 
 // Variables
@@ -221,8 +214,7 @@ EXPORT unsigned long BT_MakeTerrain()
 // =================================
 // === BT SET TERRAIN HEIGHTMAP ===
 // =================================
-EXPORT void BT_SetTerrainHeightmap(unsigned long terrainid, unsigned long image)
-{
+EXPORT void BT_SetTerrainHeightmap(unsigned long terrainid, unsigned long image) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINHEIGHTMAP;
 
 // Check that the terrain exists
@@ -246,8 +238,7 @@ EXPORT void BT_SetTerrainHeightmap(unsigned long terrainid, unsigned long image)
 // ==============================
 // === BT SET TERRAIN TEXTURE ===
 // ==============================
-EXPORT void BT_SetTerrainTexture(unsigned long terrainid, unsigned long image)
-{
+EXPORT void BT_SetTerrainTexture(unsigned long terrainid, unsigned long image) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINTEXTURE;
 
 // Check that the terrain exists
@@ -275,8 +266,7 @@ EXPORT void BT_SetTerrainTexture(unsigned long terrainid, unsigned long image)
 // ================================
 // === BT SET TERRAIN EXCLUSION ===
 // ================================
-EXPORT void BT_SetTerrainExclusion(unsigned long terrainid, unsigned long image)
-{
+EXPORT void BT_SetTerrainExclusion(unsigned long terrainid, unsigned long image) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINEXCLUSION;
 
 // Check that the terrain exists
@@ -303,8 +293,7 @@ EXPORT void BT_SetTerrainExclusion(unsigned long terrainid, unsigned long image)
 // ==========================================
 // === BT SET TERRAIN EXCLUSION THRESHOLD ===
 // ==========================================
-EXPORT void BT_SetTerrainExclusionThreshold(unsigned long terrainid, unsigned long threshold)
-{
+EXPORT void BT_SetTerrainExclusionThreshold(unsigned long terrainid, unsigned long threshold) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINEXCLUSIONTHRESHOLD;
 
 // Check that the terrain exists
@@ -332,8 +321,7 @@ EXPORT void BT_SetTerrainExclusionThreshold(unsigned long terrainid, unsigned lo
 // =============================
 // === BT SET TERRAIN DETAIL ===
 // =============================
-EXPORT void BT_SetTerrainDetail(unsigned long terrainid, unsigned long image)
-{
+EXPORT void BT_SetTerrainDetail(unsigned long terrainid, unsigned long image) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINDETAIL;
 
 // Check that the terrain exists
@@ -360,8 +348,7 @@ EXPORT void BT_SetTerrainDetail(unsigned long terrainid, unsigned long image)
 // =======================================
 // === BT SET TERRAIN DETAIL BLENDMODE ===
 // =======================================
-EXPORT void BT_SetTerrainDetailBlendMode(unsigned long terrainid, unsigned char mode)
-{
+EXPORT void BT_SetTerrainDetailBlendMode(unsigned long terrainid, unsigned char mode) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINDETAILBLENDMODE;
 
 // Check that the terrain exists
@@ -390,8 +377,7 @@ EXPORT void BT_SetTerrainDetailBlendMode(unsigned long terrainid, unsigned char 
 // ==================================
 // === BT SET TERRAIN ENVIRONMENT ===
 // ==================================
-EXPORT void BT_SetTerrainEnvironment(unsigned long terrainid, unsigned long image)
-{
+EXPORT void BT_SetTerrainEnvironment(unsigned long terrainid, unsigned long image) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINENVIRONMENT;
 
 // Check that the terrain exists
@@ -410,8 +396,7 @@ EXPORT void BT_SetTerrainEnvironment(unsigned long terrainid, unsigned long imag
 // ==================================
 // === BT ADD TERRAIN ENVIRONMENT ===
 // ==================================
-EXPORT unsigned long BT_AddTerrainEnvironment(unsigned long terrainid, unsigned long Colour)
-{
+EXPORT unsigned long BT_AddTerrainEnvironment(unsigned long terrainid, unsigned long Colour) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_ADDTERRAINENVIRONMENT;
 
 // Check that the terrain exists
@@ -436,8 +421,7 @@ EXPORT unsigned long BT_AddTerrainEnvironment(unsigned long terrainid, unsigned 
 // ==========================
 // === BT SET TERRAIN LOD ===
 // ==========================
-EXPORT void BT_SetTerrainLOD(unsigned long terrainid, unsigned char LODLevels)
-{
+EXPORT void BT_SetTerrainLOD(unsigned long terrainid, unsigned char LODLevels) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINLOD;
 
 // Check that the terrain exists
@@ -465,8 +449,7 @@ EXPORT void BT_SetTerrainLOD(unsigned long terrainid, unsigned char LODLevels)
 // ============================
 // === BT SET TERRAIN SPLIT ===
 // ============================
-EXPORT void BT_SetTerrainSplit(unsigned long terrainid, unsigned long Split)
-{
+EXPORT void BT_SetTerrainSplit(unsigned long terrainid, unsigned long Split) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINSPLIT;
 
 // Check that the terrain exists
@@ -485,8 +468,7 @@ EXPORT void BT_SetTerrainSplit(unsigned long terrainid, unsigned long Split)
 // ==================================
 // === BT SET TERRAIN DETAIL TILE ===
 // ==================================
-EXPORT void BT_SetTerrainDetailTile(unsigned long terrainid, float Tile)
-{
+EXPORT void BT_SetTerrainDetailTile(unsigned long terrainid, float Tile) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINDETAILTILE;
 
 // Check that the terrain exists
@@ -508,8 +490,7 @@ EXPORT void BT_SetTerrainDetailTile(unsigned long terrainid, float Tile)
 // =====================================
 // === BT SET TERRAIN QUAD REDUCTION ===
 // =====================================
-EXPORT void BT_SetTerrainQuadReduction(unsigned long terrainID, bool enabled)
-{
+EXPORT void BT_SetTerrainQuadReduction(unsigned long terrainID, bool enabled) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINQUADREDUCTION;
 
 	// Check that the terrain exists
@@ -527,8 +508,7 @@ EXPORT void BT_SetTerrainQuadReduction(unsigned long terrainID, bool enabled)
 // ====================================
 // === BT SET TERRAIN QUAD ROTATION ===
 // ====================================
-EXPORT void BT_SetTerrainQuadRotation(unsigned long terrainid, bool Enabled)
-{
+EXPORT void BT_SetTerrainQuadRotation(unsigned long terrainid, bool Enabled) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINQUADROTATION;
 
 // Check that the terrain exists
@@ -550,8 +530,7 @@ EXPORT void BT_SetTerrainQuadRotation(unsigned long terrainid, bool Enabled)
 // ================================
 // === BT SET TERRAIN SMOOTHING ===
 // ================================
-EXPORT void BT_SetTerrainSmoothing(unsigned long terrainid, unsigned long Amount)
-{
+EXPORT void BT_SetTerrainSmoothing(unsigned long terrainid, unsigned long Amount) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINSMOOTHING;
 
 // Check that the terrain exists
@@ -578,8 +557,7 @@ EXPORT void BT_SetTerrainSmoothing(unsigned long terrainid, unsigned long Amount
 // ============================
 // === BT SET TERRAIN SCALE ===
 // ============================
-EXPORT void BT_SetTerrainScale(unsigned long terrainid, float Scale)
-{
+EXPORT void BT_SetTerrainScale(unsigned long terrainid, float Scale) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINSCALE;
 
 // Check that the terrain exists
@@ -601,8 +579,7 @@ EXPORT void BT_SetTerrainScale(unsigned long terrainid, float Scale)
 // =============================
 // === BT SET TERRAIN YSCALE ===
 // =============================
-EXPORT void BT_SetTerrainYScale(unsigned long terrainid, float YScale)
-{
+EXPORT void BT_SetTerrainYScale(unsigned long terrainid, float YScale) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINYSCALE;
 
 // Check that the terrain exists
@@ -624,8 +601,7 @@ EXPORT void BT_SetTerrainYScale(unsigned long terrainid, float YScale)
 // ===================================
 // === BT SET TERRAIN LOD DISTANCE ===
 // ===================================
-EXPORT void BT_SetTerrainLODDistance(unsigned long terrainid, unsigned char LODLevel, float value)
-{
+EXPORT void BT_SetTerrainLODDistance(unsigned long terrainid, unsigned char LODLevel, float value) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETTERRAINLODDISTANCES;
 
 // Check that the terrain exists
@@ -655,13 +631,11 @@ EXPORT void BT_SetTerrainLODDistance(unsigned long terrainid, unsigned char LODL
 // ========================
 // === BT BUILD TERRAIN ===
 // ========================
-EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID)
-{
+EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID) {
 	BT_BuildTerrain(terrainid, ObjectID, false);
 }
 
-EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID, bool GenerateTerrain)
-{
+EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID, bool GenerateTerrain) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_BUILDTERRAIN;
 
 // Variables
@@ -1121,8 +1095,7 @@ EXPORT void BT_BuildTerrain(unsigned long terrainid, unsigned long ObjectID, boo
 // =========================
 // === BT CONTINUE BUILD ===
 // =========================
-EXPORT int BT_ContinueBuild()
-{
+EXPORT int BT_ContinueBuild() {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_CONTINUEBUILD;
 
 // Variables
@@ -1176,8 +1149,7 @@ EXPORT int BT_ContinueBuild()
 // ========================
 // === BT TERRAIN EXIST ===
 // ========================
-EXPORT unsigned long BT_TerrainExist(unsigned long TerrainID)
-{
+EXPORT unsigned long BT_TerrainExist(unsigned long TerrainID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_TERRAINEXIST;
 
 // Check that the terrain exists
@@ -1195,8 +1167,7 @@ EXPORT unsigned long BT_TerrainExist(unsigned long TerrainID)
 // =========================
 // === BT DELETE TERRAIN ===
 // =========================
-EXPORT void BT_DeleteTerrain(unsigned long TerrainID)
-{
+EXPORT void BT_DeleteTerrain(unsigned long TerrainID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_DELETETERRAIN;
 
 // Check that the terrain exists
@@ -1216,8 +1187,7 @@ EXPORT void BT_DeleteTerrain(unsigned long TerrainID)
 // === BT GET GROUND HEIGHT ==
 // ===========================
 #ifdef COMPILE_GDK
-EXPORT float BT_GetGroundHeight(unsigned long terrainid, float x, float z, bool Round)
-{
+EXPORT float BT_GetGroundHeight(unsigned long terrainid, float x, float z, bool Round) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETGROUNDHEIGHT;
 
 // Check that the terrain exists and has been built
@@ -1228,8 +1198,7 @@ EXPORT float BT_GetGroundHeight(unsigned long terrainid, float x, float z, bool 
 	}
 	return 0.0;
 }
-EXPORT float BT_GetGroundHeight(unsigned long terrainid, float x, float z)
-{
+EXPORT float BT_GetGroundHeight(unsigned long terrainid, float x, float z) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETGROUNDHEIGHT;
 
 // Check that the terrain exists and has been built
@@ -1241,8 +1210,7 @@ EXPORT float BT_GetGroundHeight(unsigned long terrainid, float x, float z)
 	return 0.0;
 }
 #else
-EXPORT DWORD BT_GetGroundHeight(unsigned long terrainid, float x, float z, bool Round)
-{
+EXPORT DWORD BT_GetGroundHeight(unsigned long terrainid, float x, float z, bool Round) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETGROUNDHEIGHT;
 
 // Variables
@@ -1258,8 +1226,7 @@ EXPORT DWORD BT_GetGroundHeight(unsigned long terrainid, float x, float z, bool 
 	}
 	return *(DWORD*)&Height;
 }
-EXPORT DWORD BT_GetGroundHeight(unsigned long terrainid, float x, float z)
-{
+EXPORT DWORD BT_GetGroundHeight(unsigned long terrainid, float x, float z) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETGROUNDHEIGHT;
 
 // Variables
@@ -1284,8 +1251,7 @@ EXPORT DWORD BT_GetGroundHeight(unsigned long terrainid, float x, float z)
 // === BT GET TERRAIN SIZE ===
 // ===========================
 #ifdef COMPILE_GDK
-EXPORT float BT_GetTerrainSize(unsigned long terrainid)
-{
+EXPORT float BT_GetTerrainSize(unsigned long terrainid) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETTERRAINSIZE;
 
 // Check that the terrain exists and has been built
@@ -1297,8 +1263,7 @@ EXPORT float BT_GetTerrainSize(unsigned long terrainid)
 	return 0.0;
 }
 #else
-EXPORT DWORD BT_GetTerrainSize(unsigned long terrainid)
-{
+EXPORT DWORD BT_GetTerrainSize(unsigned long terrainid) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETTERRAINSIZE;
 
 // Variables
@@ -1322,8 +1287,7 @@ EXPORT DWORD BT_GetTerrainSize(unsigned long terrainid)
 // =============================
 // === BT GET POINT EXCLUDED ===
 // =============================
-EXPORT unsigned long BT_GetPointExcluded(unsigned long terrainid, float x, float z)
-{
+EXPORT unsigned long BT_GetPointExcluded(unsigned long terrainid, float x, float z) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETPOINTEXCLUDED;
 
 // Variables
@@ -1345,8 +1309,7 @@ EXPORT unsigned long BT_GetPointExcluded(unsigned long terrainid, float x, float
 // ================================
 // === BT GET POINT ENVIRONMENT ===
 // ================================
-EXPORT unsigned long BT_GetPointEnvironment(unsigned long terrainid, float x, float z)
-{
+EXPORT unsigned long BT_GetPointEnvironment(unsigned long terrainid, float x, float z) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETPOINTENVIRONMENT;
 
 // Variables
@@ -1379,8 +1342,7 @@ EXPORT unsigned long BT_GetPointEnvironment(unsigned long terrainid, float x, fl
 // === BT GET VERSION ===
 // ======================
 #ifdef COMPILE_GDK
-EXPORT char* BT_GetVersion()
-{
+EXPORT char* BT_GetVersion() {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETVERSION;
 
 // Variables
@@ -1389,8 +1351,7 @@ EXPORT char* BT_GetVersion()
 	return Version;
 }
 #else
-EXPORT DWORD BT_GetVersion()
-{
+EXPORT DWORD BT_GetVersion() {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETVERSION;
 
 // Variables
@@ -1406,8 +1367,7 @@ EXPORT DWORD BT_GetVersion()
 // =========================
 // === BT SET BUILD STEP ===
 // =========================
-EXPORT void BT_SetBuildStep(unsigned long step)
-{
+EXPORT void BT_SetBuildStep(unsigned long step) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETBUILDSTEP;
 
 // Set build step
@@ -1420,8 +1380,7 @@ EXPORT void BT_SetBuildStep(unsigned long step)
 // ======================
 // === BT SET AT MODE ===
 // ======================
-EXPORT void BT_SetATMode(bool ATMode)
-{
+EXPORT void BT_SetATMode(bool ATMode) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETATMODE;
 
 // Set AT mode
@@ -1434,8 +1393,7 @@ EXPORT void BT_SetATMode(bool ATMode)
 // =============================
 // === BT ENABLE AUTO RENDER ===
 // =============================
-EXPORT void BT_EnableAutoRender(bool AutoRender)
-{
+EXPORT void BT_EnableAutoRender(bool AutoRender) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_ENABLEAUTORENDER;
 
 // Set AT mode
@@ -1448,8 +1406,7 @@ EXPORT void BT_EnableAutoRender(bool AutoRender)
 // ========================
 // === BT GET STATISTIC ===
 // ========================
-EXPORT unsigned long BT_GetStatistic(unsigned long code)
-{
+EXPORT unsigned long BT_GetStatistic(unsigned long code) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSTATISTIC;
 
 // Find stat code and return it
@@ -1471,8 +1428,7 @@ EXPORT unsigned long BT_GetStatistic(unsigned long code)
 // ================================
 // === BT GET TERRAIN OBJECT ID ===
 // ================================
-EXPORT unsigned long BT_GetTerrainObjectID(unsigned long terrainid)
-{
+EXPORT unsigned long BT_GetTerrainObjectID(unsigned long terrainid) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETOBJECTID;
 
 // Check if terrain exists
@@ -1491,8 +1447,7 @@ EXPORT unsigned long BT_GetTerrainObjectID(unsigned long terrainid)
 // =============================
 // === BT MAKE SECTOR OBJECT ===
 // =============================
-EXPORT void BT_MakeSectorObject(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID, unsigned long ObjectID)
-{
+EXPORT void BT_MakeSectorObject(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID, unsigned long ObjectID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_MAKESECTOROBJECT;
 
 // Check that the Terrain Exists
@@ -1539,8 +1494,7 @@ EXPORT void BT_MakeSectorObject(unsigned long terrainid, unsigned long LODLevel,
 // ==============================
 // === BT MAKE TERRAIN OBJECT ===
 // ==============================
-EXPORT void BT_MakeTerrainObject(unsigned long terrainid, unsigned long LODLevel, unsigned long ObjectID)
-{
+EXPORT void BT_MakeTerrainObject(unsigned long terrainid, unsigned long LODLevel, unsigned long ObjectID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_MAKETERRAINOBJECT;
 
 // Check if Terrain Exists
@@ -1598,8 +1552,7 @@ EXPORT void BT_MakeTerrainObject(unsigned long terrainid, unsigned long LODLevel
 // =================================
 // === BT UPADTE TERRAIN OBJECTS ===
 // =================================
-EXPORT void BT_UpdateTerrainObjects(unsigned long terrainid)
-{
+EXPORT void BT_UpdateTerrainObjects(unsigned long terrainid) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_MAKETERRAINOBJECT;
 
 // Check that the terrain exists
@@ -1649,8 +1602,7 @@ EXPORT void BT_UpdateTerrainObjects(unsigned long terrainid)
 // === BT GET SECTOR POSITION X ===
 // ================================
 #ifdef COMPILE_GDK
-EXPORT float BT_GetSectorPositionX(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID)
-{
+EXPORT float BT_GetSectorPositionX(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORPOSITIONX;
 
 // Check if Terrain Exists
@@ -1675,8 +1627,7 @@ EXPORT float BT_GetSectorPositionX(unsigned long terrainid, unsigned long LODLev
 	}
 }
 #else
-EXPORT DWORD BT_GetSectorPositionX(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID)
-{
+EXPORT DWORD BT_GetSectorPositionX(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORPOSITIONX;
 
 // Check if Terrain Exists
@@ -1710,8 +1661,7 @@ EXPORT DWORD BT_GetSectorPositionX(unsigned long terrainid, unsigned long LODLev
 // === BT GET SECTOR POSITION Y ===
 // ================================
 #ifdef COMPILE_GDK
-EXPORT float BT_GetSectorPositionY(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID)
-{
+EXPORT float BT_GetSectorPositionY(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORPOSITIONY;
 
 // Check if Terrain Exists
@@ -1736,8 +1686,7 @@ EXPORT float BT_GetSectorPositionY(unsigned long terrainid, unsigned long LODLev
 	}
 }
 #else
-EXPORT DWORD BT_GetSectorPositionY(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID)
-{
+EXPORT DWORD BT_GetSectorPositionY(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORPOSITIONY;
 
 // Check if Terrain Exists
@@ -1771,8 +1720,7 @@ EXPORT DWORD BT_GetSectorPositionY(unsigned long terrainid, unsigned long LODLev
 // === BT GET SECTOR POSITION Z ===
 // ================================
 #ifdef COMPILE_GDK
-EXPORT float BT_GetSectorPositionZ(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID)
-{
+EXPORT float BT_GetSectorPositionZ(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORPOSITIONZ;
 
 // Check if Terrain Exists
@@ -1797,8 +1745,7 @@ EXPORT float BT_GetSectorPositionZ(unsigned long terrainid, unsigned long LODLev
 	}
 }
 #else
-EXPORT DWORD BT_GetSectorPositionZ(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID)
-{
+EXPORT DWORD BT_GetSectorPositionZ(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORPOSITIONZ;
 
 // Check if Terrain Exists
@@ -1831,8 +1778,7 @@ EXPORT DWORD BT_GetSectorPositionZ(unsigned long terrainid, unsigned long LODLev
 // ===========================
 // === BT GET SECTOR COUNT ===
 // ===========================
-EXPORT unsigned long BT_GetSectorCount(unsigned long TerrainID, unsigned long LODLevel)
-{
+EXPORT unsigned long BT_GetSectorCount(unsigned long TerrainID, unsigned long LODLevel) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORCOUNT;
 
 // Check if Terrain Exists
@@ -1858,8 +1804,7 @@ EXPORT unsigned long BT_GetSectorCount(unsigned long TerrainID, unsigned long LO
 // === BT GET SECTOR SIZE ===
 // ===========================
 #ifdef COMPILE_GDK
-EXPORT float BT_GetSectorSize(unsigned long TerrainID, unsigned long LODLevel)
-{
+EXPORT float BT_GetSectorSize(unsigned long TerrainID, unsigned long LODLevel) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORSIZE;
 
 // Check if Terrain Exists
@@ -1878,8 +1823,7 @@ EXPORT float BT_GetSectorSize(unsigned long TerrainID, unsigned long LODLevel)
 	return NULL;
 }
 #else
-EXPORT unsigned long BT_GetSectorSize(unsigned long TerrainID, unsigned long LODLevel)
-{
+EXPORT unsigned long BT_GetSectorSize(unsigned long TerrainID, unsigned long LODLevel) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORSIZE;
 
 // Check if Terrain Exists
@@ -1906,8 +1850,7 @@ EXPORT unsigned long BT_GetSectorSize(unsigned long TerrainID, unsigned long LOD
 // ==============================
 // === BT GET SECTOR EXCLUDED ===
 // ==============================
-EXPORT unsigned long BT_GetSectorExcluded(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID)
-{
+EXPORT unsigned long BT_GetSectorExcluded(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTOREXCLUDED;
 
 // Check if Terrain Exists
@@ -1938,8 +1881,7 @@ EXPORT unsigned long BT_GetSectorExcluded(unsigned long terrainid, unsigned long
 // =========================
 // === BT GET SECTOR ROW ===
 // =========================
-EXPORT unsigned long BT_GetSectorRow(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID)
-{
+EXPORT unsigned long BT_GetSectorRow(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORROW;
 
 // Check if Terrain Exists
@@ -1970,8 +1912,7 @@ EXPORT unsigned long BT_GetSectorRow(unsigned long terrainid, unsigned long LODL
 // =============================
 // === BT GET SECTOR COLLUMN ===
 // =============================
-EXPORT unsigned long BT_GetSectorCollumn(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID)
-{
+EXPORT unsigned long BT_GetSectorCollumn(unsigned long terrainid, unsigned long LODLevel, unsigned long SectorID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_GETSECTORCOLLUMN;
 
 // Check if Terrain Exists
@@ -2002,8 +1943,7 @@ EXPORT unsigned long BT_GetSectorCollumn(unsigned long terrainid, unsigned long 
 // =============================
 // === BT SET CURRENT CAMERA ===
 // =============================
-EXPORT void BT_SetCurrentCamera(unsigned long CameraID)
-{
+EXPORT void BT_SetCurrentCamera(unsigned long CameraID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_SETCURRENTCAMERA;
 
 // Check if the camera exists
@@ -2019,8 +1959,7 @@ EXPORT void BT_SetCurrentCamera(unsigned long CameraID)
 // =============================
 // === BT UPDATE TERRAIN LOD ===
 // =============================
-EXPORT void BT_UpdateTerrainLOD(unsigned long TerrainID)
-{
+EXPORT void BT_UpdateTerrainLOD(unsigned long TerrainID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_UPDATETERRAINLOD;
 
 // Check that the terrain exists
@@ -2045,8 +1984,7 @@ EXPORT void BT_UpdateTerrainLOD(unsigned long TerrainID)
 // ==============================
 // === BT UPDATE TERRAIN CULL ===
 // ==============================
-EXPORT void BT_UpdateTerrainCull(unsigned long TerrainID)
-{
+EXPORT void BT_UpdateTerrainCull(unsigned long TerrainID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_UPDATETERRAINCULL;
 
 // Check that the terrain exists
@@ -2071,8 +2009,7 @@ EXPORT void BT_UpdateTerrainCull(unsigned long TerrainID)
 // =========================
 // === BT RENDER TERRAIN ===
 // =========================
-EXPORT void BT_RenderTerrain(unsigned long TerrainID)
-{
+EXPORT void BT_RenderTerrain(unsigned long TerrainID) {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_RENDER;
 
 // Check if the terrain exists
@@ -2097,8 +2034,7 @@ EXPORT void BT_RenderTerrain(unsigned long TerrainID)
 // ===========================
 // === BT GET TERRAIN INFO ===
 // ===========================
-EXPORT void* BT_GetTerrainInfo(unsigned long terrainid)
-{
+EXPORT void* BT_GetTerrainInfo(unsigned long terrainid) {
 	return BT_Main.Terrains[terrainid].Info;
 }
 // === END FUNCTION ===
@@ -2108,8 +2044,7 @@ EXPORT void* BT_GetTerrainInfo(unsigned long terrainid)
 // ============================
 // === BT GET LODLEVEL INFO ===
 // ============================
-EXPORT void* BT_GetLODLevelInfo(unsigned long terrainid, unsigned long LODLevelID)
-{
+EXPORT void* BT_GetLODLevelInfo(unsigned long terrainid, unsigned long LODLevelID) {
 	return BT_Main.Terrains[terrainid].LODLevel[LODLevelID].Info;
 }
 // === END FUNCTION ===
@@ -2119,8 +2054,7 @@ EXPORT void* BT_GetLODLevelInfo(unsigned long terrainid, unsigned long LODLevelI
 // ==========================
 // === BT GET SECTOR INFO ===
 // ==========================
-EXPORT void* BT_GetSectorInfo(unsigned long terrainid, unsigned long LODLevelID, unsigned long SectorID)
-{
+EXPORT void* BT_GetSectorInfo(unsigned long terrainid, unsigned long LODLevelID, unsigned long SectorID) {
 	return BT_Main.Terrains[terrainid].LODLevel[LODLevelID].Sector[SectorID].Info;
 }
 // === END FUNCTION ===
@@ -2135,8 +2069,7 @@ EXPORT void* BT_GetSectorInfo(unsigned long terrainid, unsigned long LODLevelID,
 // ========================
 // === BT INTERN RENDER === THIS AUTOMATICALY GETS CALLED BY DBPRO
 // ========================
-EXPORT void BT_Intern_Render()
-{
+EXPORT void BT_Intern_Render() {
 // Clear statistics
 	BT_Intern_ClearStatistics();
 
@@ -2250,8 +2183,7 @@ EXPORT void BT_Intern_Render()
 // ==========================================
 // === BT INTERN ADD TO INSTRUCTION QUEUE ===
 // ==========================================
-static void BT_Intern_AddToInstructionQueue(char Instruction, char Data)
-{
+static void BT_Intern_AddToInstructionQueue(char Instruction, char Data) {
 // Check the queue size
 	if (BT_Main.InstructionQueueUsed + 2 < BT_Main.InstructionQueueSize) {
 		BT_Main.InstructionQueue[BT_Main.InstructionQueueUsed] = Instruction;
@@ -2267,8 +2199,7 @@ static void BT_Intern_AddToInstructionQueue(char Instruction, char Data)
 // ==================================
 // === BT INTERN CLEAR STATISTICS ===
 // ==================================
-static void BT_Intern_ClearStatistics()
-{
+static void BT_Intern_ClearStatistics() {
 	BT_Main.CurrentFunction = C_BT_FUNCTION_CLEARSTATISTICS;
 
 // Clear
@@ -2283,8 +2214,7 @@ static void BT_Intern_ClearStatistics()
 // ================================
 // === BT INTERN RENDER TERRAIN ===
 // ================================
-static void BT_Intern_RenderTerrain(s_BT_terrain* Terrain)
-{
+static void BT_Intern_RenderTerrain(s_BT_terrain* Terrain) {
 // Variables
 	tagCameraData* Camera = BT_Main.CurrentUpdateCamera;
 	D3DXMATRIX World;
@@ -2388,8 +2318,7 @@ static void BT_Intern_RenderTerrain(s_BT_terrain* Terrain)
 // ======================================
 // === BT INTERN CALCULATE LOD LEVELS ===
 // ======================================
-static void BT_Intern_CalculateLODLevelsRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level, unsigned char LODLevelToDraw)
-{
+static void BT_Intern_CalculateLODLevelsRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level, unsigned char LODLevelToDraw) {
 // Initialise Drawthis variable
 	Quadtree->DrawThis = false;
 
@@ -2431,8 +2360,7 @@ static void BT_Intern_CalculateLODLevelsRec(s_BT_terrain* Terrain, s_BT_QuadTree
 // ===============================
 // === BT INTERN FIX LOD SEAMS ===
 // ===============================
-static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
-{
+static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain) {
 // Find seams to be fixed
 	for (unsigned char LODLevel = 0; LODLevel < Terrain->LODLevels; LODLevel++) {
 		unsigned long Span = 0x1 << LODLevel;
@@ -2500,8 +2428,7 @@ static void BT_Intern_FixLODSeams(s_BT_terrain* Terrain)
 // ======================================
 // === BT INTERN FIX SECTOR LOD SEAMS ===
 // ======================================
-static void BT_Intern_FixSectorLODSeams(s_BT_Sector* SectorPtr)
-{
+static void BT_Intern_FixSectorLODSeams(s_BT_Sector* SectorPtr) {
 // Fix the seams
 	if (SectorPtr->QuadTree != NULL && !SectorPtr->Excluded) {
 		if (!SectorPtr->QuadTree->Culled && SectorPtr->QuadTree->DrawThis) {
@@ -2546,8 +2473,7 @@ static void BT_Intern_FixSectorLODSeams(s_BT_Sector* SectorPtr)
 // =======================================
 // === BT INTERN CALCULATE CULLING REC ===
 // =======================================
-static void BT_Intern_CalculateCullingRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level, bool IntersectingFrustum)
-{
+static void BT_Intern_CalculateCullingRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level, bool IntersectingFrustum) {
 // Initialise Culled variable
 	Quadtree->Culled = true;
 
@@ -2584,8 +2510,7 @@ static void BT_Intern_CalculateCullingRec(s_BT_terrain* Terrain, s_BT_QuadTree* 
 // =======================================
 // === BT INTERN UPDATE CULLBOXES REC ===
 // =======================================
-static void BT_Intern_UpdateCullBoxesRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level)
-{
+static void BT_Intern_UpdateCullBoxesRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level) {
 // Check if the cullbox needs updating
 	if (Quadtree->CullboxChanged && !Quadtree->Excluded) {
 		// Check if LOD level is greater than 0
@@ -2625,8 +2550,7 @@ static void BT_Intern_UpdateCullBoxesRec(s_BT_terrain* Terrain, s_BT_QuadTree* Q
 // ====================================
 // === BT INTERN RENDER TERRAIN REC ===
 // ====================================
-static void BT_Intern_RenderTerrainRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level)
-{
+static void BT_Intern_RenderTerrainRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level) {
 // Check if were not at the bottom
 	if (Level > 0) {
 		// If we have to draw this LOD level, draw it. If not, continue down the tree
@@ -2716,8 +2640,7 @@ static void BT_Intern_RenderTerrainRec(s_BT_terrain* Terrain, s_BT_QuadTree* Qua
 // ====================================
 // === BT INTERN UNLOCK SECTORS REC ===
 // ====================================
-static void BT_Intern_UnlockSectorsRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level)
-{
+static void BT_Intern_UnlockSectorsRec(s_BT_terrain* Terrain, s_BT_QuadTree* Quadtree, unsigned long Level) {
 // Check if were not at the bottom
 	if (Level > 0) {
 		// If we have to draw this LOD level, draw it. If not, continue down the tree
@@ -2754,8 +2677,7 @@ static void BT_Intern_UnlockSectorsRec(s_BT_terrain* Terrain, s_BT_QuadTree* Qua
 // ===============================
 // === BT INTERN RENDER SECTOR ===
 // ===============================
-static void BT_Intern_RenderSector(s_BT_Sector* Sector)
-{
+static void BT_Intern_RenderSector(s_BT_Sector* Sector) {
 // Render sector
 	if (!Sector->Excluded) {
 		// Fix LOD seams
@@ -2813,8 +2735,7 @@ static void BT_Intern_RenderSector(s_BT_Sector* Sector)
 // ========================================
 // === BT INTERN DISTANCE TO LOD CAMERA ===
 // ========================================
-static float BT_Intern_DistanceToLODCamera(s_BT_terrain* Terrain, s_BT_CullBox* CullBox)
-{
+static float BT_Intern_DistanceToLODCamera(s_BT_terrain* Terrain, s_BT_CullBox* CullBox) {
 // Variables
 	float CamX = (BT_Main.LODCamPosition.x - Terrain->Object->position.vecPosition.x) / Terrain->Scale * C_BT_INTERNALSCALE;
 	float CamY = (BT_Main.LODCamPosition.y - Terrain->Object->position.vecPosition.y) / Terrain->Scale * C_BT_INTERNALSCALE;
@@ -2868,8 +2789,7 @@ static float BT_Intern_DistanceToLODCamera(s_BT_terrain* Terrain, s_BT_CullBox* 
 // ================================
 // === BT INTERN CONTINUE BUILD ===
 // ================================
-static void BT_Intern_ContinueBuild()
-{
+static void BT_Intern_ContinueBuild() {
 // Variables
 	s_BT_Sector* Sector;
 
@@ -2909,8 +2829,7 @@ static void BT_Intern_ContinueBuild()
 // ===============================
 // === BT INTERN TERRAIN EXIST ===
 // ===============================
-bool BT_Intern_TerrainExist(unsigned long terrainid)
-{
+bool BT_Intern_TerrainExist(unsigned long terrainid) {
 // Check the range of the value
 	if (terrainid > 0 && terrainid <= C_BT_MAXTERRAINS) {
 		// Return the exist varaible
@@ -2925,8 +2844,7 @@ bool BT_Intern_TerrainExist(unsigned long terrainid)
 // =============================
 // === BT INTERN IMAGE EXIST ===
 // =============================
-static long BT_Intern_ImageExist(unsigned long imageid)
-{
+static long BT_Intern_ImageExist(unsigned long imageid) {
 // Check the range of the value
 	if (imageid > 0) {
 		// Check if it exists and return the answer
@@ -2941,8 +2859,7 @@ static long BT_Intern_ImageExist(unsigned long imageid)
 // =======================
 // === BT INTERN ERROR ===
 // =======================
-void BT_Intern_Error(int number)
-{
+void BT_Intern_Error(int number) {
 // Variables
 	char Message[100];
 	Message[0] = NULL;
@@ -2964,8 +2881,7 @@ void BT_Intern_Error(int number)
 // ==================================
 // === BT INTERN GET ERROR STRING ===
 // ==================================
-static char* BT_Intern_GetErrorString(int number)
-{
+static char* BT_Intern_GetErrorString(int number) {
 // Set default error message
 	char* Error = "Unknown";
 
@@ -3036,8 +2952,7 @@ static char* BT_Intern_GetErrorString(int number)
 // ===================================
 // === BT INTERN GET FUNCTION NAME ===
 // ===================================
-static char* BT_Intern_GetFunctionName(int number)
-{
+static char* BT_Intern_GetFunctionName(int number) {
 // Set default name
 	char* Name = "Unknown";
 
@@ -3168,8 +3083,7 @@ static char* BT_Intern_GetFunctionName(int number)
 // ====================================
 // === BT INTERN GET SECTOR HEIGHTS ===
 // ====================================
-static void BT_Intern_GetSectorHeights(s_BT_terrain* Terrain, unsigned long LODLevel, unsigned long row, unsigned long column, float* buffer)
-{
+static void BT_Intern_GetSectorHeights(s_BT_terrain* Terrain, unsigned long LODLevel, unsigned long row, unsigned long column, float* buffer) {
 // Variables
 	unsigned long StartX;
 	unsigned long StartY;
@@ -3212,8 +3126,7 @@ static void BT_Intern_GetSectorHeights(s_BT_terrain* Terrain, unsigned long LODL
 // =====================================
 // === BT INTERN GET SECTOR EXCLUSION ===
 // ======================================
-static bool BT_Intern_GetSectorExclusion(s_BT_terrain* Terrain, unsigned long LODLevel, unsigned long excludememblock, unsigned long row, unsigned long column, bool* buffer)
-{
+static bool BT_Intern_GetSectorExclusion(s_BT_terrain* Terrain, unsigned long LODLevel, unsigned long excludememblock, unsigned long row, unsigned long column, bool* buffer) {
 // Variables
 	bool WholeSectorExcluded = true;
 	unsigned long X;
@@ -3263,8 +3176,7 @@ static bool BT_Intern_GetSectorExclusion(s_BT_terrain* Terrain, unsigned long LO
 // ==============================
 // === BT INTERN BUILD SECTOR ===
 // ==============================
-static void BT_Intern_BuildSector(s_BT_Sector* Sector)
-{
+static void BT_Intern_BuildSector(s_BT_Sector* Sector) {
 // Generate meshdata
 	Sector->QuadMap->GenerateMeshData();
 
@@ -3281,8 +3193,7 @@ static void BT_Intern_BuildSector(s_BT_Sector* Sector)
 // ================================
 // === BT INTERN DELETE TERRAIN ===
 // ================================
-static void BT_Intern_DeleteTerrain(unsigned long TerrainID, bool DeleteObject)
-{
+static void BT_Intern_DeleteTerrain(unsigned long TerrainID, bool DeleteObject) {
 // Check that the terrain is built
 	if (BT_Main.Terrains[TerrainID].Built) {
 		// Get terrain pointer
@@ -3356,8 +3267,7 @@ static void BT_Intern_DeleteTerrain(unsigned long TerrainID, bool DeleteObject)
 // ==================================
 // === BT INTERN GET POINT HEIGHT ===
 // ==================================
-float BT_Intern_GetPointHeight(s_BT_terrain* Terrain, float Px, float Pz, char LODLevel, bool Round)
-{
+float BT_Intern_GetPointHeight(s_BT_terrain* Terrain, float Px, float Pz, char LODLevel, bool Round) {
 // Variables
 	float Height;
 	unsigned short SRow;
@@ -3421,8 +3331,7 @@ float BT_Intern_GetPointHeight(s_BT_terrain* Terrain, float Px, float Pz, char L
 // ==================================
 // === BT INTERN GET POINT NORMAL ===
 // ==================================
-Vector3 BT_Intern_GetPointNormal(s_BT_terrain* Terrain, float Px, float Pz)
-{
+Vector3 BT_Intern_GetPointNormal(s_BT_terrain* Terrain, float Px, float Pz) {
 // Variables
 	Vector3 Normal;
 	float Tilesize;
@@ -3477,8 +3386,7 @@ Vector3 BT_Intern_GetPointNormal(s_BT_terrain* Terrain, float Px, float Pz)
 // ====================================
 // === BT INTERN GET POINT EXCLUDED ===
 // ====================================
-static bool BT_Intern_GetPointExcluded(s_BT_terrain* Terrain, float Px, float Pz)
-{
+static bool BT_Intern_GetPointExcluded(s_BT_terrain* Terrain, float Px, float Pz) {
 // Variables
 	unsigned short SRow;
 	unsigned short SCollumn;
@@ -3538,8 +3446,7 @@ static bool BT_Intern_GetPointExcluded(s_BT_terrain* Terrain, float Px, float Pz
 // ===================================
 // === BT INTERN ALLOCATE QUADTREE ===
 // ===================================
-s_BT_QuadTree* BT_Intern_AllocateQuadTree(s_BT_terrain* Terrain)
-{
+s_BT_QuadTree* BT_Intern_AllocateQuadTree(s_BT_terrain* Terrain) {
 // Variables
 	s_BT_QuadTree* QuadTree;
 	unsigned char Levels;
@@ -3564,8 +3471,7 @@ s_BT_QuadTree* BT_Intern_AllocateQuadTree(s_BT_terrain* Terrain)
 // =======================================
 // === BT INTERN ALLOCATE QUADTREE REC ===
 // =======================================
-static s_BT_QuadTree* BT_Intern_AllocateQuadTreeRec(s_BT_terrain* Terrain, unsigned char Levels, s_BT_QuadTree* Parent, unsigned char row, unsigned char collumn)
-{
+static s_BT_QuadTree* BT_Intern_AllocateQuadTreeRec(s_BT_terrain* Terrain, unsigned char Levels, s_BT_QuadTree* Parent, unsigned char row, unsigned char collumn) {
 // Variables
 	s_BT_QuadTree* Quadtree;
 	bool QHasSector = false;
@@ -3670,8 +3576,7 @@ static s_BT_QuadTree* BT_Intern_AllocateQuadTreeRec(s_BT_terrain* Terrain, unsig
 // =====================================
 // === BT INTERN DEALLOCATE QUADTREE ===
 // =====================================
-static void BT_Intern_DeAllocateQuadTree(s_BT_QuadTree* Quadtree)
-{
+static void BT_Intern_DeAllocateQuadTree(s_BT_QuadTree* Quadtree) {
 // DeAllocate quadtree
 	BT_Intern_DeAllocateQuadTreeRec(Quadtree);
 	free(Quadtree);
@@ -3683,8 +3588,7 @@ static void BT_Intern_DeAllocateQuadTree(s_BT_QuadTree* Quadtree)
 // =========================================
 // === BT INTERN DEALLOCATE QUADTREE REC ===
 // =========================================
-static void BT_Intern_DeAllocateQuadTreeRec(s_BT_QuadTree* Quadtree)
-{
+static void BT_Intern_DeAllocateQuadTreeRec(s_BT_QuadTree* Quadtree) {
 // Deallocate children
 	if (Quadtree->n1 != NULL) {
 		BT_Intern_DeAllocateQuadTreeRec(Quadtree->n1);
@@ -3714,8 +3618,7 @@ static void BT_Intern_DeAllocateQuadTreeRec(s_BT_QuadTree* Quadtree)
 
 
 
-void BT_Intern_RefreshVB(s_BT_DrawBuffer* DrawBuffer, unsigned long FirstVertex, unsigned long LastVertex, BT_Meshdata_Vertex* Vertex)
-{
+void BT_Intern_RefreshVB(s_BT_DrawBuffer* DrawBuffer, unsigned long FirstVertex, unsigned long LastVertex, BT_Meshdata_Vertex* Vertex) {
 // Variables
 	// Locked vertex list
 	BT_Meshdata_Vertex* LockedVertex;
@@ -3736,8 +3639,7 @@ void BT_Intern_RefreshVB(s_BT_DrawBuffer* DrawBuffer, unsigned long FirstVertex,
 	DrawBuffer->VertexBuffer->Unlock();
 }
 
-void BT_Intern_RefreshIB(s_BT_DrawBuffer* DrawBuffer, unsigned long FirstIndex, unsigned long LastIndex, unsigned short* Index)
-{
+void BT_Intern_RefreshIB(s_BT_DrawBuffer* DrawBuffer, unsigned long FirstIndex, unsigned long LastIndex, unsigned short* Index) {
 // Variables
 	// Locked index list
 	unsigned short* LockedIndex;
@@ -3754,8 +3656,7 @@ void BT_Intern_RefreshIB(s_BT_DrawBuffer* DrawBuffer, unsigned long FirstIndex, 
 
 
 
-static void BT_Intern_ExtractFrustum()
-{
+static void BT_Intern_ExtractFrustum() {
 // Variables
 	D3DXMATRIX ClipMatrix;
 
@@ -3803,8 +3704,7 @@ static void BT_Intern_ExtractFrustum()
 
 
 // Returns 0 if box isnt in frustum, 1 if intersecting and 2 if completely in frustum
-static int BT_Intern_CullBox(s_BT_CullBox* pCullBox)
-{
+static int BT_Intern_CullBox(s_BT_CullBox* pCullBox) {
 // Increase cull checks
 	BT_Main.CullChecks++;
 
@@ -3854,8 +3754,7 @@ static int BT_Intern_CullBox(s_BT_CullBox* pCullBox)
 // =========================================
 // === BT INTERN LOCK SECTOR VERTEX DATA ===
 // =========================================
-static BT_RTTMS_STRUCT* BT_Intern_LockSectorVertexData(s_BT_Sector* Sector)
-{
+static BT_RTTMS_STRUCT* BT_Intern_LockSectorVertexData(s_BT_Sector* Sector) {
 // Lock sector
 	return (BT_RTTMS_STRUCT*)BT_RTTMS_LockSectorVertexData(Sector->Terrain->ID, Sector->LODLevel->ID, Sector->ID);
 }
@@ -3866,8 +3765,7 @@ static BT_RTTMS_STRUCT* BT_Intern_LockSectorVertexData(s_BT_Sector* Sector)
 // ===========================================
 // === BT INTERN UNLOCK SECTOR VERTEX DATA ===
 // ===========================================
-static void BT_Intern_UnlockSectorVertexData(s_BT_Sector* Sector)
-{
+static void BT_Intern_UnlockSectorVertexData(s_BT_Sector* Sector) {
 // Unlock vertexdata
 	if (Sector->VertexDataLocked) {
 		BT_RTTMS_UnlockSectorVertexData((void*)Sector->VertexDataRTTMS);
@@ -3879,8 +3777,7 @@ static void BT_Intern_UnlockSectorVertexData(s_BT_Sector* Sector)
 // ======================================
 // === BT INTERN RTTMS UPDATE HANDLER ===
 // ======================================
-void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID, unsigned short StartVertex, unsigned short EndVertex, float* VerticesPtr)
-{
+void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID, unsigned short StartVertex, unsigned short EndVertex, float* VerticesPtr) {
 // Cast vertices
 	float* Vertices = (float*)VerticesPtr;
 
@@ -3924,8 +3821,7 @@ void BT_Intern_RTTMSUpdateHandler(unsigned long TerrainID, unsigned long LODLeve
 // ========================================
 // === BT INTERN GET HEIGHT FROM COLOUR ===
 // ========================================
-static float BT_Intern_GetHeightFromColor(unsigned long Colour)
-{
+static float BT_Intern_GetHeightFromColor(unsigned long Colour) {
 	D3DXCOLOR D3DColour = D3DXCOLOR(Colour);
 	return D3DColour.r * 256.0f + D3DColour.g + D3DColour.b / 256.0f;
 }
@@ -3936,8 +3832,7 @@ static float BT_Intern_GetHeightFromColor(unsigned long Colour)
 // =========================
 // === BT SMOOTH TERRAIN ===
 // =========================
-static void BT_Intern_SmoothTerrain(s_BT_terrain* Terrain)
-{
+static void BT_Intern_SmoothTerrain(s_BT_terrain* Terrain) {
 // Loop through smooth levels
 	for (unsigned char SmoothLevel = 0; SmoothLevel < Terrain->Smoothing; SmoothLevel++) {
 		for (unsigned short y = 1; y < Terrain->Heightmapsize - 1; y++) {

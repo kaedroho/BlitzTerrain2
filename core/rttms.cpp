@@ -7,8 +7,7 @@ BT_RTTMS_UpdateHandler_t* BT_RTTMS_UpdateHandlers[C_BT_MAXTERRAINS] = { 0 };
 unsigned long BT_RTTMS_UpdateHandlerCount[C_BT_MAXTERRAINS] = { 0 };
 
 
-EXPORT void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID, BT_RTTMS_UpdateHandler_t UpdateHandler)
-{
+EXPORT void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID, BT_RTTMS_UpdateHandler_t UpdateHandler) {
 // Increase update handler count
 	BT_RTTMS_UpdateHandlerCount[TerrainID]++;
 
@@ -27,15 +26,13 @@ EXPORT void BT_RTTMS_AddUpdateHandler(unsigned long TerrainID, BT_RTTMS_UpdateHa
 	BT_RTTMS_UpdateHandlers[TerrainID][BT_RTTMS_UpdateHandlerCount[TerrainID] - 1] = UpdateHandler;
 }
 
-static void BT_RTTMS_CallUpdateHandlers(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID, unsigned short StartVertex, unsigned short EndVertex, float* Vertices)
-{
+static void BT_RTTMS_CallUpdateHandlers(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID, unsigned short StartVertex, unsigned short EndVertex, float* Vertices) {
 // Loop through update handlers and call each one
 	for (unsigned long i = 1; i <= BT_RTTMS_UpdateHandlerCount[TerrainID]; i++)
 		BT_RTTMS_UpdateHandlers[TerrainID][i - 1](TerrainID, LODLevelID, SectorID, StartVertex, EndVertex, Vertices);
 }
 
-void BT_RTTMS_DeleteUpdateHandlers(unsigned long TerrainID)
-{
+void BT_RTTMS_DeleteUpdateHandlers(unsigned long TerrainID) {
 // Delete update handlers
 	if (BT_RTTMS_UpdateHandlerCount[TerrainID] != 0) {
 		free(BT_RTTMS_UpdateHandlers[TerrainID]);
@@ -44,8 +41,7 @@ void BT_RTTMS_DeleteUpdateHandlers(unsigned long TerrainID)
 	}
 }
 
-EXPORT void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID)
-{
+EXPORT void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID, unsigned long LODLevelID, unsigned long SectorID) {
 // Check that the data exists
 	if (!BT_Intern_TerrainExist(TerrainID))
 		return NULL;
@@ -73,8 +69,7 @@ EXPORT void* BT_RTTMS_LockSectorVertexData(unsigned long TerrainID, unsigned lon
 }
 
 
-EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr)
-{
+EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr) {
 // Get struct
 	BT_RTTMS_STRUCT* RTTMSStruct = (BT_RTTMS_STRUCT*)StructPtr;
 	BT_RTTMS_STRUCTINTERNALS* RTTMSStructInternals = (BT_RTTMS_STRUCTINTERNALS*)RTTMSStruct->Internals;
@@ -95,8 +90,7 @@ EXPORT void BT_RTTMS_UnlockSectorVertexData(void* StructPtr)
 	}
 }
 
-EXPORT unsigned short BT_RTTMS_FindVertex(void* StructPtr, unsigned short Vrow, unsigned short Vcol)
-{
+EXPORT unsigned short BT_RTTMS_FindVertex(void* StructPtr, unsigned short Vrow, unsigned short Vcol) {
 // Get struct
 	BT_RTTMS_STRUCT* RTTMSStruct = (BT_RTTMS_STRUCT*)StructPtr;
 	BT_RTTMS_STRUCTINTERNALS* RTTMSStructInternals = (BT_RTTMS_STRUCTINTERNALS*)RTTMSStruct->Internals;
@@ -106,8 +100,7 @@ EXPORT unsigned short BT_RTTMS_FindVertex(void* StructPtr, unsigned short Vrow, 
 }
 
 
-void BT_RTTMS_UnlockTerrain(s_BT_terrain* TerrainPtr)
-{
+void BT_RTTMS_UnlockTerrain(s_BT_terrain* TerrainPtr) {
 	for (unsigned char LODLevel = 0; LODLevel < TerrainPtr->LODLevels; LODLevel++) {
 		s_BT_LODLevel* LODLevelPtr = &TerrainPtr->LODLevel[LODLevel];
 		for (unsigned short Sector = 0; Sector < LODLevelPtr->Sectors; Sector++) {
