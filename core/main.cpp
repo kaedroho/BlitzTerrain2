@@ -2115,7 +2115,7 @@ EXPORT void BT_Intern_Render() {
 
 			// Increase position
 			CurrentPos += 2;
-		}else if (BT_Main.InstructionQueue[CurrentPos] == C_BT_INSTRUCTION_UPDATETERRAINCULL) {
+		} else if (BT_Main.InstructionQueue[CurrentPos] == C_BT_INSTRUCTION_UPDATETERRAINCULL) {
 			// Variables
 			unsigned long TerrainID = BT_Main.InstructionQueue[CurrentPos + 1];
 
@@ -2138,7 +2138,7 @@ EXPORT void BT_Intern_Render() {
 
 			// Increase position
 			CurrentPos += 2;
-		}else if (BT_Main.InstructionQueue[CurrentPos] == C_BT_INSTRUCTION_UPDATETERRAINLOD) {
+		} else if (BT_Main.InstructionQueue[CurrentPos] == C_BT_INSTRUCTION_UPDATETERRAINLOD) {
 			// Variables
 			unsigned long TerrainID = BT_Main.InstructionQueue[CurrentPos + 1];
 
@@ -2154,7 +2154,7 @@ EXPORT void BT_Intern_Render() {
 
 			// Increase position
 			CurrentPos += 2;
-		}else if (BT_Main.InstructionQueue[CurrentPos] == C_BT_INSTRUCTION_RENDERTERRAIN) {
+		} else if (BT_Main.InstructionQueue[CurrentPos] == C_BT_INSTRUCTION_RENDERTERRAIN) {
 			// Variables
 			unsigned long TerrainID = BT_Main.InstructionQueue[CurrentPos + 1];
 
@@ -2753,7 +2753,7 @@ static float BT_Intern_DistanceToLODCamera(s_BT_terrain* Terrain, s_BT_CullBox* 
 	float XDist;
 	if (XDistA > 0.0f) {
 		XDist = -XDistA;
-	}else if (XDistB > 0.0f) {
+	} else if (XDistB > 0.0f) {
 		XDist = XDistB;
 	} else {
 		XDist = 0.0f;
@@ -2763,7 +2763,7 @@ static float BT_Intern_DistanceToLODCamera(s_BT_terrain* Terrain, s_BT_CullBox* 
 	float YDist;
 	if (YDistA > 0.0f) {
 		YDist = -YDistA;
-	}else if (YDistB > 0.0f) {
+	} else if (YDistB > 0.0f) {
 		YDist = YDistB;
 	} else {
 		YDist = 0.0f;
@@ -2773,7 +2773,7 @@ static float BT_Intern_DistanceToLODCamera(s_BT_terrain* Terrain, s_BT_CullBox* 
 	float ZDist;
 	if (ZDistA > 0.0f) {
 		ZDist = -ZDistA;
-	}else if (ZDistB > 0.0f) {
+	} else if (ZDistB > 0.0f) {
 		ZDist = ZDistB;
 	} else {
 		ZDist = 0.0f;
@@ -2888,57 +2888,57 @@ static char* BT_Intern_GetErrorString(int number) {
 	// Get error
 	if (number == C_BT_ERROR_MAXTERRAINSEXCEDED) {
 		Error = "Max terrains Exceded";
-	}else if (number == C_BT_ERROR_TERRAINDOESNTEXIST) {
+	} else if (number == C_BT_ERROR_TERRAINDOESNTEXIST) {
 		Error = "Terrain doesnt exist";
-	}else if (number == C_BT_ERROR_INVALIDLODLEVELS) {
+	} else if (number == C_BT_ERROR_INVALIDLODLEVELS) {
 		Error = "Invalid LOD levels";
-	}else if (number == C_BT_ERROR_HEIGHTMAPDOESNTEXIST) {
+	} else if (number == C_BT_ERROR_HEIGHTMAPDOESNTEXIST) {
 		Error = "Heightmap doesnt exist";
-	}else if (number == C_BT_ERROR_LODLEVELDOESNTEXIST) {
+	} else if (number == C_BT_ERROR_LODLEVELDOESNTEXIST) {
 		Error = "LOD level doesnt exist";
-	}else if (number == C_BT_ERROR_HEIGHTMAPSIZEINVALID) {
+	} else if (number == C_BT_ERROR_HEIGHTMAPSIZEINVALID) {
 		Error = "Heightmap size invalid";
-	}else if (number == C_BT_ERROR_EXCLUSIONMAPSIZEINVALID) {
+	} else if (number == C_BT_ERROR_EXCLUSIONMAPSIZEINVALID) {
 		Error = "Exclusion map size invalid";
-	}else if (number == C_BT_ERROR_ALREADYBUILDING) {
+	} else if (number == C_BT_ERROR_ALREADYBUILDING) {
 		Error = "Already building";
-	}else if (number == C_BT_ERROR_OBJECTIDILLEGAL) {
+	} else if (number == C_BT_ERROR_OBJECTIDILLEGAL) {
 		Error = "Object ID illegal";
-	}else if (number == C_BT_ERROR_TERRAINNOTGENERATED) {
+	} else if (number == C_BT_ERROR_TERRAINNOTGENERATED) {
 		Error = "Terrain not generated";
-	}else if (number == C_BT_ERROR_CANNOTCREATEVB) {
+	} else if (number == C_BT_ERROR_CANNOTCREATEVB) {
 		Error = "Cannot create Vertex Buffer";
-	}else if (number == C_BT_ERROR_CANNOTCREATEIB) {
+	} else if (number == C_BT_ERROR_CANNOTCREATEIB) {
 		Error = "Cannot Create Index Buffer";
-	}else if (number == C_BT_ERROR_SECTORDOESNTEXIST) {
+	} else if (number == C_BT_ERROR_SECTORDOESNTEXIST) {
 		Error = "Sector doesnt exist";
-	}else if (number == C_BT_ERROR_TERRAINNOTBUILT) {
+	} else if (number == C_BT_ERROR_TERRAINNOTBUILT) {
 		Error = "Terrain not built";
-	}else if (number == C_BT_ERROR_INVALIDFILE) {
+	} else if (number == C_BT_ERROR_INVALIDFILE) {
 		Error = "Invalid file";
-	}else if (number == C_BT_ERROR_VERSIONCANNOTREADFILE) {
+	} else if (number == C_BT_ERROR_VERSIONCANNOTREADFILE) {
 		Error = "Cannot read file";
-	}else if (number == C_BT_ERROR_TERRAINALREADYBUILT) {
+	} else if (number == C_BT_ERROR_TERRAINALREADYBUILT) {
 		Error = "Terrain already built";
-	}else if (number == C_BT_ERROR_CANNOTUSEFUNCTIONONBUILTTERRAIN) {
+	} else if (number == C_BT_ERROR_CANNOTUSEFUNCTIONONBUILTTERRAIN) {
 		Error = "Cannot use function with a built terrain";
-	}else if (number == C_BT_ERROR_SECTORALREADYLOCKED) {
+	} else if (number == C_BT_ERROR_SECTORALREADYLOCKED) {
 		Error = "Sector already locked";
-	}else if (number == C_BT_ERROR_SECTORNOTUNLOCKED) {
+	} else if (number == C_BT_ERROR_SECTORNOTUNLOCKED) {
 		Error = "Sector not unlocked";
-	}else if (number == C_BT_ERROR_USESFULLVERSION) {
+	} else if (number == C_BT_ERROR_USESFULLVERSION) {
 		Error = "Terrain uses full version features. Cannot load.";
-	}else if (number == C_BT_ERROR_SECTORTOOBIG) {
+	} else if (number == C_BT_ERROR_SECTORTOOBIG) {
 		Error = "Sectors too big. Increase split.";
-	}else if (number == C_BT_ERROR_SPLITTOOHIGH) {
+	} else if (number == C_BT_ERROR_SPLITTOOHIGH) {
 		Error = "Split too big. (Max: 32)";
-	}else if (number == C_BT_ERROR_SECTORALREADYHASOBJECT) {
+	} else if (number == C_BT_ERROR_SECTORALREADYHASOBJECT) {
 		Error = "This sector already has an object";
-	}else if (number == C_BT_ERROR_LODLEVELALREADYHASOBJECT) {
+	} else if (number == C_BT_ERROR_LODLEVELALREADYHASOBJECT) {
 		Error = "This LOD level already has an object";
-	}else if (number == C_BT_ERROR_SECTORISEXCLUDED) {
+	} else if (number == C_BT_ERROR_SECTORISEXCLUDED) {
 		Error = "Sector is excluded";
-	}else if (number == C_BT_ERROR_MEMORYERROR) {
+	} else if (number == C_BT_ERROR_MEMORYERROR) {
 		Error = "Memory error";
 	}
 
@@ -2959,117 +2959,117 @@ static char* BT_Intern_GetFunctionName(int number) {
 	// Get name
 	if (number == C_BT_FUNCTION_MAKETERRAIN) {
 		Name = "BT MakeTerrain";
-	}else if (number == C_BT_FUNCTION_SETTERRAINHEIGHTMAP) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINHEIGHTMAP) {
 		Name = "BT SetTerrainHeightmap";
-	}else if (number == C_BT_FUNCTION_SETTERRAINTEXTURE) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINTEXTURE) {
 		Name = "BT SetTerrainTexture";
-	}else if (number == C_BT_FUNCTION_SETTERRAINEXCLUSION) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINEXCLUSION) {
 		Name = "BT SetTerrainExclusion";
-	}else if (number == C_BT_FUNCTION_SETTERRAINDETAIL) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINDETAIL) {
 		Name = "BT SetTerrainDetail";
-	}else if (number == C_BT_FUNCTION_SETTERRAINENVIRONMENT) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINENVIRONMENT) {
 		Name = "BT SetTerrainEnvironment";
-	}else if (number == C_BT_FUNCTION_SETTERRAINLOD) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINLOD) {
 		Name = "BT SetTerrainLOD";
-	}else if (number == C_BT_FUNCTION_SETTERRAINSPLIT) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINSPLIT) {
 		Name = "BT SetTerrainSplit";
-	}else if (number == C_BT_FUNCTION_SETTERRAINDETAILTILE) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINDETAILTILE) {
 		Name = "BT SetTerrainDetailTile";
-	}else if (number == C_BT_FUNCTION_SETTERRAINQUADREDUCTION) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINQUADREDUCTION) {
 		Name = "BT SetTerrainQuadReduction";
-	}else if (number == C_BT_FUNCTION_SETTERRAINQUADROTATION) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINQUADROTATION) {
 		Name = "BT SetTerrainQuadRotation";
-	}else if (number == C_BT_FUNCTION_SETTERRAINSMOOTHING) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINSMOOTHING) {
 		Name = "BT SetTerrainSmoothing";
-	}else if (number == C_BT_FUNCTION_SETTERRAINSCALE) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINSCALE) {
 		Name = "BT SetTerrainScale";
-	}else if (number == C_BT_FUNCTION_SETTERRAINYSCALE) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINYSCALE) {
 		Name = "BT SetTerrainYScale";
-	}else if (number == C_BT_FUNCTION_SETTERRAINLODDISTANCES) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINLODDISTANCES) {
 		Name = "BT SetTerrainLODDistances";
-	}else if (number == C_BT_FUNCTION_BUILDTERRAIN) {
+	} else if (number == C_BT_FUNCTION_BUILDTERRAIN) {
 		Name = "BT BuildTerrain";
-	}else if (number == C_BT_FUNCTION_CONTINUEBUILD) {
+	} else if (number == C_BT_FUNCTION_CONTINUEBUILD) {
 		Name = "BT ContinueBuild";
-	}else if (C_BT_FUNCTION_TERRAINEXIST) {
+	} else if (C_BT_FUNCTION_TERRAINEXIST) {
 		Name = "BT TerrainExist";
-	}else if (number == C_BT_FUNCTION_DELETETERRAIN) {
+	} else if (number == C_BT_FUNCTION_DELETETERRAIN) {
 		Name = "BT DeleteTerrain";
-	}else if (number == C_BT_FUNCTION_GETGROUNDHEIGHT) {
+	} else if (number == C_BT_FUNCTION_GETGROUNDHEIGHT) {
 		Name = "BT GetGroundHeight";
-	}else if (number == C_BT_FUNCTION_GETTERRAINSIZE) {
+	} else if (number == C_BT_FUNCTION_GETTERRAINSIZE) {
 		Name = "BT GetTerrainSize";
-	}else if (number == C_BT_FUNCTION_GETVERSION) {
+	} else if (number == C_BT_FUNCTION_GETVERSION) {
 		Name = "BT GetVersion";
-	}else if (number == C_BT_FUNCTION_SETBUILDSTEP) {
+	} else if (number == C_BT_FUNCTION_SETBUILDSTEP) {
 		Name = "BT SetBuildStep";
-	}else if (number == C_BT_FUNCTION_UPDATETERRAIN) {
+	} else if (number == C_BT_FUNCTION_UPDATETERRAIN) {
 		Name = "BT UpdateTerrain";
-	}else if (number == C_BT_FUNCTION_UPDATE) {
+	} else if (number == C_BT_FUNCTION_UPDATE) {
 		Name = "BT Update";
-	}else if (number == C_BT_FUNCTION_RENDER) {
+	} else if (number == C_BT_FUNCTION_RENDER) {
 		Name = "BT Render";
-	}else if (number == C_BT_FUNCTION_ENABLEAUTORECOVERY) {
+	} else if (number == C_BT_FUNCTION_ENABLEAUTORECOVERY) {
 		Name = "BT EnableAutoRecovery";
-	}else if (number == C_BT_FUNCTION_GETSTATISTIC) {
+	} else if (number == C_BT_FUNCTION_GETSTATISTIC) {
 		Name = "BT GetStatistic";
-	}else if (number == C_BT_FUNCTION_CLEARSTATISTICS) {
+	} else if (number == C_BT_FUNCTION_CLEARSTATISTICS) {
 		Name = "BT ClearStatistics";
-	}else if (number == C_BT_FUNCTION_GETOBJECTID) {
+	} else if (number == C_BT_FUNCTION_GETOBJECTID) {
 		Name = "BT GetObjectID";
-	}else if (number == C_BT_FUNCTION_MAKESECTOROBJECT) {
+	} else if (number == C_BT_FUNCTION_MAKESECTOROBJECT) {
 		Name = "BT MakeSectorObject";
-	}else if (number == C_BT_FUNCTION_GETSECTORPOSITIONX) {
+	} else if (number == C_BT_FUNCTION_GETSECTORPOSITIONX) {
 		Name = "BT GetSectorPositionX";
-	}else if (number == C_BT_FUNCTION_GETSECTORPOSITIONY) {
+	} else if (number == C_BT_FUNCTION_GETSECTORPOSITIONY) {
 		Name = "BT GetSectorPositionY";
-	}else if (number == C_BT_FUNCTION_GETSECTORPOSITIONZ) {
+	} else if (number == C_BT_FUNCTION_GETSECTORPOSITIONZ) {
 		Name = "BT GetSectorPositionZ";
-	}else if (number == C_BT_FUNCTION_GETSECTORCOUNT) {
+	} else if (number == C_BT_FUNCTION_GETSECTORCOUNT) {
 		Name = "BT GetSectorCount";
-	}else if (number == C_BT_FUNCTION_GETSECTORSIZE) {
+	} else if (number == C_BT_FUNCTION_GETSECTORSIZE) {
 		Name = "BT GetSectorSize";
-	}else if (number == C_BT_FUNCTION_GETSECTOREXCLUDED) {
+	} else if (number == C_BT_FUNCTION_GETSECTOREXCLUDED) {
 		Name = "BT GetSectorExcluded";
-	}else if (number == C_BT_FUNCTION_GETSECTORROW) {
+	} else if (number == C_BT_FUNCTION_GETSECTORROW) {
 		Name = "BT GetSectorRow";
-	}else if (number == C_BT_FUNCTION_GETSECTORCOLLUMN) {
+	} else if (number == C_BT_FUNCTION_GETSECTORCOLLUMN) {
 		Name = "BT GetSectorCollumn";
-	}else if (number == C_BT_FUNCTION_SETCURRENTCAMERA) {
+	} else if (number == C_BT_FUNCTION_SETCURRENTCAMERA) {
 		Name = "BT SetCurrentCamera";
-	}else if (number == C_BT_FUNCTION_UPDATETERRAINLOD) {
+	} else if (number == C_BT_FUNCTION_UPDATETERRAINLOD) {
 		Name = "BT UpdateTerrainLOD";
-	}else if (number == C_BT_FUNCTION_UPDATETERRAINCULL) {
+	} else if (number == C_BT_FUNCTION_UPDATETERRAINCULL) {
 		Name = "BT UpdateTerrainCull";
-	}else if (number == C_BT_FUNCTION_SETPOINTHEIGHT) {
+	} else if (number == C_BT_FUNCTION_SETPOINTHEIGHT) {
 		Name = "BT SetPointHeight";
-	}else if (number == C_BT_FUNCTION_SETTERRAINEXCLUSIONTHRESHOLD) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINEXCLUSIONTHRESHOLD) {
 		Name = "BT SetTerrainExclusionThreshold";
-	}else if (number == C_BT_FUNCTION_LOADTERRAIN) {
+	} else if (number == C_BT_FUNCTION_LOADTERRAIN) {
 		Name = "BT LoadTerrain";
-	}else if (number == C_BT_FUNCTION_SAVETERRAIN) {
+	} else if (number == C_BT_FUNCTION_SAVETERRAIN) {
 		Name = "BT SaveTerrain";
-	}else if (number == C_BT_FUNCTION_GETPOINTEXCLUDED) {
+	} else if (number == C_BT_FUNCTION_GETPOINTEXCLUDED) {
 		Name = "BT GetPointExcluded";
-	}else if (number == C_BT_FUNCTION_SETATMODE) {
+	} else if (number == C_BT_FUNCTION_SETATMODE) {
 		Name = "BT SetATMode";
-	}else if (number == C_BT_FUNCTION_SETTERRAINDETAILBLENDMODE) {
+	} else if (number == C_BT_FUNCTION_SETTERRAINDETAILBLENDMODE) {
 		Name = "BT SetTerrainDetailBlendMode";
-	}else if (number == C_BT_FUNCTION_INIT) {
+	} else if (number == C_BT_FUNCTION_INIT) {
 		Name = "BT Init";
-	}else if (number == C_BT_FUNCTION_ADDTERRAINENVIRONMENT) {
+	} else if (number == C_BT_FUNCTION_ADDTERRAINENVIRONMENT) {
 		Name = "BT AddTerrainEnvironment";
-	}else if (number == C_BT_FUNCTION_GETPOINTENVIRONMENT) {
+	} else if (number == C_BT_FUNCTION_GETPOINTENVIRONMENT) {
 		Name = "BT GetPointEnvironment";
-	}else if (number == C_BT_FUNCTION_GETTERRAININFO) {
+	} else if (number == C_BT_FUNCTION_GETTERRAININFO) {
 		Name = "BT GetTerrainInfo";
-	}else if (number == C_BT_FUNCTION_GETLODLEVELINFO) {
+	} else if (number == C_BT_FUNCTION_GETLODLEVELINFO) {
 		Name = "BT GetLODLevelInfo";
-	}else if (number == C_BT_FUNCTION_GETSECTORINFO) {
+	} else if (number == C_BT_FUNCTION_GETSECTORINFO) {
 		Name = "BT GetSectorInfo";
-	}else if (number == C_BT_FUNCTION_MAKETERRAINOBJECT) {
+	} else if (number == C_BT_FUNCTION_MAKETERRAINOBJECT) {
 		Name = "BT MakeTerrainObject";
-	}else if (number == C_BT_FUNCTION_ENABLEAUTORENDER) {
+	} else if (number == C_BT_FUNCTION_ENABLEAUTORENDER) {
 		Name = "BT EnableAutoRender";
 	}
 
